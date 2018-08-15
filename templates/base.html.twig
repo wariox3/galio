@@ -9,34 +9,37 @@
 
     {% block stylesheets %}
         <!-- Bootstrap Core CSS -->
-        <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('color/default.css') }}">
         <link rel="shortcut icon" href="img/favicon.ico">
     {% endblock %}
 </head>
 <body>
-<!-- navbar -->
-<div class="navbar-wrapper">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <!-- Responsive navbar -->
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-                </a>
-                <h1 class="brand"><a href="index.html">Localizador</a></h1>
-                <!-- navigation -->
-                <nav class="pull-right nav-collapse collapse">
-                    <ul id="menu-main" class="nav">
-                        <li><a title="team" href="{{ path('inicio', { 'operador': operador}) }}">Inicio</a></li>
-                        <li><a title="services" href="{{ path('informacion') }}">Informacion</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
+<div class="menu-area">
+    <div id="dl-menu" class="dl-menuwrapper">
+        <button class="dl-trigger">Open Menu</button>
+        <ul class="dl-menu">
+            <li>
+                <a href="#intro">Home</a>
+            </li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#works">Works</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li>
+                <a href="#">Sub Menu</a>
+                <ul class="dl-submenu">
+                    <li><a href="#">Sub menu</a></li>
+                    <li><a href="#">Sub menu</a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
+    <!-- /dl-menuwrapper -->
 </div>
-<!-- Header area -->
+
+
 
 {% block body %}
         {% block content %}
@@ -47,45 +50,26 @@
 <footer>
     <div class="container">
         <div class="row">
-            <div class="span6 offset3">
-                <ul class="social-networks">
-                    <li><a href="#"><i class="icon-circled icon-bgdark icon-instagram icon-2x"></i></a></li>
-                    <li><a href="#"><i class="icon-circled icon-bgdark icon-twitter icon-2x"></i></a></li>
-                    <li><a href="#"><i class="icon-circled icon-bgdark icon-dribbble icon-2x"></i></a></li>
-                    <li><a href="#"><i class="icon-circled icon-bgdark icon-pinterest icon-2x"></i></a></li>
-                </ul>
-                <p class="copyright">
-                    &copy; Maxim Theme. All rights reserved.
+            <div class="col-md-12">
+                <p>&copy; Sematnica. Reservados todos los derechos</p>
                 <div class="credits">
                     <!--
-        All the links in the footer should remain intact.
-        You can delete the links only if you purchased the pro version.
-        Licensing information: https://bootstrapmade.com/license/
-        Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Maxim
-      -->
-                    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                      All the links in the footer should remain intact.
+                      You can delete the links only if you purchased the pro version.
+                      Licensing information: https://bootstrapmade.com/license/
+                      Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Mamba
+                    -->
+                    Designed by <a href="#">BootstrapMade</a>
                 </div>
-                </p>
+
             </div>
         </div>
     </div>
-    <!-- ./container -->
 </footer>
-<a href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bgdark icon-2x"></i></a>
+
 
 {% block javascripts %}
-    <script src="{{ asset('js/jquery.js') }}"></script>
-    <script src="{{ asset('js/jquery.scrollTo.js') }}"></script>
-    <script src="{{ asset('js/jquery.nav.js') }}"></script>
-    <script src="{{ asset('js/jquery.localScroll.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
-    <script src="{{ asset('js/jquery.prettyPhoto.js') }}"></script>
-    <script src="{{ asset('js/isotope.js') }}"></script>
-    <script src="{{ asset('js/jquery.flexslider.js') }}"></script>
-    <script src="{{ asset('js/inview.js') }}"></script>
-    <script src="{{ asset('js/animate.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>
-    <script src="{{ asset('contactform/contactform.js') }}"></script>
+    <script src="{{ asset('js/modernizr.custom.js') }}"></script>
 {% endblock %}
 </body>
 </html>
