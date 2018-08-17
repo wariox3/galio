@@ -34,6 +34,7 @@ class ConsultaGuiaController extends Controller
                     $response = curl_exec($ch);
                     $arrEstados = json_decode($response, true);
                     $arrEstados = $arrEstados['guias'];
+                    $arrEstados['url'] = 'http://190.85.62.78/dts/descargarguia.php?guia=' . $guia;
                 }
             }
         }
