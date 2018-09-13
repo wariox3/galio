@@ -45,5 +45,38 @@ class ConsultaGuiaController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/cumplido/guia/{operador}/{guia}", name="cumplido_guia")
+     */
+    public function cumplido($operador="1", $guia = 0)
+    {
+        //$direccion = "http://159.65.52.53/cesio/public/index.php";
+        $direccion = "http://localhost/cesio/public/index.php";
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_POST => 1,
+            //CURLOPT_URL => 'http://localhost/cromo/public/index.php/documental/api/registro/masivo/1',
+            CURLOPT_URL => $direccion . '/api/localizador/guia/cumplido/' . $operador . "/" . $guia,
+        ));
+        $resp = json_decode(curl_exec($curl), true);
+        curl_close($curl);
+        if ($resp && $resp['status'] == true) {
+            $file = $resp['binary'];
+            $type = $resp['type'];
+            header('Content-Description: File Transfer');
+            header("Content-Type: {$type}");
+            header('Content-Disposition: attachment; filename=' . $guia . "." . $type);
+            header("Content-Transfer-Encoding: base64");
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . strlen($file));
+            readfile($file);
+            exit;
+        }
+        return false;
+    }
+
 }
 

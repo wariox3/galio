@@ -80,6 +80,11 @@
                                 <td>{{ arrEstados.novedad?'SI':'NO' }}</td>
                                 <td>...</td>
                             </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><a  class="btn btn-default btn-sm" href="{{ path('cumplido_guia', {'operador': operador, 'guia': arrEstados.codigoGuia }) }}">Descargar</a></td>
+                            </tr>
                         {% endif %}
                         </tbody>
                     </table>
