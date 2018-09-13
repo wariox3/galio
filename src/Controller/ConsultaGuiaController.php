@@ -12,7 +12,7 @@ class ConsultaGuiaController extends Controller
    /**
     * @Route("/consulta/guia/{operador}", name="consulta_guia")
     */    
-    public function inicio(Request $request, $operador)
+    public function consulta(Request $request, $operador)
     {
         $em = $this->getDoctrine()->getManager();
         $arrEstados = array();
@@ -33,12 +33,12 @@ class ConsultaGuiaController extends Controller
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                     $response = curl_exec($ch);
                     $arrEstados = json_decode($response, true);
-                    $arrEstados = $arrEstados['guias'];
+                    $arrEstados = $arrEstados['guias'][0];
                     $arrEstados['url'] = "http://190.85.62.78:8026/dts/descargarguia.php?guia=" . $guia;
                 }
             }
         }
-        return $this->render('consultaGuia.html.twig', [
+        return $this->render('guiaConsulta.html.twig', [
             'operador' => $operador,
             'arrEstados' => $arrEstados,
             'form' => $form->createView()
@@ -74,8 +74,12 @@ class ConsultaGuiaController extends Controller
             header('Content-Length: ' . strlen($file));
             readfile($file);
             exit;
+            return false;
+        } else {
+            echo '<script type="text/javascript">alert("Data has been submitted to");</script>';
+            return $this->redirectToRoute('consulta_guia', array('operador' => $operador));
         }
-        return false;
+
     }
 
 }

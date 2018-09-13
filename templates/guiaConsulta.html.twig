@@ -32,7 +32,7 @@
                 <div class="col-md-offset-2 col-md-8">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
-                        {% if arrEstados != null %}
+                        {% if arrEstados != null and arrEstados.codigoGuia is defined %}
                             <tr>
                                 <th>GUIA</th>
                                 <th colspan="2">{{ arrEstados.codigoGuia  }} <a href="{{ arrEstados.url }}">Descargar</a></th>
@@ -49,7 +49,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% if arrEstados != null %}
+                        {% if arrEstados != null and arrEstados.codigoGuia is defined %}
                             <tr>
                                 <td>Embarcado</td>
                                 <td>{{ arrEstados.embarcado?'SI':'NO' }}</td>
