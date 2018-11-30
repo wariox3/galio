@@ -11,6 +11,15 @@ class InicioController extends Controller
 {
 
     /**
+     * @Route("/", name="inicio")
+     */
+    public function inicio(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        return $this->render('base.html.twig');
+    }
+
+    /**
      * @Route("/informacion", name="informacion")
      */
     public function informacion(Request $request)
