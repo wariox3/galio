@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form,{'attr':{'class' : 'form-horizontal'}}) }}
+    <div class="content mt-3" style="margin-bottom: 15px;">
+        <div class="card">
+            <div class="card-header">
+                Información general
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <label for="txtCodigoCliente" class="col-sm-6 badge">Cliente:</label>
+                            <input id="txtCodigoCliente" name="txtCodigoCliente" type="text" class="form-control"
+                                   style="float: right" value=""/>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <input id="txtNombreCorto" name="txtNombreCorto" type="text" class="form-control"
+                                   value="" readOnly="ReadOnly"/>
+                            <span class="input-group-btn">
+                                        <a class="btn btn-secondary" href="#" role="button">Buscar</a>
+                                    </span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Servicio:</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Empaque:</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Remitente:</label>
+                            {{ form_widget(form.remitente) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Documento:</label>
+                            {{ form_widget(form.documentoCliente) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Destinatario:</label>
+                            {{ form_widget(form.nombreDestinatario) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Dirección:</label>
+                            {{ form_widget(form.direccionDestinatario) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Teléfono:</label>
+                            {{ form_widget(form.telefonoDestinatario) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Destino:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Unidades:</label>
+                            {{ form_widget(form.unidades) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Peso:</label>
+                            <div class="col-sm-3" style="padding-left: 0px;">
+                                {{ form_widget(form.pesoReal) }}
+                            </div>
+                            <label for="" class="col-sm-2"></label>
+                            <label for="" class="col-sm-2 badge">Volumen:</label>
+                            <div class="col-sm-3" style="padding-right: 0px;">
+                                {{ form_widget(form.pesoVolumen) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Flete:</label>
+                            {{ form_widget(form.vrFlete) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Manejo:</label>
+                            {{ form_widget(form.vrManejo) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Declara:</label>
+                            {{ form_widget(form.vrDeclara) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                            <label for="" class="col-sm-1 badge">Comentario:</label>
+                            {{ form_widget(form.comentario) }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row float-right" style="margin-right: 0px;">
+            <a href="{{ path('movimiento_guia_lista') }}" class="btn btn-sm btn-secondary">Cancelar</a>
+            &nbsp;
+            {{ form_widget(form.guardar) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+    <style type="text/css">
+        .badge {
+            text-align: left;
+            padding-top: 10px;
+        }
+    </style>
+{% endblock %}

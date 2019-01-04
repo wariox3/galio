@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form,{'attr' :{'class' : 'form-horizontal'}}) }}
+    <div class="content mt-3">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" class="th">ID</th>
+                <th scope="col" class="th">ID.TIPO</th>
+                <th scope="col" class="th">IDENTIFICACIÓN</th>
+                <th scope="col" class="th" title="Dígito de verificación">DV</th>
+                <th scope="col" class="th">NOMBRE</th>
+                <th scope="col" class="th">DIRECCIÓN</th>
+                <th scope="col" class="th">CIUDAD</th>
+                <th scope="col" class="th">TELÉFONO</th>
+                <th scope="col" class="th"></th>
+                <th scope="col" class="th"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for arDestinatario in arDestinatarios %}
+                <tr>
+                    <th scope="row">{{ arDestinatario.codigoDestinatarioPk }}</th>
+                    <td>{{ arDestinatario.codigoIdentificacionTipoFk }}</td>
+                    <td>{{ arDestinatario.numeroIdentificacion }}</td>
+                    <td>{{ arDestinatario.digitoVerificacion }}</td>
+                    <td>{{ arDestinatario.nombreCorto }}</td>
+                    <td>{{ arDestinatario.direccion }}</td>
+                    <td>{{ arDestinatario.ciudadNombre }}</td>
+                    <td>{{ arDestinatario.telefono }}</td>
+                    <td>
+                        <a title="Editar el registro"
+                           href="{{ path('administracion_destinatario_nuevo',{'id':arDestinatario.codigoDestinatarioPk }) }}">
+                            <span class="fa fa-edit" style="color: black;font-size: medium;"></span>
+                        </a>
+                    </td>
+                    <td style="text-align: center;"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arDestinatario.codigoDestinatarioPk }}" title="Seleccionar">
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <div class="row float-right" style="padding-right: 15px;">
+            <a href="{{ path('administracion_destinatario_nuevo',{'id':0}) }}"
+               class="btn btn-sm btn-secondary  float-right">Nuevo</a>&nbsp;
+            {{ form_widget(form.btnEliminar) }}
+        </div>
+        <div class="btn-group" style="float: left;padding-top: 2px;">
+            <div class="btn btn-light btn-sm" style="border-style: solid!important;border-color: lightgray;">Registros
+                <span class="badge badge-secondary">{{ arDestinatarios.getTotalItemCount }}
+            </span>
+            </div>
+        </div>
+        &nbsp;
+        <div class="btn-group">
+            {{ knp_pagination_render(arDestinatarios) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+    <style type="text/css">
+        .th {
+            font-size: 12px !important;
+        }
+
+        .numero {
+            text-align: right;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    <h1>Guía <span style="color: grey;font-size: 14px;">/ Nuevo</span></h1>
+{% endblock %}
+{% block content %}
+    {{ form_start(form,{'attr':{'class' : 'form-horizontal'}}) }}
+    <div class="content mt-3" style="margin-bottom: 15px;">
+        <div class="card">
+            <div class="card-header">
+                Información general
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                            <label for="" class="col-sm-1 badge">Razón social:</label>
+                            {{ form_widget(form.nombreCorto) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Identificación:</label>
+                            <div class="col-sm-7" style="padding-left: 0px;">
+                                {{ form_widget(form.numeroIdentificacion) }}
+                            </div>
+                            <label for="" class="col-sm-1 badge">DV:</label>
+                            <div class="col-sm-2" style="padding-left: 0px;padding-right: 0px;">
+                                {{ form_widget(form.digitoVerificacion) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Tipo:</label>
+                            {{ form_widget(form.identificacionTipoRel) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Nombre 1:</label>
+                            {{ form_widget(form.nombre1) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Nombre 2:</label>
+                            {{ form_widget(form.nombre2) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Apellido 1:</label>
+                            {{ form_widget(form.apellido1) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Apellido 2:</label>
+                            {{ form_widget(form.apellido2) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Dirección:</label>
+                            {{ form_widget(form.direccion) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Barrio:</label>
+                            {{ form_widget(form.barrio) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Teléfono:</label>
+                            {{ form_widget(form.telefono) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Correo:</label>
+                            {{ form_widget(form.correo) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Ciudad:</label>
+                            {{ form_widget(form.ciudadRel) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row float-right" style="margin-right: 0px;">
+            <a href="{{ path('administracion_destinatario_lista') }}" class="btn btn-sm btn-secondary">Cancelar</a>
+            &nbsp;
+            {{ form_widget(form.guardar) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+    <style type="text/css">
+        .badge {
+            text-align: left;
+            padding-top: 10px;
+        }
+    </style>
+{% endblock %}
