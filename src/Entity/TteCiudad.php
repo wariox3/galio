@@ -40,12 +40,22 @@ class TteCiudad
     /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="ciudadOrigenRel")
      */
-    protected $ciudadesOrigenesCiudadRel;
+    protected $guiasCiudadesOrigenesCiudadRel;
 
     /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="ciudadDestinoRel")
      */
-    protected $ciudadesDestinosCiudadRel;
+    protected $guiasCiudadesDestinosCiudadRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TtePrecio", mappedBy="ciudadOrigenRel")
+     */
+    protected $preciosCiudadesOrigenesCiudadRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TtePrecio", mappedBy="ciudadDestinoRel")
+     */
+    protected $preciosCiudadesDestinosCiudadRel;
 
     /**
      * @return mixed
@@ -130,33 +140,65 @@ class TteCiudad
     /**
      * @return mixed
      */
-    public function getCiudadesOrigenesCiudadRel()
+    public function getGuiasCiudadesOrigenesCiudadRel()
     {
-        return $this->ciudadesOrigenesCiudadRel;
+        return $this->guiasCiudadesOrigenesCiudadRel;
     }
 
     /**
-     * @param mixed $ciudadesOrigenesCiudadRel
+     * @param mixed $guiasCiudadesOrigenesCiudadRel
      */
-    public function setCiudadesOrigenesCiudadRel($ciudadesOrigenesCiudadRel): void
+    public function setGuiasCiudadesOrigenesCiudadRel($guiasCiudadesOrigenesCiudadRel): void
     {
-        $this->ciudadesOrigenesCiudadRel = $ciudadesOrigenesCiudadRel;
+        $this->guiasCiudadesOrigenesCiudadRel = $guiasCiudadesOrigenesCiudadRel;
     }
 
     /**
      * @return mixed
      */
-    public function getCiudadesDestinosCiudadRel()
+    public function getGuiasCiudadesDestinosCiudadRel()
     {
-        return $this->ciudadesDestinosCiudadRel;
+        return $this->guiasCiudadesDestinosCiudadRel;
     }
 
     /**
-     * @param mixed $ciudadesDestinosCiudadRel
+     * @param mixed $guiasCiudadesDestinosCiudadRel
      */
-    public function setCiudadesDestinosCiudadRel($ciudadesDestinosCiudadRel): void
+    public function setGuiasCiudadesDestinosCiudadRel($guiasCiudadesDestinosCiudadRel): void
     {
-        $this->ciudadesDestinosCiudadRel = $ciudadesDestinosCiudadRel;
+        $this->guiasCiudadesDestinosCiudadRel = $guiasCiudadesDestinosCiudadRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPreciosCiudadesOrigenesCiudadRel()
+    {
+        return $this->preciosCiudadesOrigenesCiudadRel;
+    }
+
+    /**
+     * @param mixed $preciosCiudadesOrigenesCiudadRel
+     */
+    public function setPreciosCiudadesOrigenesCiudadRel($preciosCiudadesOrigenesCiudadRel): void
+    {
+        $this->preciosCiudadesOrigenesCiudadRel = $preciosCiudadesOrigenesCiudadRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPreciosCiudadesDestinosCiudadRel()
+    {
+        return $this->preciosCiudadesDestinosCiudadRel;
+    }
+
+    /**
+     * @param mixed $preciosCiudadesDestinosCiudadRel
+     */
+    public function setPreciosCiudadesDestinosCiudadRel($preciosCiudadesDestinosCiudadRel): void
+    {
+        $this->preciosCiudadesDestinosCiudadRel = $preciosCiudadesDestinosCiudadRel;
     }
 }
 

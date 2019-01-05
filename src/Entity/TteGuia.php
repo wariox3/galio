@@ -235,14 +235,16 @@ class TteGuia
     private $comentario;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="ciudadesOrigenesCiudadRel")
+     * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="guiasCiudadesOrigenesCiudadRel")
      * @ORM\JoinColumn(name="codigo_ciudad_origen_fk", referencedColumnName="codigo_ciudad_pk")
      */
     protected $ciudadOrigenRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="ciudadesDestinosCiudadRel")
+     * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="guiasCiudadesDestinosCiudadRel")
      * @ORM\JoinColumn(name="codigo_ciudad_destino_fk", referencedColumnName="codigo_ciudad_pk")
      */
     protected $ciudadDestinoRel;
+
+
 }

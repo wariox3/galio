@@ -62,6 +62,11 @@ class TteEmpresa
     protected $destinatariosEmpresaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="TtePrecio", mappedBy="empresaRel")
+     */
+    protected $preciosEmpresaRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoEmpresaPk()
@@ -219,5 +224,21 @@ class TteEmpresa
     public function setDestinatariosEmpresaRel($destinatariosEmpresaRel): void
     {
         $this->destinatariosEmpresaRel = $destinatariosEmpresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPreciosEmpresaRel()
+    {
+        return $this->preciosEmpresaRel;
+    }
+
+    /**
+     * @param mixed $preciosEmpresaRel
+     */
+    public function setPreciosEmpresaRel($preciosEmpresaRel): void
+    {
+        $this->preciosEmpresaRel = $preciosEmpresaRel;
     }
 }
