@@ -27,6 +27,11 @@ class TteCiudad
     private $codigoDepartamentoFk;
 
     /**
+     * @ORM\Column(name="codigo_operador_fk", type="string", length=20, nullable=true)
+     */
+    private $codigoOperadorFk;
+
+    /**
      * @ORM\ManyToOne(targetEntity="TteDepartamento", inversedBy="ciudadesDepartamentoRel")
      * @ORM\JoinColumn(name="codigo_departamento_fk", referencedColumnName="codigo_departamento_pk")
      */
@@ -103,6 +108,22 @@ class TteCiudad
     public function setCodigoDepartamentoFk($codigoDepartamentoFk): void
     {
         $this->codigoDepartamentoFk = $codigoDepartamentoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoOperadorFk()
+    {
+        return $this->codigoOperadorFk;
+    }
+
+    /**
+     * @param mixed $codigoOperadorFk
+     */
+    public function setCodigoOperadorFk($codigoOperadorFk): void
+    {
+        $this->codigoOperadorFk = $codigoOperadorFk;
     }
 
     /**

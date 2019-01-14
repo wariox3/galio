@@ -19,38 +19,40 @@ class DestinatarioType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        global $kernel;
+        $user = $kernel->getContainer()->get('security.token_storage')->getToken()->getUser();
         $builder
-            ->add('numeroIdentificacion',TextType::class,['required' => true,'attr' => ['class' => 'form-control']])
-            ->add('digitoVerificacion',IntegerType::class,['required' => false,'attr' => ['class' => 'form-control']])
-            ->add('nombreCorto',TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
-            ->add('nombre1',TextType::class,['required' => true,'attr' => ['class' => 'form-control']])
-            ->add('nombre2',TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
-            ->add('apellido1',TextType::class,['required' => true,'attr' => ['class' => 'form-control']])
-            ->add('apellido2',TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
-            ->add('direccion',TextType::class,['required' => true,'attr' => ['class' => 'form-control']])
-            ->add('barrio',TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
-            ->add('telefono',TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
-            ->add('correo',TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
-            ->add('identificacionTipoRel',EntityType::class,[
+            ->add('numeroIdentificacion', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('digitoVerificacion', IntegerType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('nombreCorto', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('nombre1', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('nombre2', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('apellido1', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('apellido2', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('direccion', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('barrio', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('telefono', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('correo', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('identificacionTipoRel', EntityType::class, [
                 'class' => TteIdentificacionTipo::class,
-                'query_builder' => function(EntityRepository $er){
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('er')
                         ->orderBy('er.nombre');
-                },'choice_label' => 'nombre',
+                }, 'choice_label' => 'nombre',
                 'required' => true,
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('ciudadRel',EntityType::class,[
+            ->add('ciudadRel', EntityType::class, [
                 'class' => TteCiudad::class,
-                'query_builder' => function(EntityRepository $er){
+                'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('er')
+                        ->where("er.codigoOperadorFk = '{$user->getCodigoOperadorFk()}'")
                         ->orderBy('er.nombre');
-                },'choice_label' => 'nombre',
+                }, 'choice_label' => 'nombre',
                 'required' => true,
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('guardar',SubmitType::class,['label' => 'Guardar','attr' => ['class' => 'btn btn-sm btn-primary float-right']])
-        ;
+            ->add('guardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-primary float-right']]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

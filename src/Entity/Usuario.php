@@ -33,6 +33,11 @@ class Usuario implements UserInterface, \Serializable
     private $codigoCiudadFk;
 
     /**
+     * @ORM\Column(name="codigo_operador_fk", type="string",length=20, nullable=true)
+     */
+    private $codigoOperadorFk;
+
+    /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="usuariosEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
@@ -125,6 +130,22 @@ class Usuario implements UserInterface, \Serializable
     public function setCodigoCiudadFk($codigoCiudadFk): void
     {
         $this->codigoCiudadFk = $codigoCiudadFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoOperadorFk()
+    {
+        return $this->codigoOperadorFk;
+    }
+
+    /**
+     * @param mixed $codigoOperadorFk
+     */
+    public function setCodigoOperadorFk($codigoOperadorFk): void
+    {
+        $this->codigoOperadorFk = $codigoOperadorFk;
     }
 
     /**
