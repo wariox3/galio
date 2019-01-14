@@ -5,32 +5,24 @@
             <thead>
             <tr>
                 <th scope="col" class="th">ID</th>
-                <th scope="col" class="th">ORIGEN</th>
-                <th scope="col" class="th">DESTINO</th>
-                <th scope="col" class="th">PRODUCTO</th>
-                <th scope="col" class="th">KILO</th>
-                <th scope="col" class="th">UNIDAD</th>
+                <th scope="col" class="th">NOMBRE</th>
                 <th scope="col" class="th"></th>
                 <th scope="col" class="th"></th>
             </tr>
             </thead>
             <tbody>
-            {% for arPrecio in arPrecios %}
+            {% for arProducto in arProductos %}
                 <tr>
-                    <th scope="row">{{ arPrecio.codigoPrecioPk }}</th>
-                    <td>{{ arPrecio.ciudadDestino }}</td>
-                    <td>{{ arPrecio.ciudadOrigen }}</td>
-                    <td>{{ arPrecio.producto }}</td>
-                    <td>{{ arPrecio.vrKilo }}</td>
-                    <td>{{ arPrecio.vrUnidad }}</td>
+                    <th scope="row">{{ arProducto.codigoProductoPk }}</th>
+                    <td>{{ arProducto.nombre }}</td>
                     <td>
                         <a title="Editar el registro"
-                           href="{{ path('administracion_precio_nuevo',{'id':arPrecio.codigoPrecioPk }) }}">
+                           href="{{ path('administracion_producto_nuevo',{'id':arProducto.codigoProductoPk }) }}">
                             <span class="fa fa-edit" style="color: black;font-size: medium;"></span>
                         </a>
                     </td>
                     <td style="text-align: center;"><input type="checkbox" name="ChkSeleccionar[]"
-                                                           value="{{ arPrecio.codigoPrecioPk }}"
+                                                           value="{{ arProducto.codigoProductoPk }}"
                                                            title="Seleccionar">
                     </td>
                 </tr>
@@ -39,19 +31,19 @@
         </table>
         <hr>
         <div class="row float-right" style="padding-right: 15px;">
-            <a href="{{ path('administracion_precio_nuevo',{'id':0}) }}"
+            <a href="{{ path('administracion_producto_nuevo',{'id':0}) }}"
                class="btn btn-sm btn-secondary  float-right">Nuevo</a>&nbsp;
             {#{{ form_widget(form.btnEliminar) }}#}
         </div>
         <div class="btn-group" style="float: left;padding-top: 2px;">
             <div class="btn btn-light btn-sm" style="border-style: solid!important;border-color: lightgray;">Registros
-                <span class="badge badge-secondary">{{ arPrecios.getTotalItemCount }}
+                <span class="badge badge-secondary">{{ arProductos.getTotalItemCount }}
             </span>
             </div>
         </div>
         &nbsp;
         <div class="btn-group">
-            {{ knp_pagination_render(arPrecios) }}
+            {{ knp_pagination_render(arProductos) }}
         </div>
     </div>
     <style type="text/css">

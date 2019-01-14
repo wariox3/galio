@@ -43,7 +43,10 @@ class GuiaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arGuia = new TteGuia();
         if($id != 0){
-            $arGuia = $em->find(TteGuia::class,$id);
+            $arGuia = $em->find(TteGuia::class,$arGuia);
+        } else {
+            $arGuia->setEmpresaRel($this->getUser()->getEmpresaRel());
+            $arGuia->setFecha(new \DateTime('now'));
         }
         $form = $this->createForm(GuiaType::class);
         $form->handleRequest($request);
@@ -55,4 +58,3 @@ class GuiaController extends Controller
         ]);
     }
 }
-

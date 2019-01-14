@@ -3,17 +3,19 @@
 namespace App\Controller\Administracion;
 
 use App\Entity\TtePrecio;
+use App\Entity\TteProducto;
 use App\Form\Type\PrecioType;
+use App\Form\Type\ProductoType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class PrecioController extends Controller
+class ProductoController extends Controller
 {
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     * @Route("/administracion/precio/lista", name="administracion_precio_lista")
+     * @Route("/administracion/producto/lista", name="administracion_producto_lista")
      */
     public function lista(Request $request)
     {
@@ -23,9 +25,9 @@ class PrecioController extends Controller
             ->add('btnEliminar')
             ->getForm();
         $form->handleRequest($request);
-        $arPrecios = $paginador->paginate($em->getRepository(TtePrecio::class)->lista(), $request->query->getInt('page', 1), 30);
-        return $this->render('administracion/precio/lista.html.twig', [
-            'arPrecios' => $arPrecios,
+        $arProductos = $paginador->paginate($em->getRepository(TteProducto::class)->lista(), $request->query->getInt('page', 1), 30);
+        return $this->render('administracion/producto/lista.html.twig', [
+            'arProductos' => $arProductos,
             'form' => $form->createView()
         ]);
     }
@@ -34,23 +36,23 @@ class PrecioController extends Controller
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/administracion/precio/nuevo/{id}", name="administracion_precio_nuevo")
+     * @Route("/administracion/producto/nuevo/{id}", name="administracion_producto_nuevo")
      */
     public function nuevo(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arPrecio = new TtePrecio();
+        $arProducto = new TteProducto();
         if ($id != 0) {
-            $arPrecio = $em->find(TtePrecio::class, $id);
+            $arProducto = $em->find(TteProducto::class, $id);
         }
-        $form = $this->createForm(PrecioType::class, $arPrecio);
+        $form = $this->createForm(ProductoType::class, $arProducto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($arPrecio);
+            $em->persist($arProducto);
             $em->flush();
-            return $this->redirect($this->generateUrl('administracion_precio_lista'));
+            return $this->redirect($this->generateUrl('administracion_producto_lista'));
         }
-        return $this->render('administracion/precio/nuevo.html.twig', [
+        return $this->render('administracion/producto/nuevo.html.twig', [
             'form' => $form->createView()
         ]);
     }

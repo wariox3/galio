@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form,{'attr':{'class' : 'form-horizontal'}}) }}
+    <div class="content mt-3" style="margin-bottom: 15px;">
+        <div class="card">
+            <div class="card-header">
+                Información general
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Nombre:</label>
+                            {{ form_widget(form.nombre) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row float-right" style="margin-right: 0px;">
+            <a href="{{ path('administracion_producto_lista') }}" class="btn btn-sm btn-secondary">Cancelar</a>
+            &nbsp;
+            {{ form_widget(form.guardar) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+    <style type="text/css">
+        .badge {
+            text-align: left;
+            padding-top: 10px;
+        }
+    </style>
+{% endblock %}

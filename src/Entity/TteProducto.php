@@ -11,6 +11,7 @@ class TteProducto
 {
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="codigo_producto_pk", type="integer")
      */        
     private $codigoProductoPk;
@@ -26,50 +27,7 @@ class TteProducto
     protected $preciosProductoRel;
 
     /**
-     * @return mixed
+     * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="productoRel")
      */
-    public function getCodigoProductoPk()
-    {
-        return $this->codigoProductoPk;
-    }
-
-    /**
-     * @param mixed $codigoProductoPk
-     */
-    public function setCodigoProductoPk($codigoProductoPk): void
-    {
-        $this->codigoProductoPk = $codigoProductoPk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * @param mixed $nombre
-     */
-    public function setNombre($nombre): void
-    {
-        $this->nombre = $nombre;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPreciosProductoRel()
-    {
-        return $this->preciosProductoRel;
-    }
-
-    /**
-     * @param mixed $preciosProductoRel
-     */
-    public function setPreciosProductoRel($preciosProductoRel): void
-    {
-        $this->preciosProductoRel = $preciosProductoRel;
-    }
+    protected $guiasProductoRel;
 }
