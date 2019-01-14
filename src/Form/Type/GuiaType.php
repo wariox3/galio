@@ -21,6 +21,8 @@ class GuiaType extends AbstractType {
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        global $kernel;
+        $user = $kernel->getContainer()->get('security.token_storage')->getToken()->getUser();
         $builder
             ->add('productoRel', EntityType::class, array(
                 'class' => TteProducto::class,
@@ -29,20 +31,25 @@ class GuiaType extends AbstractType {
                         ->orderBy('e.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control']
             ))
             ->add('ciudadDestinoRel', EntityType::class, array(
                 'class' => TteCiudad::class,
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('c')
+                        ->where("c.codigoOperadorFk = '{$user->getCodigoOperadorFk()}'")
                         ->orderBy('c.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control']
             ))
-            ->add('documentoCliente', TextType::class,['attr' => ['class' => 'form-control']])
+            ->add('codigoDestinatarioFk',TextType::class,['attr' => ['class' => 'form-control','style' => 'float: right;']])
+            ->add('clienteDocumento', TextType::class,['attr' => ['class' => 'form-control']])
             ->add('remitente', TextType::class,['attr' => ['class' => 'form-control']])
-            ->add('nombreDestinatario', TextType::class,['attr' => ['class' => 'form-control']])
-            ->add('direccionDestinatario', TextType::class,['attr' => ['class' => 'form-control']])
-            ->add('telefonoDestinatario', TextType::class,['attr' => ['class' => 'form-control']])
+            ->add('destinatarioNombre', TextType::class,['attr' => ['class' => 'form-control']])
+            ->add('destinatarioDireccion', TextType::class,['attr' => ['class' => 'form-control']])
+            ->add('destinatarioIdentificacion', TextType::class,['attr' => ['class' => 'form-control']])
+            ->add('productoReferencia', TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
             ->add('unidades', NumberType::class,['attr' => ['class' => 'form-control']])
             ->add('pesoReal', NumberType::class,['attr' => ['class' => 'form-control']])
             ->add('pesoVolumen', NumberType::class,['attr' => ['class' => 'form-control']])

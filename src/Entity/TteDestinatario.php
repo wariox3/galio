@@ -105,6 +105,11 @@ class TteDestinatario
     protected $empresaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="destinatarioRel")
+     */
+    protected $guiasDestinatarioRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoDestinatarioPk()
@@ -391,4 +396,22 @@ class TteDestinatario
     {
         $this->empresaRel = $empresaRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getGuiasDestinatarioRel()
+    {
+        return $this->guiasDestinatarioRel;
+    }
+
+    /**
+     * @param mixed $guiasDestinatarioRel
+     */
+    public function setGuiasDestinatarioRel($guiasDestinatarioRel): void
+    {
+        $this->guiasDestinatarioRel = $guiasDestinatarioRel;
+    }
+
+
 }

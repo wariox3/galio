@@ -1,0 +1,101 @@
+{% extends 'base_sin_menu.html.twig' %}
+{% block content %}
+        {{ form_start(form,{'attr' :{'class' : 'form-horizontal'}}) }}
+        <div class="content mt-3">
+            <div class="card">
+                <div class="card-header">
+                    Filtros
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <label for="" class="col-sm-4 badge" style="padding-top: 11px;">Nombre:</label>
+                                {{ form_widget(form.txtNombreCorto) }}
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <label for="" class="col-sm-4 badge" style="padding-top: 11px;">Identificación:</label>
+                                {{ form_widget(form.txtNumeroIdentificacion) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    {{ form_widget(form.btnFiltrar) }}
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col" class="th">ID</th>
+                    <th scope="col" class="th">ID.TIPO</th>
+                    <th scope="col" class="th">IDENTIFICACIÓN</th>
+                    <th scope="col" class="th" title="Dígito de verificación">DV</th>
+                    <th scope="col" class="th">NOMBRE</th>
+                    <th scope="col" class="th">DIRECCIÓN</th>
+                    <th scope="col" class="th">CIUDAD</th>
+                    <th scope="col" class="th">TELÉFONO</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for arDestinatario in arDestinatarios %}
+                    <tr>
+                        <th scope="row" class="datos">{{ arDestinatario.codigoDestinatarioPk }}</th>
+                        <td class="datos">{{ arDestinatario.codigoIdentificacionTipoFk }}</td>
+                        <td class="datos">{{ arDestinatario.numeroIdentificacion }}</td>
+                        <td class="datos">{{ arDestinatario.digitoVerificacion }}</td>
+                        <td class="datos">{{ arDestinatario.nombreCorto }}</td>
+                        <td class="datos">{{ arDestinatario.direccion }}</td>
+                        <td class="datos">{{ arDestinatario.ciudadNombre }}</td>
+                        <td class="datos">{{ arDestinatario.telefono }}</td>
+                        <td style="text-align: center">
+                            <a href="javascript:selDestinatario(
+                            '{{ arDestinatario.codigoDestinatarioPk }}',
+                            '{{ arDestinatario.numeroIdentificacion }}',
+                            '{{ arDestinatario.nombreCorto }}',
+                            '{{ arDestinatario.direccion }}',
+                            '{{ arDestinatario.codigoCiudadFk }}')">
+                                <i style="font-size: large;color: black;" class="fa fa-check-circle-o"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+            <div class="btn-group" style="float: left;padding-top: 2px;">
+                <div class="btn btn-light btn-sm" style="border-style: solid!important;border-color: lightgray;">
+                    Registros
+                    <span class="badge badge-secondary">{{ arDestinatarios.getTotalItemCount }}
+            </span>
+                </div>
+            </div>
+            &nbsp;
+            <div class="btn-group">
+                {{ knp_pagination_render(arDestinatarios) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+        <style type="text/css">
+            .th {
+                font-size: 12px !important;
+            }
+            .datos{
+                font-size: 12px !important;
+            }
+        </style>
+    <script language="javascript">
+        function selDestinatario(codigoDestinatario ,identificacion, nombreCorto, direccion, destino)
+        {
+            opener.document.getElementById('guia_destinatarioIdentificacion').value = identificacion;
+            opener.document.getElementById('txtNombreCorto').value = nombreCorto;
+            opener.document.getElementById('guia_codigoDestinatarioFk').value = codigoDestinatario;
+            opener.document.getElementById('guia_destinatarioNombre').value = nombreCorto;
+            opener.document.getElementById('guia_destinatarioDireccion').value = direccion;
+            opener.document.getElementById('guia_ciudadDestinoRel').value = destino;
+            opener.document.getElementById('guia_codigoDestinatarioFk').focus();
+            self.close();
+        }
+    </script>
+{% endblock %}

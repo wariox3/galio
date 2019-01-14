@@ -33,6 +33,24 @@ class TteDestinatarioRepository extends ServiceEntityRepository
         return $qb;
     }
 
+    public function buscar(){
+        $em = $this->_em;
+        $qb = $em->createQueryBuilder()
+            ->from(TteDestinatario::class, 'd')
+            ->leftJoin('d.ciudadRel', 'c')
+            ->select('d.codigoDestinatarioPk')
+            ->addSelect('d.numeroIdentificacion')
+            ->addSelect('d.codigoCiudadFk')
+            ->addSelect('d.digitoVerificacion')
+            ->addSelect('d.codigoIdentificacionTipoFk')
+            ->addSelect('d.nombreCorto')
+            ->addSelect('d.direccion')
+            ->addSelect('c.nombre AS ciudadNombre')
+            ->addSelect('d.telefono')
+            ->where('d.codigoDestinatarioPk <> 0');
+        return $qb;
+    }
+
     /**
      * @param $arrSeleccionados
      * @throws \Doctrine\ORM\ORMException

@@ -34,6 +34,11 @@ class TteGuia
     private $codigoEmpresaFk;
 
     /**
+     * @ORM\Column(name="codigo_destinatario_fk", type="integer", nullable=true)
+     */
+    private $codigoDestinatarioFk;
+
+    /**
      * @ORM\Column(name="codigo_ciudad_origen_fk", type="string", length=20, nullable=true)
      */
     private $codigoCiudadOrigenFk;
@@ -44,24 +49,34 @@ class TteGuia
     private $codigoCiudadDestinoFk;
 
     /**
-     * @ORM\Column(name="remitente", type="string", length=80, nullable=true)
+     * @ORM\Column(name="remitente_nombre", type="string", length=80, nullable=true)
      */
     private $remitente;
 
     /**
-     * @ORM\Column(name="nombre_destinatario", type="string", length=150, nullable=true)
+     * @ORM\Column(name="destinatario_nombre", type="string", length=150, nullable=true)
      */
-    private $nombreDestinatario;
+    private $destinatarioNombre;
 
     /**
-     * @ORM\Column(name="direccion_destinatario", type="string", length=150, nullable=true)
+     * @ORM\Column(name="destinatario_identificacion", type="string", length=150, nullable=true)
      */
-    private $direccionDestinatario;
+    private $destinatarioIdentificacion;
 
     /**
-     * @ORM\Column(name="telefono_destinatario", type="string", length=80, nullable=true)
+     * @ORM\Column(name="destinatario_direccion", type="string", length=150, nullable=true)
      */
-    private $telefonoDestinatario;
+    private $destinatarioDireccion;
+
+    /**
+     * @ORM\Column(name="producto_referencia", type="string", length=150, nullable=true)
+     */
+    private $productoReferencia;
+
+    /**
+     * @ORM\Column(name="cliente_documento", type="string", length=150, nullable=true)
+     */
+    private $clienteDocumento;
 
     /**
      * @ORM\Column(name="fecha", type="datetime", nullable=true)
@@ -168,6 +183,12 @@ class TteGuia
     protected $empresaRel;
 
     /**
+     * @ORM\ManyToOne(targetEntity="TteDestinatario", inversedBy="guiasDestinatarioRel")
+     * @ORM\JoinColumn(name="codigo_destinatario_fk", referencedColumnName="codigo_destinatario_pk")
+     */
+    protected $destinatarioRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoGuiaPk()
@@ -202,6 +223,22 @@ class TteGuia
     /**
      * @return mixed
      */
+    public function getClienteDocumento()
+    {
+        return $this->clienteDocumento;
+    }
+
+    /**
+     * @param mixed $clienteDocumento
+     */
+    public function setClienteDocumento($clienteDocumento): void
+    {
+        $this->clienteDocumento = $clienteDocumento;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCodigoGuiaTipoFk()
     {
         return $this->codigoGuiaTipoFk;
@@ -229,6 +266,22 @@ class TteGuia
     public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
         $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDestinatarioFk()
+    {
+        return $this->codigoDestinatarioFk;
+    }
+
+    /**
+     * @param mixed $codigoDestinatarioFk
+     */
+    public function setCodigoDestinatarioFk($codigoDestinatarioFk): void
+    {
+        $this->codigoDestinatarioFk = $codigoDestinatarioFk;
     }
 
     /**
@@ -282,49 +335,65 @@ class TteGuia
     /**
      * @return mixed
      */
-    public function getNombreDestinatario()
+    public function getDestinatarioNombre()
     {
-        return $this->nombreDestinatario;
+        return $this->destinatarioNombre;
     }
 
     /**
-     * @param mixed $nombreDestinatario
+     * @param mixed $destinatarioNombre
      */
-    public function setNombreDestinatario($nombreDestinatario): void
+    public function setDestinatarioNombre($destinatarioNombre): void
     {
-        $this->nombreDestinatario = $nombreDestinatario;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDireccionDestinatario()
-    {
-        return $this->direccionDestinatario;
-    }
-
-    /**
-     * @param mixed $direccionDestinatario
-     */
-    public function setDireccionDestinatario($direccionDestinatario): void
-    {
-        $this->direccionDestinatario = $direccionDestinatario;
+        $this->destinatarioNombre = $destinatarioNombre;
     }
 
     /**
      * @return mixed
      */
-    public function getTelefonoDestinatario()
+    public function getDestinatarioIdentificacion()
     {
-        return $this->telefonoDestinatario;
+        return $this->destinatarioIdentificacion;
     }
 
     /**
-     * @param mixed $telefonoDestinatario
+     * @param mixed $destinatarioIdentificacion
      */
-    public function setTelefonoDestinatario($telefonoDestinatario): void
+    public function setDestinatarioIdentificacion($destinatarioIdentificacion): void
     {
-        $this->telefonoDestinatario = $telefonoDestinatario;
+        $this->destinatarioIdentificacion = $destinatarioIdentificacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDestinatarioDireccion()
+    {
+        return $this->destinatarioDireccion;
+    }
+
+    /**
+     * @param mixed $destinatarioDireccion
+     */
+    public function setDestinatarioDireccion($destinatarioDireccion): void
+    {
+        $this->destinatarioDireccion = $destinatarioDireccion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductoReferencia()
+    {
+        return $this->productoReferencia;
+    }
+
+    /**
+     * @param mixed $productoReferencia
+     */
+    public function setProductoReferencia($productoReferencia): void
+    {
+        $this->productoReferencia = $productoReferencia;
     }
 
     /**
@@ -645,5 +714,21 @@ class TteGuia
     public function setEmpresaRel($empresaRel): void
     {
         $this->empresaRel = $empresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDestinatarioRel()
+    {
+        return $this->destinatarioRel;
+    }
+
+    /**
+     * @param mixed $destinatarioRel
+     */
+    public function setDestinatarioRel($destinatarioRel): void
+    {
+        $this->destinatarioRel = $destinatarioRel;
     }
 }
