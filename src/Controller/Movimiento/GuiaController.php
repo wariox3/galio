@@ -2,6 +2,7 @@
 
 namespace App\Controller\Movimiento;
 
+use App\Entity\TteCiudad;
 use App\Entity\TteGuia;
 use App\Form\Type\GuiaType;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,11 +23,11 @@ class GuiaController extends Controller
         $arGuia = [];
         $form = $this->createForm(GuiaType::class);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $arGuia = $form->getData();
         }
         $arGuias = [];
-        return $this->render('movimiento/guia/lista.html.twig',[
+        return $this->render('movimiento/guia/lista.html.twig', [
             'form' => $form->createView(),
             'arGuias' => $arGuias
         ]);
@@ -42,18 +43,20 @@ class GuiaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $arGuia = new TteGuia();
-        if($id != 0){
-            $arGuia = $em->find(TteGuia::class,$arGuia);
+        if ($id != 0) {
+            $arGuia = $em->find(TteGuia::class, $arGuia);
         } else {
             $arGuia->setEmpresaRel($this->getUser()->getEmpresaRel());
             $arGuia->setFecha(new \DateTime('now'));
         }
         $form = $this->createForm(GuiaType::class);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            $arUsuario = $this->getUser();
+            $arCiudadOrigen = $em->getRepository(TteCiudad::class)->find($arUsuario->getCodigoCiudadFk());
+            $arGuia->setCiudadOrigenRel($arCiudadOrigen);
         }
-        return $this->render('movimiento/guia/nuevo.html.twig',[
+        return $this->render('movimiento/guia/nuevo.html.twig', [
             'form' => $form->createView()
         ]);
     }
