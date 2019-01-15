@@ -8,10 +8,16 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                         <div class="input-group">
                             <label for="" class="col-sm-2 badge">Nombre:</label>
                             {{ form_widget(form.nombre) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Operador:</label>
+                            {{ form_widget(form.codigoOperadorFk) }}
                         </div>
                     </div>
                 </div>

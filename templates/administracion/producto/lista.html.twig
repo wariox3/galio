@@ -6,6 +6,7 @@
             <tr>
                 <th scope="col" class="th">ID</th>
                 <th scope="col" class="th">NOMBRE</th>
+                <th scope="col" class="th">OPERADOR</th>
                 <th scope="col" class="th"></th>
                 <th scope="col" class="th"></th>
             </tr>
@@ -15,6 +16,7 @@
                 <tr>
                     <th scope="row">{{ arProducto.codigoProductoPk }}</th>
                     <td>{{ arProducto.nombre }}</td>
+                    <td>{{ arProducto.codigoOperadorFk }}</td>
                     <td>
                         <a title="Editar el registro"
                            href="{{ path('administracion_producto_nuevo',{'id':arProducto.codigoProductoPk }) }}">

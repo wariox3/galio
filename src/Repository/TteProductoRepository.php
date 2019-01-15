@@ -17,6 +17,7 @@ class TteProductoRepository extends ServiceEntityRepository
         $qb = $this->_em->createQueryBuilder()
             ->select('p.nombre')
             ->addSelect('p.codigoProductoPk')
+            ->addSelect('p.codigoOperadorFk')
             ->from(TteProducto::class,'p')
             ->where('p.codigoProductoPk <> 0');
         return $qb;

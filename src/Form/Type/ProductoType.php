@@ -15,6 +15,7 @@ class ProductoType extends AbstractType
     {
         $builder
             ->add('nombre',TextType::class,['required' => true,'attr' => ['class' => 'form-control']])
+            ->add('codigoOperadorFk',TextType::class,['required' => true,'attr' => ['class' => 'form-control']])
             ->add('guardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-primary float-right']]);
         ;
     }

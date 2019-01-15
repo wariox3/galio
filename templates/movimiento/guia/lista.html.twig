@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block content %}
+    {{ form_start(form) }}
     <div class="content mt-3">
         <table class="table">
             <thead>
@@ -16,6 +17,8 @@
                 <th scope="col" class="th">DECLARADO</th>
                 <th scope="col" class="th">FLETE</th>
                 <th scope="col" class="th">MANEJO</th>
+                <th scope="col" class="th"></th>
+                <th scope="col" class="th"></th>
             </tr>
             </thead>
             <tbody>
@@ -24,20 +27,40 @@
                     <th scope="row">{{ arGuia.codigoGuiaPk }}</th>
                     <td>{{ arGuia.numero }}</td>
                     <td>{{ arGuia.fechaIngreso | date('Y-m-d') }}</td>
-                    <td>{{ arGuia.documentoCliente }}</td>
-                    <td>{{ arGuia.nombreDestinatario }}</td>
-                    <td>{{ arGuia.nombreCiudadOrigen }}</td>
-                    <td>{{ arGuia.nombreCiudadDestino }}</td>
+                    <td>{{ arGuia.clienteDocumento }}</td>
+                    <td>{{ arGuia.destinatarioNombre }}</td>
+                    <td>{{ arGuia.ciudadOrigen }}</td>
+                    <td>{{ arGuia.ciudadDestino }}</td>
                     <td class="numero">{{ arGuia.unidades | number_format(0,'.',',') }}</td>
-                    <td class="numero">{{ arGuia.pesoReal | number_format(0,'.',',') }}</td>
+                    <td class="numero">{{ arGuia.pesoFacturado | number_format(0,'.',',') }}</td>
                     <td class="numero">{{ arGuia.vrDeclara | number_format(0,'.',',') }}</td>
                     <td class="numero">{{ arGuia.vrFlete | number_format(0,'.',',') }}</td>
                     <td class="numero">{{ arGuia.vrManejo | number_format(0,'.',',') }}</td>
+                    <td>
+                        <a title="Editar el registro"
+                           href="{{ path('movimiento_guia_nuevo',{'id' : arGuia.codigoGuiaPk }) }}">
+                            <span class="fa fa-edit" style="color: black;font-size: medium;"></span>
+                        </a>
+                    </td>
+                    <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ arGuia.codigoGuiaPk }}"></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <a href="{{ path('movimiento_guia_nuevo',{'id':0}) }}" class="btn btn-sm btn-secondary  float-right">Nuevo</a>
+        <div class="row float-right" style="padding-right: 15px;">
+            <a href="{{ path('movimiento_guia_nuevo',{'id':0}) }}"
+               class="btn btn-sm btn-secondary  float-right">Nuevo</a>&nbsp;
+            {{ form_widget(form.btnEliminar) }}
+        </div>
+        <div class="btn-group" style="float: left;padding-top: 2px;">
+            <div class="btn btn-light btn-sm" style="border-style: solid!important;border-color: lightgray;">Registros
+                <span class="badge badge-secondary">{{ arGuias.getTotalItemCount }}
+            </span>
+            </div>
+        </div>
+        <div class="btn-group">
+            {{ knp_pagination_render(arGuias) }}
+        </div>
     </div>
     <style type="text/css">
         .th {
@@ -48,4 +71,5 @@
             text-align: right;
         }
     </style>
+    {{ form_end(form) }}
 {% endblock %}

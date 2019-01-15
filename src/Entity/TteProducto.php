@@ -22,6 +22,11 @@ class TteProducto
     private $nombre;
 
     /**
+     * @ORM\Column(name="codigo_operador_fk", type="string", length=20, nullable=true)
+     */
+    private $codigoOperadorFk;
+
+    /**
      * @ORM\OneToMany(targetEntity="TtePrecio", mappedBy="productoRel")
      */
     protected $preciosProductoRel;
@@ -61,6 +66,22 @@ class TteProducto
     public function setNombre($nombre): void
     {
         $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoOperadorFk()
+    {
+        return $this->codigoOperadorFk;
+    }
+
+    /**
+     * @param mixed $codigoOperadorFk
+     */
+    public function setCodigoOperadorFk($codigoOperadorFk): void
+    {
+        $this->codigoOperadorFk = $codigoOperadorFk;
     }
 
     /**

@@ -26,8 +26,9 @@ class GuiaType extends AbstractType {
         $builder
             ->add('productoRel', EntityType::class, array(
                 'class' => TteProducto::class,
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('e')
+                        ->where("e.codigoOperadorFk = {$user->getCodigoOperadorFk()}")
                         ->orderBy('e.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
