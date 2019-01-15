@@ -144,7 +144,7 @@ class TteGuia
     private $vrCostoReexpedicion = 0;
 
     /**
-     * @ORM\Column(name="codigo_producto_fk", type="integer", nullable=true)
+     * @ORM\Column(name="codigo_producto_fk", type="string", length=20, nullable=true)
      */
     private $codigoProductoFk;
 

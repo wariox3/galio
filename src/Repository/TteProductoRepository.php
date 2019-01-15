@@ -19,7 +19,7 @@ class TteProductoRepository extends ServiceEntityRepository
             ->addSelect('p.codigoProductoPk')
             ->addSelect('p.codigoOperadorFk')
             ->from(TteProducto::class,'p')
-            ->where('p.codigoProductoPk <> 0');
+            ->where('p.codigoProductoPk IS NOT NULL');
         return $qb;
     }
 }

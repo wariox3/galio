@@ -28,7 +28,7 @@ class PrecioType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('er')
                         ->orderBy('er.nombre');
-                }
+                },'choice_label' => 'nombre'
             ])
             ->add('ciudadDestinoRel', EntityType::class, [
                 'required' => true,
@@ -38,6 +38,7 @@ class PrecioType extends AbstractType
                     return $er->createQueryBuilder('er')
                         ->orderBy('er.nombre');
                 }
+                ,'choice_label' => 'nombre'
             ])
             ->add('productoRel', EntityType::class, [
                 'required' => true,
@@ -47,6 +48,7 @@ class PrecioType extends AbstractType
                     return $er->createQueryBuilder('er')
                         ->orderBy('er.nombre');
                 }
+                ,'choice_label' => 'nombre'
             ])
             ->add('empresaRel', EntityType::class, [
                 'required' => true,
@@ -56,6 +58,7 @@ class PrecioType extends AbstractType
                     return $er->createQueryBuilder('er')
                         ->orderBy('er.nombre');
                 }
+                ,'choice_label' => 'nombre'
             ])
             ->add('guardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-primary float-right']]);
     }

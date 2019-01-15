@@ -2,9 +2,11 @@
 
 namespace App\Controller\Movimiento;
 
+use App\Entity\GenConfiguracion;
 use App\Entity\TteCiudad;
 use App\Entity\TteGuia;
 use App\Entity\TtePrecio;
+use App\Entity\Usuario;
 use App\Form\Type\GuiaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +41,7 @@ class GuiaController extends Controller
     /**
      * @param Request $request
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/movimiento/guia/nuevo/{id}", name="movimiento_guia_nuevo")
@@ -56,7 +58,9 @@ class GuiaController extends Controller
         }
         $form = $this->createForm(GuiaType::class, $arGuia);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var  $arUsuario Usuario */
             $arUsuario = $this->getUser();
             $arCiudadOrigen = $em->getRepository(TteCiudad::class)->find($arUsuario->getCodigoCiudadFk());
             $arGuia->setCiudadOrigenRel($arCiudadOrigen);
@@ -64,7 +68,7 @@ class GuiaController extends Controller
             if ($arGuia->getEmpresaRel()->getManejoMinimoDespacho() > $manejo) {
                 $manejo = $arGuia->getEmpresaRel()->getManejoMinimoDespacho();
             }
-
+            $arGuia->setVrManejo(round($manejo));
             if ($arGuia->getPesoReal() >= $arGuia->getPesoVolumen()) {
                 $pesoFacturar = $arGuia->getPesoReal();
             } else {
@@ -72,14 +76,13 @@ class GuiaController extends Controller
             }
             $arGuia->setPesoFacturado($pesoFacturar);
             $flete = 0;
-
             if ($pesoFacturar > 0) {
-                $arPrecio = $em->getRepository(TtePrecio::class)->findOneBy(['codigoEmpresaFk' => $arGuia->getEmpresaRel()->getCodigoEmpresaPk(), 'codigoCiudadOrigenFk' => $arCiudadOrigen->getCodigoCiudadPk(), 'codigoCiudadDestinoFk' => $arGuia->getCiudadDestinoRel()->getCodigoCiudadPk(), 'codigoProductoFk' => $arGuia->getEmpaqueEmpresaRel()->getCodigoEmpaqueFk()]);
-                if ($arPrecio) {
-                    $flete = $arPrecio->getVrKilo() * $pesoFacturar;
-                }
+                $arConfiguracion = $em->find(GenConfiguracion::class, 1);
+//                {ciudadOrigen}/{ciudadDestino}/{producto}/{peso}/{codigoOperador}/{codigoEmpresa}
+                $ch = curl_init($arConfiguracion->getUrlCesio() . 'api/precio/calcular/' . $arGuia->getCodigoCiudadOrigenFk().'/'.$arGuia->getCodigoCiudadDestinoFk().'/'.$arGuia->getCodigoProductoFk().'/'.$arGuia->getPesoFacturado().'/'.$arUsuario->getCodigoOperadorFk().'/'.$arUsuario->getCodigoEmpresaFk());
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                json_decode(curl_exec($ch));
             }
-            $arGuia->setVrManejo(round($manejo));
             $arGuia->setVrFlete(round($flete));
             if ($id == 0) {
                 $consecutivo = $em->getRepository(TteGuia::class)->consecutivo($arGuia->getEmpresaRel()->getCodigoEmpresaPk());

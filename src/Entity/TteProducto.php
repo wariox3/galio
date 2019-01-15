@@ -11,8 +11,7 @@ class TteProducto
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="codigo_producto_pk", type="integer")
+     * @ORM\Column(name="codigo_producto_pk", type="string", length=20)
      */        
     private $codigoProductoPk;
     
@@ -25,11 +24,6 @@ class TteProducto
      * @ORM\Column(name="codigo_operador_fk", type="string", length=20, nullable=true)
      */
     private $codigoOperadorFk;
-
-    /**
-     * @ORM\OneToMany(targetEntity="TtePrecio", mappedBy="productoRel")
-     */
-    protected $preciosProductoRel;
 
     /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="productoRel")
@@ -82,22 +76,6 @@ class TteProducto
     public function setCodigoOperadorFk($codigoOperadorFk): void
     {
         $this->codigoOperadorFk = $codigoOperadorFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPreciosProductoRel()
-    {
-        return $this->preciosProductoRel;
-    }
-
-    /**
-     * @param mixed $preciosProductoRel
-     */
-    public function setPreciosProductoRel($preciosProductoRel): void
-    {
-        $this->preciosProductoRel = $preciosProductoRel;
     }
 
     /**

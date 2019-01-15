@@ -164,19 +164,4 @@ class Usuario implements UserInterface, \Serializable
         $this->empresaRel = $empresaRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCodigoEmpresa()
-    {
-        return $this->codigoEmpresa;
-    }
-
-    /**
-     * @param mixed $codigoEmpresa
-     */
-    public function setCodigoEmpresa($codigoEmpresa): void
-    {
-        $this->codigoEmpresa = $codigoEmpresa;
-    }
 }

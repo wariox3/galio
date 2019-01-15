@@ -53,16 +53,6 @@ class TteCiudad
     protected $guiasCiudadesDestinosCiudadRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="TtePrecio", mappedBy="ciudadOrigenRel")
-     */
-    protected $preciosCiudadesOrigenesCiudadRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="TtePrecio", mappedBy="ciudadDestinoRel")
-     */
-    protected $preciosCiudadesDestinosCiudadRel;
-
-    /**
      * @return mixed
      */
     public function getCodigoCiudadPk()
@@ -190,36 +180,5 @@ class TteCiudad
         $this->guiasCiudadesDestinosCiudadRel = $guiasCiudadesDestinosCiudadRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPreciosCiudadesOrigenesCiudadRel()
-    {
-        return $this->preciosCiudadesOrigenesCiudadRel;
-    }
-
-    /**
-     * @param mixed $preciosCiudadesOrigenesCiudadRel
-     */
-    public function setPreciosCiudadesOrigenesCiudadRel($preciosCiudadesOrigenesCiudadRel): void
-    {
-        $this->preciosCiudadesOrigenesCiudadRel = $preciosCiudadesOrigenesCiudadRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPreciosCiudadesDestinosCiudadRel()
-    {
-        return $this->preciosCiudadesDestinosCiudadRel;
-    }
-
-    /**
-     * @param mixed $preciosCiudadesDestinosCiudadRel
-     */
-    public function setPreciosCiudadesDestinosCiudadRel($preciosCiudadesDestinosCiudadRel): void
-    {
-        $this->preciosCiudadesDestinosCiudadRel = $preciosCiudadesDestinosCiudadRel;
-    }
 }
 
