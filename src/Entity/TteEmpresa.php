@@ -24,7 +24,12 @@ class TteEmpresa
     /**
      * @ORM\Column(name="nit", type="string", length=15, nullable=true)
      */    
-    private $nit;    
+    private $nit;
+
+    /**
+     * @ORM\Column(name="lista_precio", type="integer", nullable=true)
+     */
+    private $listaPrecio;
     
     /**
      * @ORM\Column(name="direccion", type="string", length=120, nullable=true)
@@ -112,6 +117,22 @@ class TteEmpresa
     public function setNit($nit): void
     {
         $this->nit = $nit;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getListaPrecio()
+    {
+        return $this->listaPrecio;
+    }
+
+    /**
+     * @param mixed $listaPrecio
+     */
+    public function setListaPrecio($listaPrecio): void
+    {
+        $this->listaPrecio = $listaPrecio;
     }
 
     /**

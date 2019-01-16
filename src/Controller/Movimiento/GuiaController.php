@@ -5,7 +5,6 @@ namespace App\Controller\Movimiento;
 use App\Entity\GenConfiguracion;
 use App\Entity\TteCiudad;
 use App\Entity\TteGuia;
-use App\Entity\TtePrecio;
 use App\Entity\Usuario;
 use App\Form\Type\GuiaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -78,10 +77,11 @@ class GuiaController extends Controller
             $flete = 0;
             if ($pesoFacturar > 0) {
                 $arConfiguracion = $em->find(GenConfiguracion::class, 1);
-//                {ciudadOrigen}/{ciudadDestino}/{producto}/{peso}/{codigoOperador}/{codigoEmpresa}
-                $ch = curl_init($arConfiguracion->getUrlCesio() . 'api/precio/calcular/' . $arGuia->getCodigoCiudadOrigenFk().'/'.$arGuia->getCodigoCiudadDestinoFk().'/'.$arGuia->getCodigoProductoFk().'/'.$arGuia->getPesoFacturado().'/'.$arUsuario->getCodigoOperadorFk().'/'.$arUsuario->getCodigoEmpresaFk());
+                $ch = curl_init($arConfiguracion->getUrlCesio() . 'api/precio/calcular/' . $arGuia->getCiudadOrigenRel()->getCodigoCiudadPk().'/'.$arGuia->getCiudadDestinoRel()->getCodigoCiudadPk().'/'.$arGuia->getProductoRel()->getCodigoProductoPk().'/'.$arGuia->getPesoFacturado().'/'.$arUsuario->getCodigoOperadorFk().'/'.$arGuia->getEmpresaRel()->getListaPrecio());
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-                json_decode(curl_exec($ch));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $flete = json_decode(curl_exec($ch));
+                curl_close($ch);
             }
             $arGuia->setVrFlete(round($flete));
             if ($id == 0) {
