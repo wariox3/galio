@@ -2,7 +2,7 @@
 {% block content %}
     {{ form_start(form) }}
     <div class="content mt-3">
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th scope="col" class="th">ID</th>
@@ -17,6 +17,7 @@
                 <th scope="col" class="th">DECLARADO</th>
                 <th scope="col" class="th">FLETE</th>
                 <th scope="col" class="th">MANEJO</th>
+                <th scope="col" class="th"></th>
                 <th scope="col" class="th"></th>
                 <th scope="col" class="th"></th>
             </tr>
@@ -36,7 +37,9 @@
                     <td class="numero">{{ arGuia.vrDeclara | number_format(0,'.',',') }}</td>
                     <td class="numero">{{ arGuia.vrFlete | number_format(0,'.',',') }}</td>
                     <td class="numero">{{ arGuia.vrManejo | number_format(0,'.',',') }}</td>
-                    <td>
+                    <td style="text-align: center;">
+                        <button class="btn btn-secondary btn-sm " type="submit" name="OpImprimirEtiqueta" value="{{ arGuia.codigoGuiaPk }}">Etiq</button></td>
+                    <td style="text-align: center;">
                         <a title="Editar el registro"
                            href="{{ path('movimiento_guia_nuevo',{'id' : arGuia.codigoGuiaPk }) }}">
                             <span class="fa fa-edit" style="color: black;font-size: medium;"></span>

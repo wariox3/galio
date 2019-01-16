@@ -7,6 +7,7 @@ use App\Entity\TteCiudad;
 use App\Entity\TteGuia;
 use App\Entity\Usuario;
 use App\Form\Type\GuiaType;
+use App\Formato\Etiqueta;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,9 @@ class GuiaController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
      * @Route("/movimiento/guia/lista", name="movimiento_guia_lista")
      */
     public function lista(Request $request)
@@ -28,7 +32,11 @@ class GuiaController extends Controller
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $arGuia = $form->getData();
+            if ($request->request->get('OpImprimirEtiqueta')) {
+                $codigoGuia = $request->request->get('OpImprimirEtiqueta');
+                $objDespacho = new Etiqueta();
+                $objDespacho->Generar($em, $codigoGuia);
+            }
         }
         $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->lista(), $request->query->getInt('page', 1), 30);
         return $this->render('movimiento/guia/lista.html.twig', [
@@ -77,7 +85,7 @@ class GuiaController extends Controller
             $flete = 0;
             if ($pesoFacturar > 0) {
                 $arConfiguracion = $em->find(GenConfiguracion::class, 1);
-                $ch = curl_init($arConfiguracion->getUrlCesio() . 'api/precio/calcular/' . $arGuia->getCiudadOrigenRel()->getCodigoCiudadPk().'/'.$arGuia->getCiudadDestinoRel()->getCodigoCiudadPk().'/'.$arGuia->getProductoRel()->getCodigoProductoPk().'/'.$arGuia->getPesoFacturado().'/'.$arUsuario->getCodigoOperadorFk().'/'.$arGuia->getEmpresaRel()->getListaPrecio());
+                $ch = curl_init($arConfiguracion->getUrlCesio() . 'api/precio/calcular/' . $arGuia->getCiudadOrigenRel()->getCodigoCiudadPk() . '/' . $arGuia->getCiudadDestinoRel()->getCodigoCiudadPk() . '/' . $arGuia->getProductoRel()->getCodigoProductoPk() . '/' . $arGuia->getPesoFacturado() . '/' . $arUsuario->getCodigoOperadorFk() . '/' . $arGuia->getEmpresaRel()->getListaPrecio());
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $flete = json_decode(curl_exec($ch));

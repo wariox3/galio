@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block content %}
     <div class="content mt-3">
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th scope="col" class="th">ID</th>
@@ -17,7 +17,7 @@
                     <th scope="row">{{ arProducto.codigoProductoPk }}</th>
                     <td>{{ arProducto.nombre }}</td>
                     <td>{{ arProducto.codigoOperadorFk }}</td>
-                    <td>
+                    <td style="text-align: center;">
                         <a title="Editar el registro"
                            href="{{ path('administracion_producto_nuevo',{'id':arProducto.codigoProductoPk }) }}">
                             <span class="fa fa-edit" style="color: black;font-size: medium;"></span>

@@ -2,7 +2,7 @@
 {% block content %}
     {{ form_start(form,{'attr' :{'class' : 'form-horizontal'}}) }}
     <div class="content mt-3">
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th scope="col" class="th">ID</th>
@@ -28,7 +28,7 @@
                     <td>{{ arDestinatario.direccion }}</td>
                     <td>{{ arDestinatario.ciudadNombre }}</td>
                     <td>{{ arDestinatario.telefono }}</td>
-                    <td>
+                    <td style="text-align: center;">
                         <a title="Editar el registro"
                            href="{{ path('administracion_destinatario_nuevo',{'id':arDestinatario.codigoDestinatarioPk }) }}">
                             <span class="fa fa-edit" style="color: black;font-size: medium;"></span>
