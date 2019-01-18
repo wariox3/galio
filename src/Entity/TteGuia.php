@@ -34,6 +34,11 @@ class TteGuia
     private $codigoEmpresaFk;
 
     /**
+     * @ORM\Column(name="codigo_despacho_fk", type="integer", nullable=true)
+     */
+    private $codigoDespachoFk;
+
+    /**
      * @ORM\Column(name="codigo_destinatario_fk", type="integer", nullable=true)
      */
     private $codigoDestinatarioFk;
@@ -189,6 +194,12 @@ class TteGuia
     protected $destinatarioRel;
 
     /**
+     * @ORM\ManyToOne(targetEntity="TteDespacho", inversedBy="guiasDespachoRel")
+     * @ORM\JoinColumn(name="codigo_despacho_fk", referencedColumnName="codigo_despacho_pk")
+     */
+    protected $despachoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoGuiaPk()
@@ -223,22 +234,6 @@ class TteGuia
     /**
      * @return mixed
      */
-    public function getClienteDocumento()
-    {
-        return $this->clienteDocumento;
-    }
-
-    /**
-     * @param mixed $clienteDocumento
-     */
-    public function setClienteDocumento($clienteDocumento): void
-    {
-        $this->clienteDocumento = $clienteDocumento;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCodigoGuiaTipoFk()
     {
         return $this->codigoGuiaTipoFk;
@@ -266,6 +261,22 @@ class TteGuia
     public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
         $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDespachoFk()
+    {
+        return $this->codigoDespachoFk;
+    }
+
+    /**
+     * @param mixed $codigoDespachoFk
+     */
+    public function setCodigoDespachoFk($codigoDespachoFk): void
+    {
+        $this->codigoDespachoFk = $codigoDespachoFk;
     }
 
     /**
@@ -394,6 +405,22 @@ class TteGuia
     public function setProductoReferencia($productoReferencia): void
     {
         $this->productoReferencia = $productoReferencia;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClienteDocumento()
+    {
+        return $this->clienteDocumento;
+    }
+
+    /**
+     * @param mixed $clienteDocumento
+     */
+    public function setClienteDocumento($clienteDocumento): void
+    {
+        $this->clienteDocumento = $clienteDocumento;
     }
 
     /**
@@ -730,5 +757,21 @@ class TteGuia
     public function setDestinatarioRel($destinatarioRel): void
     {
         $this->destinatarioRel = $destinatarioRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDespachoRel()
+    {
+        return $this->despachoRel;
+    }
+
+    /**
+     * @param mixed $despachoRel
+     */
+    public function setDespachoRel($despachoRel): void
+    {
+        $this->despachoRel = $despachoRel;
     }
 }

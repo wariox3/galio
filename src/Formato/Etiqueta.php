@@ -3,6 +3,7 @@
 namespace App\Formato;
 
 
+use App\Entity\TteDespacho;
 use App\Entity\TteGuia;
 use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
 use Doctrine\ORM\EntityManager;
@@ -11,28 +12,30 @@ class Etiqueta extends \FPDF
 {
     public static $em;
     public static $codigoGuia;
-//    public static $codigoDespacho;
+    public static $codigoDespacho;
 
     /**
      * @param $em
      * @param string $codigoGuia
+     * @param string $codigoDespacho
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function Generar($em, $codigoGuia = "")
+    public function Generar($em, $codigoGuia = "", $codigoDespacho = "")
     {
         ob_clean();
         //$em = $miThis->getDoctrine()->getManager();
         self::$em = $em;
-//        self::$codigoDespacho = $codigoDespacho;
+        self::$codigoDespacho = $codigoDespacho;
         self::$codigoGuia = $codigoGuia;
         $pdf = new Etiqueta('L', 'mm', array(50, 75));
         $pdf->AliasNbPages();
         $pdf->AddPage();
         $pdf->SetFont('Times', '', 12);
         $this->Body($pdf);
-        $pdf->Output("Etiquetas{$codigoGuia}.pdf", 'D');
+        $nombre = $codigoDespacho != '' ? 'EtiquetasDespacho' . $codigoDespacho . '.pdf' : 'EtiquetasGuia' . $codigoGuia . '.pdf';
+        $pdf->Output($nombre, 'I');
     }
 
     public function Header()
@@ -40,7 +43,7 @@ class Etiqueta extends \FPDF
     }
 
     /**
-     * @param $pdf
+     * @param $pdf \FPDF
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
@@ -49,8 +52,35 @@ class Etiqueta extends \FPDF
     {
         /** @var  $em EntityManager */
         $em = self::$em;
-        $arGuia = $em->find(TteGuia::class, self::$codigoGuia);
-        $codigoBarras= new BarcodeGenerator();
+        if (self::$codigoDespacho != '') {
+            $arDespacho = $em->find(TteDespacho::class, self::$codigoDespacho);
+            $contador = 0;
+            $arGuias = $em->getRepository(TteGuia::class)->findBy(['codigoDespachoFk' => self::$codigoDespacho]);
+            /** @var  $arGuia TteGuia */
+            foreach ($arGuias as $arGuia) {
+                $contador++;
+                $this->generarBody($pdf, $arGuia);
+                if ($contador < $arDespacho->getGuias()) {
+                    $pdf->AddPage();
+                }
+            }
+        } else {
+            $arGuia = $em->find(TteGuia::class, self::$codigoGuia);
+            $this->generarBody($pdf, $arGuia);
+        }
+    }
+
+    public function Footer()
+    {
+    }
+
+    /**
+     * @param $pdf \FPDF
+     * @param $arGuia TteGuia
+     */
+    public function generarBody($pdf, $arGuia)
+    {
+        $codigoBarras = new BarcodeGenerator();
         $codigoBarras->setText($arGuia->getNumero());
         $codigoBarras->setType(BarcodeGenerator::Code39);
         $codigoBarras->setScale(2);
@@ -75,15 +105,10 @@ class Etiqueta extends \FPDF
             $pdf->Text(5, 33, "U.EMP:" . $arGuia->getProductoReferencia());
 //            $pdf->Text(5, 36, "DESP:" . $arGuia->getDespachador() . " ZONA:" . $arGuia->getZona());
             $pdf->SetFont('Arial', 'B', 12);
-            $pdf->Image('data:image/png;base64,'.$codigoBarras, 15, 38, 50, 10,'png');
+            $pdf->Image('data:image/png;base64,' . $codigoBarras, 15, 38, 50, 10, 'png');
             if ($i < $arGuia->getUnidades()) {
                 $pdf->AddPage();
             }
-
         }
-    }
-
-    public function Footer()
-    {
     }
 }

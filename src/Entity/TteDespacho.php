@@ -10,257 +10,259 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TteDespacho
 {
-
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer", name="codigo_despacho_pk")
+     * @ORM\Column(name="codigo_despacho_pk", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $codigoDespachoPk;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="integer", nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\Column(name="numero", type="float", nullable=true)
      */
-    private $numero;
+    private $numero = 0;
 
     /**
-     * @ORM\Column(name="numero_rndc", type="string", length=40, nullable=true)
+     * @ORM\Column(name="fecha", type="date", nullable=true)
      */
-    private $numeroRndc;
+    private $fecha;
 
     /**
-     * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
+     * @ORM\Column(name="guias", type="integer", nullable=true)
      */
-    private $fechaRegistro;
+    private $guias = 0;
 
     /**
-     * @ORM\Column(name="fecha_salida", type="datetime", nullable=true)
-     */
-    private $fechaSalida;
-
-    /**
-     * @ORM\Column(name="fecha_llegada", type="datetime", nullable=true)
-     */
-    private $fechaLlegada;
-
-    /**
-     * @ORM\Column(name="fecha_soporte", type="datetime", nullable=true)
-     */
-    private $fechaSoporte;
-
-    /**
-     * @ORM\Column(name="codigo_operacion_fk", type="string", length=20, nullable=true)
-     */
-    private $codigoOperacionFk;
-
-    /**
-     * @ORM\Column(name="codigo_ciudad_origen_fk", type="string", length=20, nullable=true)
-     */
-    private $codigoCiudadOrigenFk;
-
-    /**
-     * @ORM\Column(name="codigo_ciudad_destino_fk", type="string", length=20, nullable=true)
-     */
-    private $codigoCiudadDestinoFk;
-
-    /**
-     * @ORM\Column(name="codigo_vehiculo_fk", type="string", length=20, nullable=true)
-     */
-    private $codigoVehiculoFk;
-
-    /**
-     * @ORM\Column(name="codigo_conductor_fk", type="integer", nullable=true)
-     */
-    private $codigoConductorFk;
-
-    /**
-     * @ORM\Column(name="codigo_ruta_fk", type="string", length=20, nullable=true)
-     */
-    private $codigoRutaFk;
-
-    /**
-     * @ORM\Column(name="cantidad", type="float", options={"default" : 0})
-     */
-    private $cantidad = 0;
-
-    /**
-     * @ORM\Column(name="unidades", type="float", options={"default" : 0})
+     * @ORM\Column(name="unidades", type="integer", nullable=true)
      */
     private $unidades = 0;
 
     /**
-     * @ORM\Column(name="peso_real", type="float", options={"default" : 0})
+     * @ORM\Column(name="peso", type="float", nullable=true)
      */
-    private $pesoReal = 0;
+    private $peso = 0;
 
     /**
-     * @ORM\Column(name="peso_volumen", type="float", options={"default" : 0})
+     * @ORM\Column(name="peso_volumen", type="float", nullable=true)
      */
     private $pesoVolumen = 0;
 
     /**
-     * @ORM\Column(name="peso_costo", type="float", options={"default" : 0})
-     */
-    private $pesoCosto = 0;
-
-    /**
-     * @ORM\Column(name="vr_declara", type="float", options={"default" : 0})
+     * @ORM\Column(name="vr_declara", type="float", nullable=true)
      */
     private $vrDeclara = 0;
 
     /**
-     * @ORM\Column(name="vr_flete", type="float", options={"default" : 0})
+     * @ORM\Column(name="estado_impreso", type="boolean", nullable=true))
      */
-    private $vrFlete = 0;
+    private $estadoImpreso = false;
 
     /**
-     * @ORM\Column(name="vr_manejo", type="float", options={"default" : 0})
+     * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="despachosEmpresaRel")
+     * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
-    private $vrManejo = 0;
+    protected $empresaRel;
 
     /**
-     * @ORM\Column(name="vr_recaudo", type="float", options={"default" : 0})
+     * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="despachoRel")
      */
-    private $vrRecaudo = 0;
+    protected $guiasDespachoRel;
 
     /**
-     * @ORM\Column(name="vr_flete_pago", type="float", options={"default" : 0})
+     * @return mixed
      */
-    private $vrFletePago = 0;
+    public function getCodigoDespachoPk()
+    {
+        return $this->codigoDespachoPk;
+    }
 
     /**
-     * @ORM\Column(name="vr_anticipo", type="float", options={"default" : 0})
+     * @param mixed $codigoDespachoPk
      */
-    private $vrAnticipo = 0;
+    public function setCodigoDespachoPk($codigoDespachoPk): void
+    {
+        $this->codigoDespachoPk = $codigoDespachoPk;
+    }
 
     /**
-     * @ORM\Column(name="vr_industria_comercio", type="float", options={"default" : 0})
+     * @return mixed
      */
-    private $vrIndustriaComercio = 0;
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
 
     /**
-     * @ORM\Column(name="vr_retencion_fuente", type="float", options={"default" : 0})
+     * @param mixed $codigoEmpresaFk
      */
-    private $vrRetencionFuente = 0;
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
 
     /**
-     * @ORM\Column(name="vr_total", type="float", options={"default" : 0})
+     * @return mixed
      */
-    private $vrTotal = 0;
+    public function getNumero()
+    {
+        return $this->numero;
+    }
 
     /**
-     * @ORM\Column(name="vr_total_neto", type="float", options={"default" : 0})
+     * @param mixed $numero
      */
-    private $vrTotalNeto = 0;
+    public function setNumero($numero): void
+    {
+        $this->numero = $numero;
+    }
 
     /**
-     * @ORM\Column(name="vr_descuento_papeleria", type="float", options={"default" : 0})
+     * @return mixed
      */
-    private $vrDescuentoPapeleria = 0;
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
 
     /**
-     * @ORM\Column(name="vr_descuento_seguridad", type="float", options={"default" : 0})
+     * @param mixed $fecha
      */
-    private $vrDescuentoSeguridad = 0;
+    public function setFecha($fecha): void
+    {
+        $this->fecha = $fecha;
+    }
 
     /**
-     * @ORM\Column(name="vr_descuento_cargue", type="float", options={"default" : 0})
+     * @return mixed
      */
-    private $vrDescuentoCargue = 0;
+    public function getGuias()
+    {
+        return $this->guias;
+    }
 
     /**
-     * @ORM\Column(name="vr_descuento_estampilla", type="float", options={"default" : 0})
+     * @param mixed $guias
      */
-    private $vrDescuentoEstampilla = 0;
+    public function setGuias($guias): void
+    {
+        $this->guias = $guias;
+    }
 
     /**
-     * @ORM\Column(name="vr_cobro_entrega", type="float", options={"default" : 0})
+     * @return mixed
      */
-    private $vrCobroEntrega = 0;
+    public function getUnidades()
+    {
+        return $this->unidades;
+    }
 
     /**
-     * @ORM\Column(name="vr_cobro_entrega_rechazado", type="float", options={"default" : 0})
+     * @param mixed $unidades
      */
-    private $vrCobroEntregaRechazado = 0;
+    public function setUnidades($unidades): void
+    {
+        $this->unidades = $unidades;
+    }
 
     /**
-     * @ORM\Column(name="vr_saldo", type="float", options={"default" : 0})
+     * @return mixed
      */
-    private $vrSaldo = 0;
+    public function getPeso()
+    {
+        return $this->peso;
+    }
 
     /**
-     * @ORM\Column(name="vr_costo", type="float", nullable=true, options={"default" : 0})
+     * @param mixed $peso
      */
-    private $vrCosto = 0;
+    public function setPeso($peso): void
+    {
+        $this->peso = $peso;
+    }
 
     /**
-     * @ORM\Column(name="vr_costo_base", type="float", nullable=true, options={"default" : 0})
+     * @return mixed
      */
-    private $vrCostoBase = 0;
+    public function getPesoVolumen()
+    {
+        return $this->pesoVolumen;
+    }
 
     /**
-     * @ORM\Column(name="porcentaje_rentabilidad", type="float", nullable=true, options={"default" : 0})
+     * @param mixed $pesoVolumen
      */
-    private $porcentajeRentabilidad = 0;
+    public function setPesoVolumen($pesoVolumen): void
+    {
+        $this->pesoVolumen = $pesoVolumen;
+    }
 
     /**
-     * @ORM\Column(name="estado_autorizado", type="boolean", nullable=true, options={"default" : false})
+     * @return mixed
      */
-    private $estadoAutorizado = false;
+    public function getVrDeclara()
+    {
+        return $this->vrDeclara;
+    }
 
     /**
-     * @ORM\Column(name="estado_aprobado", type="boolean", nullable=true, options={"default" : false})
+     * @param mixed $vrDeclara
      */
-    private $estadoAprobado = false;
+    public function setVrDeclara($vrDeclara): void
+    {
+        $this->vrDeclara = $vrDeclara;
+    }
 
     /**
-     * @ORM\Column(name="estado_cerrado", type="boolean", nullable=true, options={"default" : false})
+     * @return mixed
      */
-    private $estadoCerrado = false;
+    public function getEstadoImpreso()
+    {
+        return $this->estadoImpreso;
+    }
 
     /**
-     * @ORM\Column(name="estado_soporte", type="boolean", nullable=true, options={"default" : false})
+     * @param mixed $estadoImpreso
      */
-    private $estadoSoporte = false;
+    public function setEstadoImpreso($estadoImpreso): void
+    {
+        $this->estadoImpreso = $estadoImpreso;
+    }
 
     /**
-     * @ORM\Column(name="estado_anulado", type="boolean", nullable=true, options={"default" : false})
+     * @return mixed
      */
-    private $estadoAnulado = false;
+    public function getEmpresaRel()
+    {
+        return $this->empresaRel;
+    }
 
     /**
-     * @ORM\Column(name="estado_contabilizado", type="boolean",options={"default" : false}, nullable=true)
+     * @param mixed $empresaRel
      */
-    private $estadoContabilizado = false;
+    public function setEmpresaRel($empresaRel): void
+    {
+        $this->empresaRel = $empresaRel;
+    }
 
     /**
-     * @ORM\Column(name="estado_cumplir_rndc", type="boolean", nullable=true, options={"default" : false})
+     * @return mixed
      */
-    private $estadoCumplirRndc = false;
+    public function getGuiasDespachoRel()
+    {
+        return $this->guiasDespachoRel;
+    }
 
     /**
-     * @ORM\Column(name="estado_novedad", type="boolean", nullable=true, options={"default" : false})
+     * @param mixed $guiasDespachoRel
      */
-    private $estadoNovedad = false;
-
-    /**
-     * @ORM\Column(name="estado_novedad_solucion", type="boolean", nullable=true, options={"default" : false})
-     */
-    private $estadoNovedadSolucion = false;
-
-    /**
-     * @ORM\Column(name="comentario", type="string", length=2000, nullable=true)
-     */
-    private $comentario;
-
-    /**
-     * @ORM\Column(name="codigo_despacho_tipo_fk", type="string", length=20, nullable=true)
-     */
-    private $codigoDespachoTipoFk;
-
-    /**
-     * @ORM\Column(name="usuario", type="string", length=25, nullable=true)
-     */
-    private $usuario;
+    public function setGuiasDespachoRel($guiasDespachoRel): void
+    {
+        $this->guiasDespachoRel = $guiasDespachoRel;
+    }
 }
 

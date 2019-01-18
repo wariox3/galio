@@ -62,6 +62,7 @@ class GuiaController extends Controller
         } else {
             $arGuia->setEmpresaRel($this->getUser()->getEmpresaRel());
             $arGuia->setFecha(new \DateTime('now'));
+            $arGuia->setFechaIngreso(new \DateTime('now'));
         }
         $form = $this->createForm(GuiaType::class, $arGuia);
         $form->handleRequest($request);

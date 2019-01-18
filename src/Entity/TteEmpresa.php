@@ -72,6 +72,11 @@ class TteEmpresa
     protected $guiasEmpresaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="TteDespacho", mappedBy="empresaRel")
+     */
+    protected $despachosEmpresaRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoEmpresaPk()
@@ -261,5 +266,21 @@ class TteEmpresa
     public function setGuiasEmpresaRel($guiasEmpresaRel): void
     {
         $this->guiasEmpresaRel = $guiasEmpresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDespachosEmpresaRel()
+    {
+        return $this->despachosEmpresaRel;
+    }
+
+    /**
+     * @param mixed $despachosEmpresaRel
+     */
+    public function setDespachosEmpresaRel($despachosEmpresaRel): void
+    {
+        $this->despachosEmpresaRel = $despachosEmpresaRel;
     }
 }

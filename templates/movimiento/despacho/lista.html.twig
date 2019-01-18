@@ -1,4 +1,86 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-    <a href="{{ path('movimiento_guia_nuevo') }}"></a>
+    {{ form_start(form) }}
+    <div class="content mt-3">
+        <div class="card">
+            <div class="card-header">
+                Filtros
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-1" style="padding-top: 12px;">Desde:</label>
+                            {{ form_widget(form.fechaDesde) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-1" style="padding-top: 12px;">Hasta:</label>
+                            {{ form_widget(form.fechaHasta) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row float-right">
+                    <div class="input-group" style="padding-right: 5px;">
+                        {{ form_widget(form.btnFiltrar) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col" class="th">ID</th>
+                <th scope="col" class="th">FECHA</th>
+                <th scope="col" class="th">GUIAS</th>
+                <th scope="col" class="th">CANT</th>
+                <th scope="col" class="th">PESO</th>
+                <th scope="col" class="th">DECLARADO</th>
+                <th scope="col" class="th"></th>
+                <th scope="col" class="th"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for arDespacho in arDespachos %}
+                <tr>
+                    <th scope="row">{{ arDespacho.codigoDespachoPk }}</th>
+                    <td>{{ arDespacho.fecha | date('Y-m-d') }}</td>
+                    <td style="text-align: right;">{{ arDespacho.guias }}</td>
+                    <td style="text-align: right;">{{ arDespacho.unidades }}</td>
+                    <td style="text-align: right;">{{ arDespacho.peso }}</td>
+                    <td style="text-align: right;">{{ arDespacho.vrDeclara | number_format(0,'.',',') }}</td>
+                    <td style="text-align: center;width: 10%;"><a href="Javascript:abrirVentana3('{{ path('movimiento_despacho_nuevo',{'id' : arDespacho.codigoDespachoPk }) }}','agregarGuia',600,1200)" class="btn btn-sm btn-secondary">Agregar</a></td>
+                    <td style="text-align: center;"><a href="{{ path('movimiento_despacho_detalle',{'id' : arDespacho.codigoDespachoPk }) }}" style="color: black;"><i class="fa fa-share-square-o" style="font-size: large"></i></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <div class="row float-right" style="padding-right: 15px;">
+            <a href="{{ path('movimiento_despacho_nuevo',{'id' : 0}) }}"
+               class="btn btn-sm btn-secondary float-right">Nuevo</a>
+        </div>
+        <div class="btn-group" style="float: left;padding-top: 2px;">
+            <div class="btn btn-light btn-sm" style="border-style: solid!important;border-color: lightgray;">Registros
+                <span class="badge badge-secondary">{{ arDespachos.getTotalItemCount }}
+                </span>
+            </div>
+        </div>
+        &nbsp;
+        <div class="btn-group">
+            {{ knp_pagination_render(arDespachos) }}
+        </div>
+    </div>
+    <style type="text/css">
+        .th {
+            font-size: 12px !important;
+        }
+    </style>
+    {{ form_end(form) }}
 {% endblock %}

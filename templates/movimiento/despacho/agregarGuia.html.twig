@@ -1,0 +1,96 @@
+{% extends 'base_sin_menu.html.twig' %}
+{% block content %}
+    {{ form_start(form) }}
+    <div class="content mt-3">
+        <div class="card">
+            <div class="card-header">
+                Filtros
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-3" style="padding-top: 12px;">Código:</label>
+                            {{ form_widget(form.txtGuiaCodigo) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-3" style="padding-top: 12px;">Numero:</label>
+                            {{ form_widget(form.txtGuiaNumero) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-3" style="padding-top: 12px;">Documento:</label>
+                            {{ form_widget(form.txtClienteDocumento) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                {{ form_widget(form.btnFiltrar) }}
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col" class="th">ID</th>
+                <th scope="col" class="th">GUÍA</th>
+                <th scope="col" class="th">FECHA</th>
+                <th scope="col" class="th">DOCUMENTO</th>
+                <th scope="col" class="th">DESTINATARIO</th>
+                <th scope="col" class="th">ORIGEN</th>
+                <th scope="col" class="th">DESTINO</th>
+                <th scope="col" class="th">CANT</th>
+                <th scope="col" class="th">PESO</th>
+                <th scope="col" class="th">DECLARADO</th>
+                <th scope="col" class="th">FLETE</th>
+                <th scope="col" class="th">MANEJO</th>
+                <th scope="col" class="th"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for arGuia in arGuias %}
+                <tr>
+                    <th scope="row">{{ arGuia.codigoGuiaPk }}</th>
+                    <td>{{ arGuia.numero }}</td>
+                    <td>{{ arGuia.fechaIngreso | date('Y-m-d') }}</td>
+                    <td>{{ arGuia.clienteDocumento }}</td>
+                    <td>{{ arGuia.destinatarioNombre }}</td>
+                    <td>{{ arGuia.ciudadOrigen }}</td>
+                    <td>{{ arGuia.ciudadDestino }}</td>
+                    <td class="numero">{{ arGuia.unidades | number_format(0,'.',',') }}</td>
+                    <td class="numero">{{ arGuia.pesoFacturado | number_format(0,'.',',') }}</td>
+                    <td class="numero">{{ arGuia.vrDeclara | number_format(0,'.',',') }}</td>
+                    <td class="numero">{{ arGuia.vrFlete | number_format(0,'.',',') }}</td>
+                    <td class="numero">{{ arGuia.vrManejo | number_format(0,'.',',') }}</td>
+                    <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ arGuia.codigoGuiaPk }}"></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="row float-right" style="padding-right: 15px;">
+            {{ form_widget(form.btnGuardar) }}
+        </div>
+        <div class="btn-group" style="float: left;padding-top: 2px;">
+            <div class="btn btn-light btn-sm" style="border-style: solid!important;border-color: lightgray;">Registros
+                <span class="badge badge-secondary">{{ arGuias.getTotalItemCount }}
+            </span>
+            </div>
+        </div>
+        <div class="btn-group">
+            {{ knp_pagination_render(arGuias) }}
+        </div>
+    </div>
+    <style type="text/css">
+        .th {
+            font-size: 12px !important;
+        }
+
+        .numero {
+            text-align: right;
+        }
+    </style>
+    {{ form_end(form) }}
+{% endblock %}

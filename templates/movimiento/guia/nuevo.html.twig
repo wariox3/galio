@@ -43,6 +43,10 @@
                 <br>
                 <div class="row">
                     <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Destinatario:</label>
+                            {{ form_widget(form.destinatarioNombre) }}
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="input-group">
@@ -55,8 +59,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <label for="" class="col-sm-2 badge">Destinatario:</label>
-                            {{ form_widget(form.destinatarioNombre) }}
+                            <label for="" class="col-sm-2 badge">Dirección:</label>
+                            {{ form_widget(form.destinatarioDireccion) }}
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -70,8 +74,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <label for="" class="col-sm-2 badge">Dirección:</label>
-                            {{ form_widget(form.destinatarioDireccion) }}
+                            <label for="" class="col-sm-2 badge">Destino:</label>
+                            {{ form_widget(form.ciudadDestinoRel) }}
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -86,18 +90,19 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <label for="" class="col-sm-2 badge">Unidades:</label>
-                            {{ form_widget(form.unidades) }}
+                            <div class="col-sm-2" style="padding-left: 0px;">
+                                {{ form_widget(form.unidades) }}
+                            </div>
+                            <label for="" class="col-sm-2 badge">Peso:</label>
+                            <div class="col-sm-2" style="padding-left: 0px;">
+                                {{ form_widget(form.pesoReal) }}
+                            </div>
+                            <label for="" class="col-sm-2 badge">Volumen:</label>
+                            <div class="col-sm-2" style="padding-right: 0px;">
+                                {{ form_widget(form.pesoVolumen) }}
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <label for="" class="col-sm-2 badge">Destino:</label>
-                            {{ form_widget(form.ciudadDestinoRel) }}
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
                     <div class="col-sm-6">
                         <div class="input-group">
                             <label for="" class="col-sm-2 badge">Flete:</label>
@@ -111,19 +116,6 @@
                             <label for="" class="col-sm-2 badge">Declara:</label>
                             <div class="col-sm-2" style="padding-left: 0px;padding-right: 0px;">
                                 {{ form_widget(form.vrDeclara) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <label for="" class="col-sm-2 badge">Peso:</label>
-                            <div class="col-sm-3" style="padding-left: 0px;">
-                                {{ form_widget(form.pesoReal) }}
-                            </div>
-                            <label for="" class="col-sm-2"></label>
-                            <label for="" class="col-sm-2 badge">Volumen:</label>
-                            <div class="col-sm-3" style="padding-right: 0px;">
-                                {{ form_widget(form.pesoVolumen) }}
                             </div>
                         </div>
                     </div>
