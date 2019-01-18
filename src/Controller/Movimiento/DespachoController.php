@@ -5,6 +5,7 @@ namespace App\Controller\Movimiento;
 use App\Entity\TteDespacho;
 use App\Entity\TteGuia;
 use App\Form\Type\DespachoType;
+use App\Formato\Despacho;
 use App\Formato\Etiqueta;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -102,6 +103,10 @@ class DespachoController extends Controller
             if($form->get('btnImprimirEtiquetas')->isClicked()){
                 $objFormato = new Etiqueta();
                 $objFormato->Generar($em,'',$id);
+            }
+            if($form->get('btnImprimir')->isClicked()){
+                $objFormato = new Despacho();
+                $objFormato->Generar($em, $id);
             }
         }
         $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->despachoDetalles($id), $request->query->getInt('page', 1), 30);
