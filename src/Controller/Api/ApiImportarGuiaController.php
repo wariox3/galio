@@ -13,18 +13,19 @@ class ApiImportarGuiaController extends Controller
     /**
      * @param Request $request
      * @param int $codigoOperador
-     * @return JsonResponse
-     * @Rest\Get("/api/pendientes/guia/{codigoOperador}", name="api_pendientes_guia")
+     * @Rest\Post("/api/pendientes/guia/{codigoOperador}", name="api_pendientes_guia")
+     * @return mixed
      */
     public function pendientes(Request $request, $codigoOperador = 0)
     {
         $em = $this->getDoctrine()->getManager();
-        $arGuias = $em->getRepository(TteGuia::class)->pendiente($codigoOperador);
+        $arrDatos = json_decode($request->getContent(), true);
+        $arGuias = $em->getRepository(TteGuia::class)->pendiente($codigoOperador, $arrDatos);
         $respuesta = [];
-        if($arGuias){
+        if ($arGuias) {
             $respuesta = $arGuias;
         }
-        return $respuesta;
+        return new JsonResponse($respuesta);
     }
 
     /**

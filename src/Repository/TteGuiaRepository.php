@@ -75,13 +75,13 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
             ->where('g.codigoDespachoFk IS NULL');
-        if($session->get('filtroGuiaCodigo')){
+        if ($session->get('filtroGuiaCodigo')) {
             $qb->andWhere("g.codigoGuiaPk = {$session->get('filtroGuiaCodigo')}");
         }
-        if($session->get('filtroClienteDocumento')){
+        if ($session->get('filtroClienteDocumento')) {
             $qb->andWhere("g.clienteDocumento = '{$session->get('filtroClienteDocumento')}'");
         }
-        if($session->get('filtroGuiaNumero')){
+        if ($session->get('filtroGuiaNumero')) {
             $qb->andWhere("g.numero = {$session->get('filtroGuiaNumero')}");
         }
         return $qb;
@@ -91,9 +91,10 @@ class TteGuiaRepository extends ServiceEntityRepository
      * @param $codigoDespacho integer
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function despachoDetalles($codigoDespacho){
-        $qb = $this->_em->createQueryBuilder()->from(TteGuia::class,'g')
-            ->select   ('g.codigoGuiaPk')
+    public function despachoDetalles($codigoDespacho)
+    {
+        $qb = $this->_em->createQueryBuilder()->from(TteGuia::class, 'g')
+            ->select('g.codigoGuiaPk')
             ->addSelect('g.numero')
             ->addSelect('cd.nombre as ciudadDestino')
             ->addSelect('g.clienteDocumento')
@@ -103,19 +104,21 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->addSelect('g.vrDeclara')
             ->addSelect('g.vrFlete')
             ->addSelect('g.vrManejo')
-            ->leftJoin('g.ciudadDestinoRel','cd')
-            ->where('g.codigoDespachoFk = '.$codigoDespacho);
+            ->leftJoin('g.ciudadDestinoRel', 'cd')
+            ->where('g.codigoDespachoFk = ' . $codigoDespacho);
         return $qb;
 
     }
 
     /**
      * @param $codigoOperador
+     * @param $arrFiltros
      * @return mixed
      */
-    public function pendiente($codigoOperador){
+    public function pendiente($codigoOperador, $arrFiltros)
+    {
         $qb = $this->_em->createQueryBuilder()
-            ->from(TteGuia::class,'g')
+            ->from(TteGuia::class, 'g')
             ->select('g.codigoGuiaPk')
             ->addSelect('g.numero')
             ->addSelect('g.fechaIngreso')
@@ -136,21 +139,31 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
             ->leftJoin('g.empresaRel', 'e')
-            ->where('g.codigoOperadorFk ='.$codigoOperador)
+            ->where('g.codigoOperadorFk =' . $codigoOperador)
             ->andWhere('g.estadoImportado = 0');
+        if($arrFiltros['fechaDesde'] != ''){
+            $qb->andWhere("g.fechaIngreso >= '".$arrFiltros['fechaDesde']." 00:00:00'");
+        }
+        if($arrFiltros['fechaHasta'] != ''){
+            $qb->andWhere("g.fechaIngreso <= '".$arrFiltros['fechaHasta']." 23:59:59'");
+        }
+        if($arrFiltros['nit'] != ''){
+            $qb->andWhere("e.nit = '".$arrFiltros['nit']."'");
+        }
         return $qb->getQuery()->execute();
     }
 
-    public function exportarGuia($arrDatos){
+    public function exportarGuia($arrDatos)
+    {
         $respuesta = true;
         $qb = $this->_em->createQueryBuilder()
-            ->update(TteGuia::class,'g')
-            ->set('g.estadoImportado',1)
-            ->where('g.codigoOperadorFk ='.$arrDatos['codigoOperador'])
-            ->andWhere('g.numero IN ('.implode(',',$arrDatos['numeros']).')');
-        try{
+            ->update(TteGuia::class, 'g')
+            ->set('g.estadoImportado', 1)
+            ->where('g.codigoOperadorFk =' . $arrDatos['codigoOperador'])
+            ->andWhere('g.numero IN (' . implode(',', $arrDatos['numeros']) . ')');
+        try {
             $qb->getQuery()->getResult();
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $respuesta = false;
         }
         return $respuesta;
