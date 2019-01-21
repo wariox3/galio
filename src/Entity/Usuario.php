@@ -38,6 +38,11 @@ class Usuario implements UserInterface, \Serializable
     private $codigoOperadorFk;
 
     /**
+     * @ORM\Column(name="operacion", type="string",length=20, nullable=true)
+     */
+    private $operacion;
+
+    /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="usuariosEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
@@ -164,4 +169,19 @@ class Usuario implements UserInterface, \Serializable
         $this->empresaRel = $empresaRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getOperacion()
+    {
+        return $this->operacion;
+    }
+
+    /**
+     * @param mixed $operacion
+     */
+    public function setOperacion($operacion): void
+    {
+        $this->operacion = $operacion;
+    }
 }

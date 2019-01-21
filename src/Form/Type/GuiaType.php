@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\TteCiudad;
 use App\Entity\TteGuia;
+use App\Entity\TteGuiaTipo;
 use App\Entity\TteProducto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -39,6 +40,15 @@ class GuiaType extends AbstractType {
                 'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('c')
                         ->where("c.codigoOperadorFk = '{$user->getCodigoOperadorFk()}'")
+                        ->orderBy('c.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control']
+            ))
+            ->add('guiaTipoRel', EntityType::class, array(
+                'class' => TteGuiaTipo::class,
+                'query_builder' => function (EntityRepository $er) use ($user) {
+                    return $er->createQueryBuilder('c')
                         ->orderBy('c.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',

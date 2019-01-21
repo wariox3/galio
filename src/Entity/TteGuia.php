@@ -4,7 +4,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TteGuiaRepository")
@@ -32,6 +31,11 @@ class TteGuia
      * @ORM\Column(name="codigo_empresa_fk", type="integer", nullable=true)
      */
     private $codigoEmpresaFk;
+
+    /**
+     * @ORM\Column(name="codigo_operador_fk", type="string",length=20, nullable=true)
+     */
+    private $codigoOperadorFk;
 
     /**
      * @ORM\Column(name="codigo_despacho_fk", type="integer", nullable=true)
@@ -159,6 +163,16 @@ class TteGuia
     private $usuario;
 
     /**
+     * @ORM\Column(name="operacion", type="string", length=20, nullable=true)
+     */
+    private $operacion;
+
+    /**
+     * @ORM\Column(name="estado_importado", type="boolean",options={"default":false}, nullable=true)
+     */
+    private $estadoImportado = false;
+
+    /**
      * @ORM\Column(name="comentario", type="string", length=2000, nullable=true)
      */
     private $comentario;
@@ -198,6 +212,12 @@ class TteGuia
      * @ORM\JoinColumn(name="codigo_despacho_fk", referencedColumnName="codigo_despacho_pk")
      */
     protected $despachoRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TteGuiaTipo", inversedBy="guiasGuiaTipoRel")
+     * @ORM\JoinColumn(name="codigo_guia_tipo_fk", referencedColumnName="codigo_guia_tipo_pk")
+     */
+    protected $guiaTipoRel;
 
     /**
      * @return mixed
@@ -261,6 +281,22 @@ class TteGuia
     public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
         $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoOperadorFk()
+    {
+        return $this->codigoOperadorFk;
+    }
+
+    /**
+     * @param mixed $codigoOperadorFk
+     */
+    public function setCodigoOperadorFk($codigoOperadorFk): void
+    {
+        $this->codigoOperadorFk = $codigoOperadorFk;
     }
 
     /**
@@ -666,6 +702,38 @@ class TteGuia
     /**
      * @return mixed
      */
+    public function getOperacion()
+    {
+        return $this->operacion;
+    }
+
+    /**
+     * @param mixed $operacion
+     */
+    public function setOperacion($operacion): void
+    {
+        $this->operacion = $operacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoImportado()
+    {
+        return $this->estadoImportado;
+    }
+
+    /**
+     * @param mixed $estadoImportado
+     */
+    public function setEstadoImportado($estadoImportado): void
+    {
+        $this->estadoImportado = $estadoImportado;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getComentario()
     {
         return $this->comentario;
@@ -773,5 +841,21 @@ class TteGuia
     public function setDespachoRel($despachoRel): void
     {
         $this->despachoRel = $despachoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGuiaTipoRel()
+    {
+        return $this->guiaTipoRel;
+    }
+
+    /**
+     * @param mixed $guiaTipoRel
+     */
+    public function setGuiaTipoRel($guiaTipoRel): void
+    {
+        $this->guiaTipoRel = $guiaTipoRel;
     }
 }

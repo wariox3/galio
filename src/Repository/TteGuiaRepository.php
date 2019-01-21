@@ -6,6 +6,7 @@ use App\Entity\TteEmpresa;
 use App\Entity\TteGuia;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class TteGuiaRepository extends ServiceEntityRepository
@@ -106,5 +107,52 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->where('g.codigoDespachoFk = '.$codigoDespacho);
         return $qb;
 
+    }
+
+    /**
+     * @param $codigoOperador
+     * @return mixed
+     */
+    public function pendiente($codigoOperador){
+        $qb = $this->_em->createQueryBuilder()
+            ->from(TteGuia::class,'g')
+            ->select('g.codigoGuiaPk')
+            ->addSelect('g.numero')
+            ->addSelect('g.fechaIngreso')
+            ->addSelect('g.clienteDocumento')
+            ->addSelect('e.nit')
+            ->addSelect('g.destinatarioNombre')
+            ->addSelect('co.nombre as ciudadOrigen')
+            ->addSelect('cd.nombre as ciudadDestino')
+            ->addSelect('g.codigoCiudadOrigenFk')
+            ->addSelect('g.codigoCiudadDestinoFk')
+            ->addSelect('g.unidades')
+            ->addSelect('g.codigoGuiaTipoFk')
+            ->addSelect('g.operacion')
+            ->addSelect('g.pesoFacturado')
+            ->addSelect('g.vrDeclara')
+            ->addSelect('g.vrFlete')
+            ->addSelect('g.vrManejo')
+            ->leftJoin('g.ciudadDestinoRel', 'cd')
+            ->leftJoin('g.ciudadOrigenRel', 'co')
+            ->leftJoin('g.empresaRel', 'e')
+            ->where('g.codigoOperadorFk ='.$codigoOperador)
+            ->andWhere('g.estadoImportado = 0');
+        return $qb->getQuery()->execute();
+    }
+
+    public function exportarGuia($arrDatos){
+        $respuesta = true;
+        $qb = $this->_em->createQueryBuilder()
+            ->update(TteGuia::class,'g')
+            ->set('g.estadoImportado',1)
+            ->where('g.codigoOperadorFk ='.$arrDatos['codigoOperador'])
+            ->andWhere('g.numero IN ('.implode(',',$arrDatos['numeros']).')');
+        try{
+            $qb->getQuery()->getResult();
+        } catch (\Exception $exception){
+            $respuesta = false;
+        }
+        return $respuesta;
     }
 }

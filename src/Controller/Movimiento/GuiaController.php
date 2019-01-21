@@ -83,6 +83,7 @@ class GuiaController extends Controller
                 $pesoFacturar = $arGuia->getPesoVolumen();
             }
             $arGuia->setPesoFacturado($pesoFacturar);
+            $arGuia->setOperacion($arUsuario->getOperacion());
             $flete = 0;
             if ($pesoFacturar > 0) {
                 $arConfiguracion = $em->find(GenConfiguracion::class, 1);
