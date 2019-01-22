@@ -15,7 +15,11 @@
                     <div id="errormessage"></div>
                     {{ form_start(form, { 'attr': {'class': 'contactForm'} }) }}
                     <div class="form-group">
-                        {{ form_widget(form.TxtGuia, { 'attr': {'class': 'form-control', 'placeholder':"Digite la guia"} }) }}
+                        {{ form_widget(form.txtGuia, { 'attr': {'class': 'form-control', 'placeholder':"Digite la guia"} }) }}
+                        <div class="validation"></div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(form.txtDocumento, { 'attr': {'class': 'form-control', 'placeholder':"Digite el documento"} }) }}
                         <div class="validation"></div>
                     </div>
 

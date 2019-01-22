@@ -14,21 +14,29 @@ class ConsultaGuiaController extends Controller
     */    
     public function consulta(Request $request, $operador)
     {
-        $em = $this->getDoctrine()->getManager();
+//        $em = $this->getDoctrine()->getManager();
         $arrEstados = array();
         $form = $this->createFormBuilder()
-            ->add('TxtGuia', TextType::class)
+            ->add('txtGuia', TextType::class,['required'=> false])
+            ->add('txtDocumento', TextType::class,['required'=> false])
             ->add('BtnBuscar', SubmitType::class, array('label' => 'Buscar'))
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('BtnBuscar')->isClicked()) {
-                $guia = $form->get('TxtGuia')->getData();
-                if($guia) {
+                $guia = $form->get('txtGuia')->getData();
+                $documento = $form->get('txtDocumento')->getData();
+                if($guia || $documento) {
+                    $url = '';
                     //$direccion = "http://159.65.52.53/cesio/public/index.php";
                     $direccion = "http://localhost/cesio/public/index.php";
+                    if($guia){
+                        $url = $direccion . "/api/localizador/guia/estado/{$operador}/{$guia}/0";
+                    } elseif($documento){
+                        $url = $direccion . "/api/localizador/guia/estado/{$operador}/0/{$documento}";
+                    }
                     $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $direccion . "/api/localizador/guia/estado/" . $operador . "/" . $guia);
+                    curl_setopt($ch, CURLOPT_URL, $url);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json')); // Assuming you're requesting JSON
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                     $response = curl_exec($ch);
