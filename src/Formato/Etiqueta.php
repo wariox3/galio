@@ -35,7 +35,7 @@ class Etiqueta extends \FPDF
         $pdf->SetFont('Times', '', 12);
         $this->Body($pdf);
         $nombre = $codigoDespacho != '' ? 'EtiquetasDespacho' . $codigoDespacho . '.pdf' : 'EtiquetasGuia' . $codigoGuia . '.pdf';
-        $pdf->Output($nombre, 'I');
+        $pdf->Output($nombre, 'D');
     }
 
     public function Header()
