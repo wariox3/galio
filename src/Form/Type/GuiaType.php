@@ -61,7 +61,7 @@ class GuiaType extends AbstractType {
             ->add('destinatarioDireccion', TextType::class,['attr' => ['class' => 'form-control']])
             ->add('destinatarioIdentificacion', TextType::class,['attr' => ['class' => 'form-control']])
             ->add('productoReferencia', TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
-            ->add('unidades', NumberType::class,['attr' => ['class' => 'form-control']])
+            ->add('unidades', NumberType::class,['attr' => ['class' => 'form-control',],'required' => false])
             ->add('pesoReal', NumberType::class,['attr' => ['class' => 'form-control']])
             ->add('pesoVolumen', NumberType::class,['attr' => ['class' => 'form-control']])
             ->add('vrDeclara', NumberType::class,['attr' => ['class' => 'form-control']])

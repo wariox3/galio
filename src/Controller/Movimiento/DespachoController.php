@@ -99,12 +99,25 @@ class DespachoController extends Controller
             ->add('btnDetalleEliminar', SubmitType::class, $arrBotonDetalleEliminar)
             ->getForm();
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            if($form->get('btnImprimirEtiquetas')->isClicked()){
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnImprimirEtiquetas')->isClicked()) {
                 $objFormato = new Etiqueta();
-                $objFormato->Generar($em,'',$id);
+                $objFormato->Generar($em, '', $id);
             }
-            if($form->get('btnImprimir')->isClicked()){
+            if ($form->get('btnDetalleEliminar')->isClicked()) {
+                $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                foreach ($arrSeleccionados as $codigoGuia) {
+                    $arGuia = $em->find(TteGuia::class, $codigoGuia);
+                    if($arGuia){
+                        $arGuia->setCodigoDespachoFk(null);
+                        $arGuia->setDespachoRel(null);
+                        $em->persist($arGuia);
+                    }
+                }
+                $em->flush();
+                return $this->redirect($this->generateUrl('movimiento_despacho_detalle',['id' => $id]));
+            }
+            if ($form->get('btnImprimir')->isClicked()) {
                 $objFormato = new Despacho();
                 $objFormato->Generar($em, $id);
             }
