@@ -38,7 +38,7 @@ class TteCiudad
     private $codigoCiudadOperadorFk;
 
     /**
-     * @ORM\Column(name="codigo_interface", type="string", length=5, nullable=true)
+     * @ORM\Column(name="codigo_interface", type="string", length=20, nullable=true)
      */
     private $codigoInterface;
 
