@@ -89,7 +89,7 @@ class GuiaController extends Controller
             $flete = 0;
             if ($pesoFacturar > 0) {
                 $arConfiguracion = $em->find(GenConfiguracion::class, 1);
-                $ch = curl_init($arConfiguracion->getUrlCesio() . 'api/precio/calcular/' . $arGuia->getCiudadOrigenRel()->getCodigoCiudadPk() . '/' . $arGuia->getCiudadDestinoRel()->getCodigoCiudadPk() . '/' . $arGuia->getProductoRel()->getCodigoProductoPk() . '/' . $arGuia->getPesoFacturado() . '/' . $arUsuario->getCodigoOperadorFk() . '/' . $arGuia->getEmpresaRel()->getListaPrecio());
+                $ch = curl_init($arConfiguracion->getUrlCesio() . 'api/precio/calcular/' . $arGuia->getCiudadOrigenRel()->getCodigoCiudadOperadorFk() . '/' . $arGuia->getCiudadDestinoRel()->getCodigoCiudadOperadorFk() . '/' . $arGuia->getProductoRel()->getCodigoProductoPk() . '/' . $arGuia->getPesoFacturado() . '/' . $arUsuario->getCodigoOperadorFk() . '/' . $arGuia->getEmpresaRel()->getListaPrecio());
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $flete = json_decode(curl_exec($ch));
