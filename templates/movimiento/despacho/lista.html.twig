@@ -55,7 +55,7 @@
                     <td style="text-align: right;">{{ arDespacho.unidades }}</td>
                     <td style="text-align: right;">{{ arDespacho.peso }}</td>
                     <td style="text-align: right;">{{ arDespacho.vrDeclara | number_format(0,'.',',') }}</td>
-                    <td style="text-align: center;width: 10%;"><a href="Javascript:abrirVentana3('{{ path('movimiento_despacho_nuevo',{'id' : arDespacho.codigoDespachoPk }) }}','agregarGuia',600,1200)" class="btn btn-sm btn-secondary">Agregar</a></td>
+                    <td style="text-align: center;width: 10%;"><a href="Javascript:abrirVentana3('{{ path('movimiento_despacho_guia', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}','agregarGuia',600,1200)" class="btn btn-sm btn-secondary">Agregar</a></td>
                     <td style="text-align: center;"><a href="{{ path('movimiento_despacho_detalle',{'id' : arDespacho.codigoDespachoPk }) }}" style="color: black;"><i class="fa fa-share-square-o" style="font-size: large"></i></a></td>
                 </tr>
             {% endfor %}
