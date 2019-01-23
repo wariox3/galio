@@ -32,6 +32,11 @@ class TteCiudad
     private $codigoOperadorFk;
 
     /**
+     * @ORM\Column(name="codigo_interface", type="string", length=5, nullable=true)
+     */
+    private $codigoInterface;
+
+    /**
      * @ORM\ManyToOne(targetEntity="TteDepartamento", inversedBy="ciudadesDepartamentoRel")
      * @ORM\JoinColumn(name="codigo_departamento_fk", referencedColumnName="codigo_departamento_pk")
      */
@@ -119,6 +124,22 @@ class TteCiudad
     /**
      * @return mixed
      */
+    public function getCodigoInterface()
+    {
+        return $this->codigoInterface;
+    }
+
+    /**
+     * @param mixed $codigoInterface
+     */
+    public function setCodigoInterface($codigoInterface): void
+    {
+        $this->codigoInterface = $codigoInterface;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getDepartamentoRel()
     {
         return $this->departamentoRel;
@@ -179,6 +200,5 @@ class TteCiudad
     {
         $this->guiasCiudadesDestinosCiudadRel = $guiasCiudadesDestinosCiudadRel;
     }
-
 }
 
