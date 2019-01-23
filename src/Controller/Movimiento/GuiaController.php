@@ -29,7 +29,7 @@ class GuiaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginador = $this->container->get('knp_paginator');
         $form = $this->createFormBuilder()
-            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger float-right']])
+//            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger float-right']])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

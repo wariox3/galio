@@ -37,7 +37,9 @@ class EmpresaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arEmpresa = new TteEmpresa();
         if ($id != 0) {
-            $arEmpresa  = $em->find(TteEmpresa::class, $id);
+            $arEmpresa = $em->find(TteEmpresa::class, $id);
+        } else {
+            $arEmpresa->setConsecutivoGuia(1);
         }
         $form = $this->createForm(EmpresaType::class, $arEmpresa);
         $form->handleRequest($request);
