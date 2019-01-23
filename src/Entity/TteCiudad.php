@@ -12,7 +12,8 @@ class TteCiudad
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_ciudad_pk", type="string", length=20, nullable=false, unique=true)
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="codigo_ciudad_pk", type="integer", nullable=false, unique=true)
      */
     private $codigoCiudadPk;
 
@@ -22,7 +23,7 @@ class TteCiudad
     private $nombre;
 
     /**
-     * @ORM\Column(name="codigo_departamento_fk", type="string", length=2, nullable=true)
+     * @ORM\Column(name="codigo_departamento_fk", type="integer", nullable=true)
      */
     private $codigoDepartamentoFk;
 
@@ -30,6 +31,11 @@ class TteCiudad
      * @ORM\Column(name="codigo_operador_fk", type="string", length=20, nullable=true)
      */
     private $codigoOperadorFk;
+
+    /**
+     * @ORM\Column(name="codigo_ciudad_operador_fk", type="string", length=20, nullable=true)
+     */
+    private $codigoCiudadOperadorFk;
 
     /**
      * @ORM\Column(name="codigo_interface", type="string", length=5, nullable=true)
@@ -119,6 +125,22 @@ class TteCiudad
     public function setCodigoOperadorFk($codigoOperadorFk): void
     {
         $this->codigoOperadorFk = $codigoOperadorFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCiudadOperadorFk()
+    {
+        return $this->codigoCiudadOperadorFk;
+    }
+
+    /**
+     * @param mixed $codigoCiudadOperadorFk
+     */
+    public function setCodigoCiudadOperadorFk($codigoCiudadOperadorFk): void
+    {
+        $this->codigoCiudadOperadorFk = $codigoCiudadOperadorFk;
     }
 
     /**

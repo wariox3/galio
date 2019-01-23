@@ -12,7 +12,8 @@ class TteDepartamento
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_departamento_pk", type="string", length=2)
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="codigo_departamento_pk", type="integer")
      */
     private $codigoDepartamentoPk;
 

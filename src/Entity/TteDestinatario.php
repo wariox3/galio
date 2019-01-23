@@ -22,7 +22,7 @@ class TteDestinatario
     private $codigoEmpresaFk;
 
     /**
-     * @ORM\Column(name="codigo_ciudad_fk", type="string",length=20, nullable=true)
+     * @ORM\Column(name="codigo_ciudad_fk", type="integer", nullable=true)
      */
     private $codigoCiudadFk;
 
@@ -412,6 +412,4 @@ class TteDestinatario
     {
         $this->guiasDestinatarioRel = $guiasDestinatarioRel;
     }
-
-
 }

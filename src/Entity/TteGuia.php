@@ -48,12 +48,12 @@ class TteGuia
     private $codigoDestinatarioFk;
 
     /**
-     * @ORM\Column(name="codigo_ciudad_origen_fk", type="string", length=20, nullable=true)
+     * @ORM\Column(name="codigo_ciudad_origen_fk", type="integer", nullable=true)
      */
     private $codigoCiudadOrigenFk;
 
     /**
-     * @ORM\Column(name="codigo_ciudad_destino_fk", type="string", length=20, nullable=true)
+     * @ORM\Column(name="codigo_ciudad_destino_fk", type="integer" , nullable=true)
      */
     private $codigoCiudadDestinoFk;
 
