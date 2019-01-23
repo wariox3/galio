@@ -42,7 +42,7 @@ class ProductoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $arProducto = new TteProducto();
-        if ($id != '') {
+        if ($id != '0') {
             $arProducto = $em->find(TteProducto::class, $id);
         }
         $form = $this->createForm(ProductoType::class, $arProducto);
