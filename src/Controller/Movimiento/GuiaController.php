@@ -4,6 +4,7 @@ namespace App\Controller\Movimiento;
 
 use App\Entity\GenConfiguracion;
 use App\Entity\TteCiudad;
+use App\Entity\TteDestinatario;
 use App\Entity\TteGuia;
 use App\Entity\Usuario;
 use App\Form\Type\GuiaType;
@@ -72,6 +73,7 @@ class GuiaController extends Controller
             $arUsuario = $this->getUser();
             $arCiudadOrigen = $em->getRepository(TteCiudad::class)->find($arUsuario->getCodigoCiudadFk());
             $arGuia->setCiudadOrigenRel($arCiudadOrigen);
+            $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
             $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getVrDeclara() / 100;
             if ($arGuia->getEmpresaRel()->getManejoMinimoDespacho() > $manejo) {
                 $manejo = $arGuia->getEmpresaRel()->getManejoMinimoDespacho();
