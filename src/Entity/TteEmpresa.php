@@ -45,6 +45,11 @@ class TteEmpresa
      * @ORM\Column(name="consecutivo_guia", type="integer")
      */
     private $consecutivoGuia = 0;
+
+    /**
+     * @ORM\Column(name="consecutivo_guia_hasta", type="integer")
+     */
+    private $consecutivoGuiaHasta = 0;
     
     /**
      * @ORM\Column(name="porcentaje_manejo", type="float")
@@ -186,6 +191,22 @@ class TteEmpresa
     public function setConsecutivoGuia($consecutivoGuia): void
     {
         $this->consecutivoGuia = $consecutivoGuia;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConsecutivoGuiaHasta()
+    {
+        return $this->consecutivoGuiaHasta;
+    }
+
+    /**
+     * @param mixed $consecutivoGuiaHasta
+     */
+    public function setConsecutivoGuiaHasta($consecutivoGuiaHasta): void
+    {
+        $this->consecutivoGuiaHasta = $consecutivoGuiaHasta;
     }
 
     /**

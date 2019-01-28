@@ -2,9 +2,11 @@
 
 namespace App\Controller\Movimiento;
 
+use App\Controller\Mensajes;
 use App\Entity\GenConfiguracion;
 use App\Entity\TteCiudad;
 use App\Entity\TteDestinatario;
+use App\Entity\TteEmpresa;
 use App\Entity\TteGuia;
 use App\Entity\Usuario;
 use App\Form\Type\GuiaType;
@@ -67,7 +69,20 @@ class GuiaController extends Controller
         }
         $form = $this->createForm(GuiaType::class, $arGuia);
         $form->handleRequest($request);
-
+        /** @var  $arEmpresa TteEmpresa */
+        $arEmpresa = $this->getUser()->getEmpresaRel();
+        if ($arEmpresa->getConsecutivoGuiaHasta()) {
+            if (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 0) {
+                Mensajes::error("Ya no tiene mas consecutivos, no puede crear mas guias, por favor solicitar mas remesas a sistemas@cotrascalsas.com");
+                return $this->redirect($this->generateUrl('movimiento_guia_lista'));
+            } elseif (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 50) {
+                Mensajes::error("Por favor solicitar mas remesas a sistemas@cotrascalsas.com");
+                return $this->redirect($this->generateUrl('movimiento_guia_lista'));
+            }
+        } else {
+            Mensajes::error('Por favor contactar a sistemas@cotrascalsas.com y solicitar la configuracion del "consecutivo hasta" de las guias para su empresa');
+            return $this->redirect($this->generateUrl('movimiento_guia_lista'));
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var  $arUsuario Usuario */
             $arUsuario = $this->getUser();

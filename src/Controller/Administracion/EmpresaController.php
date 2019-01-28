@@ -40,6 +40,7 @@ class EmpresaController extends Controller
             $arEmpresa = $em->find(TteEmpresa::class, $id);
         } else {
             $arEmpresa->setConsecutivoGuia(1);
+            $arEmpresa->setConsecutivoGuiaHasta(100);
         }
         $form = $this->createForm(EmpresaType::class, $arEmpresa);
         $form->handleRequest($request);
