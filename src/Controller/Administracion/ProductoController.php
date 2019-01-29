@@ -2,6 +2,7 @@
 
 namespace App\Controller\Administracion;
 
+use App\Controller\Mensajes;
 use App\Entity\TtePrecio;
 use App\Entity\TteProducto;
 use App\Form\Type\PrecioType;
@@ -19,6 +20,10 @@ class ProductoController extends Controller
      */
     public function lista(Request $request)
     {
+        if(!$this->getUser()->getAdmin()){
+            Mensajes::error('Permiso denegado');
+            return $this->render('error.html.twig');
+        }
         $em = $this->getDoctrine()->getManager();
         $paginador = $this->container->get('knp_paginator');
         $form = $this->createFormBuilder()

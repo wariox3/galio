@@ -23,6 +23,11 @@ class Usuario implements UserInterface, \Serializable
     private $password;
 
     /**
+     * @ORM\Column(name="admin", type="boolean", options={"default":false} ,nullable=true)
+     */
+    private $admin = false;
+
+    /**
      * @ORM\Column(name="codigo_empresa_fk", type="integer", nullable=true)
      */
     private $codigoEmpresaFk;
@@ -151,6 +156,22 @@ class Usuario implements UserInterface, \Serializable
     public function setCodigoOperadorFk($codigoOperadorFk): void
     {
         $this->codigoOperadorFk = $codigoOperadorFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * @param mixed $admin
+     */
+    public function setAdmin($admin): void
+    {
+        $this->admin = $admin;
     }
 
     /**

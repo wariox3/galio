@@ -2,6 +2,7 @@
 
 namespace App\Controller\Administracion;
 
+use App\Controller\Mensajes;
 use App\Entity\TteDestinatario;
 use App\Entity\TteEmpresa;
 use App\Form\Type\EmpresaType;
@@ -18,6 +19,10 @@ class EmpresaController extends Controller
      */
     public function lista(Request $request)
     {
+        if(!$this->getUser()->getAdmin()){
+            Mensajes::error('Permiso denegado');
+            return $this->render('error.html.twig');
+        }
         $em = $this->getDoctrine()->getManager();
         $paginador = $this->container->get('knp_paginator');
         $arEmpresas = $paginador->paginate($em->getRepository(TteEmpresa::class)->lista(), $request->query->getInt('page', 1), 30);
