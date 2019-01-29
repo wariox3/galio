@@ -41,7 +41,7 @@ class GuiaController extends Controller
                 $objDespacho->Generar($em, $codigoGuia);
             }
         }
-        $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->lista($this->getUser()), $request->query->getInt('page', 1), 30);
         return $this->render('movimiento/guia/lista.html.twig', [
             'form' => $form->createView(),
             'arGuias' => $arGuias
@@ -87,6 +87,7 @@ class GuiaController extends Controller
             /** @var  $arUsuario Usuario */
             $arUsuario = $this->getUser();
             $arCiudadOrigen = $em->getRepository(TteCiudad::class)->find($arUsuario->getCodigoCiudadFk());
+            $arGuia->setUsuario($arUsuario->getUsername());
             $arGuia->setCiudadOrigenRel($arCiudadOrigen);
             $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
             $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getVrDeclara() / 100;

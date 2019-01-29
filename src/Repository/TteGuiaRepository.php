@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\TteEmpresa;
 use App\Entity\TteGuia;
+use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,7 +34,11 @@ class TteGuiaRepository extends ServiceEntityRepository
         return $consecutivo;
     }
 
-    public function lista()
+    /**
+     * @param $usuario Usuario
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function lista($usuario)
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('g.codigoGuiaPk')
@@ -52,6 +57,9 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
             ->where('g.codigoGuiaPk <> 0');
+        if(!$usuario->getAdmin()) {
+            $qb->andWhere('g.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
+        }
         return $qb;
     }
 
@@ -141,14 +149,14 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->leftJoin('g.empresaRel', 'e')
             ->where('g.codigoOperadorFk =' . $codigoOperador)
             ->andWhere('g.estadoImportado = 0');
-        if($arrFiltros['fechaDesde'] != ''){
-            $qb->andWhere("g.fechaIngreso >= '".$arrFiltros['fechaDesde']." 00:00:00'");
+        if ($arrFiltros['fechaDesde'] != '') {
+            $qb->andWhere("g.fechaIngreso >= '" . $arrFiltros['fechaDesde'] . " 00:00:00'");
         }
-        if($arrFiltros['fechaHasta'] != ''){
-            $qb->andWhere("g.fechaIngreso <= '".$arrFiltros['fechaHasta']." 23:59:59'");
+        if ($arrFiltros['fechaHasta'] != '') {
+            $qb->andWhere("g.fechaIngreso <= '" . $arrFiltros['fechaHasta'] . " 23:59:59'");
         }
-        if($arrFiltros['nit'] != ''){
-            $qb->andWhere("e.nit = '".$arrFiltros['nit']."'");
+        if ($arrFiltros['nit'] != '') {
+            $qb->andWhere("e.nit = '" . $arrFiltros['nit'] . "'");
         }
         return $qb->getQuery()->execute();
     }
