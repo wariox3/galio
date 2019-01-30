@@ -24,10 +24,6 @@ class DestinatarioController extends Controller
      */
     public function lista(Request $request)
     {
-        if(!$this->getUser()->getAdmin()){
-            Mensajes::error('Permiso denegado');
-            return $this->render('error.html.twig');
-        }
         $em = $this->getDoctrine()->getManager();
         $paginador = $this->container->get('knp_paginator');
         $form = $this->createFormBuilder()

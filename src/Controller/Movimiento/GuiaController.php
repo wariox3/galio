@@ -45,7 +45,7 @@ class GuiaController extends Controller
                 $objDespacho = new Etiqueta();
                 $objDespacho->Generar($em, $codigoGuia);
             }
-            if($form->get('btnFiltrar')->isClicked()){
+            if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroGuiaFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
                 $session->set('filtroGuiaFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
             }
@@ -78,19 +78,21 @@ class GuiaController extends Controller
         }
         $form = $this->createForm(GuiaType::class, $arGuia);
         $form->handleRequest($request);
-        /** @var  $arEmpresa TteEmpresa */
-        $arEmpresa = $this->getUser()->getEmpresaRel();
-        if ($arEmpresa->getConsecutivoGuiaHasta()) {
-            if (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 0) {
-                Mensajes::error("Ya no tiene mas consecutivos, no puede crear mas guias, por favor solicitar mas remesas a sistemas@cotrascalsas.com");
-                return $this->redirect($this->generateUrl('movimiento_guia_lista'));
-            } elseif (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 50) {
-                Mensajes::error("Por favor solicitar mas remesas a sistemas@cotrascalsas.com");
+        if (!$this->getUser()->getAdmin()) {
+            /** @var  $arEmpresa TteEmpresa */
+            $arEmpresa = $this->getUser()->getEmpresaRel();
+            if ($arEmpresa->getConsecutivoGuiaHasta()) {
+                if (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 0) {
+                    Mensajes::error("Ya no tiene mas consecutivos, no puede crear mas guias, por favor solicitar mas remesas a sistemas@cotrascalsas.com");
+                    return $this->redirect($this->generateUrl('movimiento_guia_lista'));
+                } elseif (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 50) {
+                    Mensajes::error("Por favor solicitar mas remesas a sistemas@cotrascalsas.com");
+                    return $this->redirect($this->generateUrl('movimiento_guia_lista'));
+                }
+            } else {
+                Mensajes::error('Por favor contactar a sistemas@cotrascalsas.com y solicitar la configuracion del "consecutivo hasta" de las guias para su empresa');
                 return $this->redirect($this->generateUrl('movimiento_guia_lista'));
             }
-        } else {
-            Mensajes::error('Por favor contactar a sistemas@cotrascalsas.com y solicitar la configuracion del "consecutivo hasta" de las guias para su empresa');
-            return $this->redirect($this->generateUrl('movimiento_guia_lista'));
         }
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var  $arUsuario Usuario */
