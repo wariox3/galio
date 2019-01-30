@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Controller\Mensajes;
 use App\Entity\TteDestinatario;
+use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -15,7 +16,11 @@ class TteDestinatarioRepository extends ServiceEntityRepository
         parent::__construct($registry, TteDestinatario::class);
     }
 
-    public function lista()
+    /**
+     * @param $usuario Usuario
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function lista($usuario)
     {
         $em = $this->_em;
         $qb = $em->createQueryBuilder()
@@ -29,7 +34,8 @@ class TteDestinatarioRepository extends ServiceEntityRepository
             ->addSelect('d.direccion')
             ->addSelect('c.nombre AS ciudadNombre')
             ->addSelect('d.telefono')
-            ->where('d.codigoDestinatarioPk <> 0');
+            ->where('d.codigoDestinatarioPk <> 0')
+            ->andWhere('d.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
         return $qb;
     }
 

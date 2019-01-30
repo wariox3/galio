@@ -24,6 +24,7 @@ class DestinatarioController extends Controller
      */
     public function lista(Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
         $paginador = $this->container->get('knp_paginator');
         $form = $this->createFormBuilder()
@@ -39,7 +40,7 @@ class DestinatarioController extends Controller
             }
             return $this->redirect($this->generateUrl('administracion_destinatario_lista'));
         }
-        $arDestinatarios = $paginador->paginate($em->getRepository(TteDestinatario::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arDestinatarios = $paginador->paginate($em->getRepository(TteDestinatario::class)->lista($this->getUser()), $request->query->getInt('page', 1), 30);
         return $this->render('administracion/destinatario/lista.html.twig', [
             'arDestinatarios' => $arDestinatarios,
             'form' => $form->createView()
