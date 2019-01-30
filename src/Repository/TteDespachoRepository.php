@@ -29,8 +29,10 @@ class TteDespachoRepository extends ServiceEntityRepository
             ->addSelect('d.peso')
             ->addSelect('d.vrDeclara')
             ->from(TteDespacho::class,'d')
-            ->where('d.codigoDespachoPk <> 0')
-            ->andWhere('d.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
+            ->where('d.codigoDespachoPk <> 0');
+        if(!$usuario->getAdmin()) {
+            $qb->andWhere('d.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
+        }
         if($session->get('filtroDespachoFechaDesde')){
             $qb->andWhere("d.fecha >= '{$session->get('filtroDespachoFechaDesde')}'");
         }
@@ -40,4 +42,3 @@ class TteDespachoRepository extends ServiceEntityRepository
         return $qb;
     }
 }
-

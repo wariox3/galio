@@ -40,6 +40,7 @@ class TteGuiaRepository extends ServiceEntityRepository
      */
     public function lista($usuario)
     {
+        $session = new Session();
         $qb = $this->_em->createQueryBuilder()
             ->select('g.codigoGuiaPk')
             ->addSelect('g.numero')
@@ -59,6 +60,12 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->where('g.codigoGuiaPk <> 0');
         if(!$usuario->getAdmin()) {
             $qb->andWhere('g.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
+        }
+        if($session->get('filtroGuiaFechaDesde')){
+            $qb->andWhere("g.fecha >= '{$session->get('filtroGuiaFechaDesde')} 00:00:00'");
+        }
+        if($session->get('filtroGuiaFechaHasta')){
+            $qb->andWhere("g.fecha <= '{$session->get('filtroGuiaFechaHasta')} 23:59:59'");
         }
         return $qb;
     }

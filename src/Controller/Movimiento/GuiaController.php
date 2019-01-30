@@ -11,8 +11,10 @@ use App\Entity\TteGuia;
 use App\Entity\Usuario;
 use App\Form\Type\GuiaType;
 use App\Formato\Etiqueta;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -29,9 +31,12 @@ class GuiaController extends Controller
     public function lista(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $session = new Session();
         $paginador = $this->container->get('knp_paginator');
         $form = $this->createFormBuilder()
-//            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger float-right']])
+            ->add('fechaDesde', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date form-control',], 'data' => $session->get('filtroGuiaFechaDesde') ? date_create($session->get('filtroGuiaFechaDesde')) : null, 'required' => false])
+            ->add('fechaHasta', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date form-control',], 'data' => $session->get('filtroGuiaFechaHasta') ? date_create($session->get('filtroGuiaFechaHasta')) : null, 'required' => false])
+            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-secondary']])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -39,6 +44,10 @@ class GuiaController extends Controller
                 $codigoGuia = $request->request->get('OpImprimirEtiqueta');
                 $objDespacho = new Etiqueta();
                 $objDespacho->Generar($em, $codigoGuia);
+            }
+            if($form->get('btnFiltrar')->isClicked()){
+                $session->set('filtroGuiaFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
+                $session->set('filtroGuiaFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
             }
         }
         $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->lista($this->getUser()), $request->query->getInt('page', 1), 30);

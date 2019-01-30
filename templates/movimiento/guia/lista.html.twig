@@ -2,6 +2,37 @@
 {% block content %}
     {{ form_start(form) }}
     <div class="content mt-3">
+        <div class="card">
+            <div class="card-header">
+                Filtros
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-1" style="padding-top: 12px;">Desde:</label>
+                            {{ form_widget(form.fechaDesde) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-1" style="padding-top: 12px;">Hasta:</label>
+                            {{ form_widget(form.fechaHasta) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row float-right">
+                    <div class="input-group" style="padding-right: 5px;">
+                        {{ form_widget(form.btnFiltrar) }}
+                    </div>
+                </div>
+            </div>
+        </div>
         <table class="table table-bordered">
             <thead>
             <tr>
