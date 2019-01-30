@@ -6,12 +6,6 @@ use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
- * @method Usuario|null find($id, $lockMode = null, $lockVersion = null)
- * @method Usuario|null findOneBy(array $criteria, array $orderBy = null)
- * @method Usuario[]    findAll()
- * @method Usuario[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class UsuarioRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
@@ -19,32 +13,17 @@ class UsuarioRepository extends ServiceEntityRepository
         parent::__construct($registry, Usuario::class);
     }
 
-    // /**
-    //  * @return Usuario[] Returns an array of Usuario objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    /**
+     * @param $usuario Usuario
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function lista($usuario){
+        return $this->_em->createQueryBuilder()->from(Usuario::class,'u')
+            ->select('u.username')
+            ->addSelect('u.codigoCiudadFk')
+            ->addSelect('e.nombre as nombreEmpresa')
+            ->addSelect('u.operacion')
+            ->leftJoin('u.empresaRel','e')
+            ->where("u.codigoOperadorFk = '{$usuario->getCodigoOperadorFk()}'");
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Usuario
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

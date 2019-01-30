@@ -37,7 +37,7 @@ class DespachoController extends Controller
             $session->set('filtroDespachoFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
             $session->set('filtroDespachoFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
         }
-        $arDespachos = $paginador->paginate($em->getRepository(TteDespacho::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arDespachos = $paginador->paginate($em->getRepository(TteDespacho::class)->lista($this->getUser()), $request->query->getInt('page', 1), 30);
         return $this->render('movimiento/despacho/lista.html.twig', [
             'form' => $form->createView(),
             'arDespachos' => $arDespachos
@@ -187,7 +187,7 @@ class DespachoController extends Controller
                 $session->set('filtroGuiaNumero', $form->get('txtGuiaNumero')->getData());
             }
         }
-        $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->buscar(), $request->query->getInt('page', 1), 30);
+        $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->buscar($this->getUser()), $request->query->getInt('page', 1), 30);
         return $this->render('movimiento/despacho/agregarGuia.html.twig', [
             'form' => $form->createView(),
             'arGuias' => $arGuias

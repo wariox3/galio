@@ -63,7 +63,11 @@ class TteGuiaRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function buscar()
+    /**
+     * @param $usuario Usuario
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function buscar($usuario)
     {
         $session = new Session();
         $qb = $this->_em->createQueryBuilder()
@@ -82,7 +86,8 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->from(TteGuia::class, 'g')
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
-            ->where('g.codigoDespachoFk IS NULL');
+            ->where('g.codigoDespachoFk IS NULL')
+            ->andWhere('g.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
         if ($session->get('filtroGuiaCodigo')) {
             $qb->andWhere("g.codigoGuiaPk = {$session->get('filtroGuiaCodigo')}");
         }

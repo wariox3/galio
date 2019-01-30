@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form) }}
+    <div class="content mt-3">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col" class="th">USUARIO</th>
+                <th scope="col" class="th">CIUDAD</th>
+                <th scope="col" class="th">EMPRESA</th>
+                <th scope="col" class="th">OPERACION</th>
+                <th scope="col" class="th"></th>
+                <th scope="col" class="th"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for arUsuario in arUsuarios %}
+                <tr>
+                    <th scope="row">{{ arUsuario.username }}</th>
+                    <td>{{ arUsuario.codigoCiudadFk }}</td>
+                    <td>{{ arUsuario.nombreEmpresa }}</td>
+                    <td>{{ arUsuario.operacion }}</td>
+                    <td style="text-align: center;">
+                        <a title="Editar el registro"
+                           href="{{ path('administracion_usuario_nuevo',{'id':arUsuario.username }) }}">
+                            <span class="fa fa-edit" style="color: black;font-size: medium;"></span>
+                        </a>
+                    </td>
+                    <td style="text-align: center;"><input type="checkbox" name="ChkSeleccionar[]"
+                                                           value="{{ arUsuario.username }}"
+                                                           title="Seleccionar">
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <div class="row float-right" style="padding-right: 15px;">
+            <a href="{{ path('administracion_usuario_nuevo',{'id':0}) }}"
+               class="btn btn-sm btn-secondary  float-right">Nuevo</a>&nbsp;
+            {{ form_widget(form.btnEliminar) }}
+        </div>
+        <div class="btn-group" style="float: left;padding-top: 2px;">
+            <div class="btn btn-light btn-sm" style="border-style: solid!important;border-color: lightgray;">Registros
+                <span class="badge badge-secondary">{{ arUsuarios.getTotalItemCount }}
+            </span>
+            </div>
+        </div>
+        &nbsp;
+        <div class="btn-group">
+            {{ knp_pagination_render(arUsuarios) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+    <style type="text/css">
+        .th {
+            font-size: 12px !important;
+        }
+    </style>
+{% endblock %}
