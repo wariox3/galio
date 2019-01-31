@@ -29,7 +29,6 @@ class TteDestinatarioRepository extends ServiceEntityRepository
             ->select('d.codigoDestinatarioPk')
             ->addSelect('d.numeroIdentificacion')
             ->addSelect('d.digitoVerificacion')
-            ->addSelect('d.codigoIdentificacionTipoFk')
             ->addSelect('d.nombreCorto')
             ->addSelect('d.direccion')
             ->addSelect('c.nombre AS ciudadNombre')

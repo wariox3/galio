@@ -6,7 +6,6 @@
             <thead>
             <tr>
                 <th scope="col" class="th">ID</th>
-                <th scope="col" class="th">ID.TIPO</th>
                 <th scope="col" class="th">IDENTIFICACIÓN</th>
                 <th scope="col" class="th" title="Dígito de verificación">DV</th>
                 <th scope="col" class="th">NOMBRE</th>
@@ -21,7 +20,6 @@
             {% for arDestinatario in arDestinatarios %}
                 <tr>
                     <th scope="row">{{ arDestinatario.codigoDestinatarioPk }}</th>
-                    <td>{{ arDestinatario.codigoIdentificacionTipoFk }}</td>
                     <td>{{ arDestinatario.numeroIdentificacion }}</td>
                     <td>{{ arDestinatario.digitoVerificacion }}</td>
                     <td>{{ arDestinatario.nombreCorto }}</td>

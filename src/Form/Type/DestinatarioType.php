@@ -33,15 +33,6 @@ class DestinatarioType extends AbstractType
             ->add('barrio', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
             ->add('telefono', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
             ->add('correo', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('identificacionTipoRel', EntityType::class, [
-                'class' => TteIdentificacionTipo::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('er')
-                        ->orderBy('er.nombre');
-                }, 'choice_label' => 'nombre',
-                'required' => true,
-                'attr' => ['class' => 'form-control']
-            ])
             ->add('ciudadRel', EntityType::class, [
                 'class' => TteCiudad::class,
                 'query_builder' => function (EntityRepository $er) use ($user) {
