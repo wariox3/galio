@@ -144,6 +144,7 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->addSelect('g.fechaIngreso')
             ->addSelect('g.clienteDocumento')
             ->addSelect('e.nit')
+            ->addSelect('g.destinatarioTelefono')
             ->addSelect('g.destinatarioNombre')
             ->addSelect('co.nombre as ciudadOrigen')
             ->addSelect('cd.nombre as ciudadDestino')

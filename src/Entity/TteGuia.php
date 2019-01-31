@@ -78,6 +78,11 @@ class TteGuia
     private $destinatarioDireccion;
 
     /**
+     * @ORM\Column(name="destinatario_telefono", type="string", length=80, nullable=true)
+     */
+    private $destinatarioTelefono;
+
+    /**
      * @ORM\Column(name="producto_referencia", type="string", length=150, nullable=true)
      */
     private $productoReferencia;
@@ -425,6 +430,22 @@ class TteGuia
     public function setDestinatarioDireccion($destinatarioDireccion): void
     {
         $this->destinatarioDireccion = $destinatarioDireccion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDestinatarioTelefono()
+    {
+        return $this->destinatarioTelefono;
+    }
+
+    /**
+     * @param mixed $destinatarioTelefono
+     */
+    public function setDestinatarioTelefono($destinatarioTelefono): void
+    {
+        $this->destinatarioTelefono = $destinatarioTelefono;
     }
 
     /**

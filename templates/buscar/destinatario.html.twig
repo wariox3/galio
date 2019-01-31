@@ -55,7 +55,8 @@
                             '{{ arDestinatario.numeroIdentificacion }}',
                             '{{ arDestinatario.nombreCorto }}',
                             '{{ arDestinatario.direccion }}',
-                            '{{ arDestinatario.codigoCiudadFk }}')">
+                            '{{ arDestinatario.codigoCiudadFk }}',
+                            '{{ arDestinatario.telefono }}')">
                                 <i style="font-size: large;color: black;" class="fa fa-check-circle-o"></i></a></td>
                     </tr>
                 {% endfor %}
@@ -84,7 +85,7 @@
             }
         </style>
     <script language="javascript">
-        function selDestinatario(codigoDestinatario ,identificacion, nombreCorto, direccion, destino)
+        function selDestinatario(codigoDestinatario ,identificacion, nombreCorto, direccion, destino,telefono)
         {
             opener.document.getElementById('guia_destinatarioIdentificacion').value = identificacion;
             opener.document.getElementById('txtNombreCorto').value = nombreCorto;
@@ -92,6 +93,7 @@
             opener.document.getElementById('guia_destinatarioNombre').value = nombreCorto;
             opener.document.getElementById('guia_destinatarioDireccion').value = direccion;
             opener.document.getElementById('guia_ciudadDestinoRel').value = destino;
+            opener.document.getElementById('guia_destinatarioTelefono').value = telefono;
             opener.document.getElementById('guia_codigoDestinatarioFk').focus();
             self.close();
         }
