@@ -159,7 +159,7 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
             ->leftJoin('g.empresaRel', 'e')
-            ->where('g.codigoOperadorFk =' . $codigoOperador)
+            ->where("g.codigoOperadorFk = '{$codigoOperador}'")
             ->andWhere('g.estadoImportado = 0');
         if ($arrFiltros['fechaDesde'] != '') {
             $qb->andWhere("g.fechaIngreso >= '" . $arrFiltros['fechaDesde'] . " 00:00:00'");
