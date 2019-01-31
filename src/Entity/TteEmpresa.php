@@ -47,6 +47,11 @@ class TteEmpresa
     private $consecutivoGuia = 0;
 
     /**
+     * @ORM\Column(name="consecutivo_guia_desde", type="integer")
+     */
+    private $consecutivoGuiaDesde = 0;
+
+    /**
      * @ORM\Column(name="consecutivo_guia_hasta", type="integer")
      */
     private $consecutivoGuiaHasta = 0;
@@ -304,4 +309,7 @@ class TteEmpresa
     {
         $this->despachosEmpresaRel = $despachosEmpresaRel;
     }
+
+
+
 }
