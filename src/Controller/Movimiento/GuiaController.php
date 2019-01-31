@@ -85,9 +85,9 @@ class GuiaController extends Controller
                 if (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 0) {
                     Mensajes::error("Ya no tiene mas consecutivos, no puede crear mas guias, por favor solicitar mas remesas a sistemas@cotrascalsas.com");
                     return $this->redirect($this->generateUrl('movimiento_guia_lista'));
-                } elseif (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 50) {
+                } elseif (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 30) {
                     Mensajes::error("Por favor solicitar mas remesas a sistemas@cotrascalsas.com");
-                    return $this->redirect($this->generateUrl('movimiento_guia_lista'));
+//                    return $this->redirect($this->generateUrl('movimiento_guia_lista'));
                 }
             } else {
                 Mensajes::error('Por favor contactar a sistemas@cotrascalsas.com y solicitar la configuracion del "consecutivo hasta" de las guias para su empresa');
