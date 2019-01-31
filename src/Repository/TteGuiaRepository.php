@@ -175,7 +175,7 @@ class TteGuiaRepository extends ServiceEntityRepository
 
     /**
      * @param $arrDatos
-     * @return bool|\Exception
+     * @return bool|
      */
     public function exportarGuia($arrDatos)
     {
@@ -183,12 +183,12 @@ class TteGuiaRepository extends ServiceEntityRepository
         $qb = $this->_em->createQueryBuilder()
             ->update(TteGuia::class, 'g')
             ->set('g.estadoImportado', 1)
-            ->where('g.codigoOperadorFk =' . $arrDatos['codigoOperador'])
+            ->where("g.codigoOperadorFk = '{$arrDatos['codigoOperador']}'")
             ->andWhere('g.numero IN (' . implode(',', $arrDatos['numeros']) . ')');
         try {
             $qb->getQuery()->getResult();
         } catch (\Exception $exception) {
-            $respuesta = $exception->getMessage();
+            $respuesta = false;
         }
         return $respuesta;
     }
