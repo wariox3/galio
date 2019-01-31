@@ -87,10 +87,10 @@ class TteDestinatario
     private $correo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TteIdentificacionTipo", inversedBy="destinatariosIdentificacionTipoRel")
-     * @ORM\JoinColumn(name="codigo_identificacion_tipo_fk", referencedColumnName="codigo_identificacion_tipo_pk")
+     * @ORM\ManyToOne(targetEntity="GenIdentificacion", inversedBy="destinatariosIdentificacionRel")
+     * @ORM\JoinColumn(name="codigo_identificacion_fk", referencedColumnName="codigo_identificacion_pk")
      */
-    protected $identificacionTipoRel;
+    protected $identificacionRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="TteCiudad", inversedBy="destinatariosCiudadRel")
@@ -352,17 +352,17 @@ class TteDestinatario
     /**
      * @return mixed
      */
-    public function getIdentificacionTipoRel()
+    public function getIdentificacionRel()
     {
-        return $this->identificacionTipoRel;
+        return $this->identificacionRel;
     }
 
     /**
-     * @param mixed $identificacionTipoRel
+     * @param mixed $identificacionRel
      */
-    public function setIdentificacionTipoRel($identificacionTipoRel): void
+    public function setIdentificacionRel($identificacionRel): void
     {
-        $this->identificacionTipoRel = $identificacionTipoRel;
+        $this->identificacionRel = $identificacionRel;
     }
 
     /**
@@ -412,4 +412,7 @@ class TteDestinatario
     {
         $this->guiasDestinatarioRel = $guiasDestinatarioRel;
     }
+
+
+
 }
