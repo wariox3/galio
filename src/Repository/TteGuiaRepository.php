@@ -173,6 +173,10 @@ class TteGuiaRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
+    /**
+     * @param $arrDatos
+     * @return bool|\Exception
+     */
     public function exportarGuia($arrDatos)
     {
         $respuesta = true;
@@ -184,7 +188,7 @@ class TteGuiaRepository extends ServiceEntityRepository
         try {
             $qb->getQuery()->getResult();
         } catch (\Exception $exception) {
-            $respuesta = false;
+            $respuesta = $exception->getMessage();
         }
         return $respuesta;
     }
