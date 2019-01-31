@@ -99,6 +99,7 @@ class GuiaController extends Controller
             $arUsuario = $this->getUser();
             $arCiudadOrigen = $em->getRepository(TteCiudad::class)->find($arUsuario->getCodigoCiudadFk());
             $arGuia->setUsuario($arUsuario->getUsername());
+            $arGuia->setCodigoOperadorFk($arUsuario->getCodigoOperadorFk());
             $arGuia->setCiudadOrigenRel($arCiudadOrigen);
             $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
             $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getVrDeclara() / 100;
