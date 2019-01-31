@@ -31,7 +31,7 @@ class BuscarDestinatarioController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
         }
-        $arDestinantarios = $paginador->paginate($em->getRepository(TteDestinatario::class)->buscar(), $request->query->getInt('page', 1), 30);
+        $arDestinantarios = $paginador->paginate($em->getRepository(TteDestinatario::class)->buscar($this->getUser()), $request->query->getInt('page', 1), 30);
         return $this->render('buscar/destinatario.html.twig', [
             'form' => $form->createView(),
             'campoNombre' => $campoNombre,

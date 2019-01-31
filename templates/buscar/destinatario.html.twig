@@ -30,7 +30,6 @@
                 <thead>
                 <tr>
                     <th scope="col" class="th">ID</th>
-                    <th scope="col" class="th">ID.TIPO</th>
                     <th scope="col" class="th">IDENTIFICACIÓN</th>
                     <th scope="col" class="th" title="Dígito de verificación">DV</th>
                     <th scope="col" class="th">NOMBRE</th>
@@ -44,7 +43,6 @@
                 {% for arDestinatario in arDestinatarios %}
                     <tr>
                         <th scope="row" class="datos">{{ arDestinatario.codigoDestinatarioPk }}</th>
-                        <td class="datos">{{ arDestinatario.codigoIdentificacionTipoFk }}</td>
                         <td class="datos">{{ arDestinatario.numeroIdentificacion }}</td>
                         <td class="datos">{{ arDestinatario.digitoVerificacion }}</td>
                         <td class="datos">{{ arDestinatario.nombreCorto }}</td>

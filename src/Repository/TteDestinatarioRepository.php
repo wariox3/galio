@@ -38,7 +38,11 @@ class TteDestinatarioRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function buscar(){
+    /**
+     * @param $usuario Usuario
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function buscar($usuario){
         $em = $this->_em;
         $qb = $em->createQueryBuilder()
             ->from(TteDestinatario::class, 'd')
@@ -47,12 +51,12 @@ class TteDestinatarioRepository extends ServiceEntityRepository
             ->addSelect('d.numeroIdentificacion')
             ->addSelect('d.codigoCiudadFk')
             ->addSelect('d.digitoVerificacion')
-            ->addSelect('d.codigoIdentificacionTipoFk')
             ->addSelect('d.nombreCorto')
             ->addSelect('d.direccion')
             ->addSelect('c.nombre AS ciudadNombre')
             ->addSelect('d.telefono')
-            ->where('d.codigoDestinatarioPk <> 0');
+            ->where('d.codigoDestinatarioPk <> 0')
+            ->andWhere('d.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
         return $qb;
     }
 
