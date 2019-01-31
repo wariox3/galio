@@ -100,7 +100,13 @@ class Etiqueta extends \FPDF
             $pdf->Text(40, 18, "DOC:" . $arGuia->getClienteDocumento());
             $pdf->Text(5, 21, "NOMBRE:" . utf8_decode(substr($arGuia->getDestinatarioNombre(),0,34)));
             $pdf->Text(5, 24, "DIR:" . $arGuia->getDestinatarioDireccion());
-            $telefono = $arGuia->getDestinatarioTelefono() ? $arGuia->getDestinatarioTelefono() : $arGuia->getDestinatarioRel() ? $arGuia->getDestinatarioRel()->getTelefono() : '';
+            if($arGuia->getDestinatarioTelefono()){
+                $telefono = $arGuia->getDestinatarioTelefono();
+            } elseif ($arGuia->getDestinatarioRel()){
+                $telefono = $arGuia->getDestinatarioRel()->getTelefono();
+            } else {
+                $telefono = '';
+            }
             $pdf->Text(5, 27, "TEL:" . $telefono);
             $pdf->Text(5, 30, "DESTINO:" . $arGuia->getCiudadDestinoRel()->getNombre());
             $pdf->Text(5, 33, "U.EMP:" . $arGuia->getProductoReferencia());
