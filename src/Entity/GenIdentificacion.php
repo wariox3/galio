@@ -11,7 +11,7 @@ class GenIdentificacion
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_identificacion_pk", type="string", length=2)
+     * @ORM\Column(name="codigo_identificacion_pk", type="string", length=3)
      */        
     private $codigoIdentificacionPk;
     
