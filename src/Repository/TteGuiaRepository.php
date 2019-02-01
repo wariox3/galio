@@ -155,6 +155,8 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->addSelect('g.codigoGuiaTipoFk')
             ->addSelect('g.operacion')
             ->addSelect('g.pesoFacturado')
+            ->addSelect('g.pesoReal')
+            ->addSelect('g.pesoVolumen')
             ->addSelect('g.vrDeclara')
             ->addSelect('g.vrFlete')
             ->addSelect('g.vrManejo')
