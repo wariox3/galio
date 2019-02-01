@@ -55,14 +55,29 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <label for="" class="col-sm-2 badge" title="Consecutivo guía">Con. guía:</label>
+                            <label for="" class="col-sm-2 badge" title="Consecutivo guía">Lista precio:</label>
+                            {{ form_widget(form.listaPrecio) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Numeracion <span class="fa fa-question-circle float-right" style="color: grey;padding-top: 3px;" title="Para ver el nombre completo de los campos con puntos (e.j: Por.), posicione el ratón sobre el nombre"></span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge" title="Consecutivo guía">Consecutivo:</label>
                             {{ form_widget(form.consecutivoGuia) }}
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <label for="" class="col-sm-2 badge" title="Consecutivo guía">Con. guía hasta:</label>
-                            {{ form_widget(form.consecutivoGuiaHasta) }}
+                            <label for="" class="col-sm-2 badge" title="Consecutivo guía">Desde:</label>
+                            {{ form_widget(form.consecutivoGuiaDesde) }}
                         </div>
                     </div>
                 </div>
@@ -70,8 +85,14 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <label for="" class="col-sm-2 badge" title="Consecutivo guía">Lista precio:</label>
-                            {{ form_widget(form.listaPrecio) }}
+                            <label for="" class="col-sm-2 badge" title="Consecutivo guía"></label>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge" title="Consecutivo guía">Hasta:</label>
+                            {{ form_widget(form.consecutivoGuiaHasta) }}
                         </div>
                     </div>
                 </div>

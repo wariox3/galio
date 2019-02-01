@@ -21,6 +21,7 @@ class EmpresaType extends AbstractType
             ->add('direccion',TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
             ->add('telefono',TextType::class,['required' => false,'attr' => ['class' => 'form-control']])
             ->add('consecutivoGuia',IntegerType::class,['required' => true,'attr' => ['class' => 'form-control']])
+            ->add('consecutivoGuiaDesde',IntegerType::class,['required' => true,'attr' => ['class' => 'form-control']])
             ->add('consecutivoGuiaHasta',IntegerType::class,['required' => true,'attr' => ['class' => 'form-control']])
             ->add('porcentajeManejo',NumberType::class,['required' => false,'attr' => ['class' => 'form-control']])
             ->add('listaPrecio',NumberType::class,['required' => true,'attr' => ['class' => 'form-control']])
