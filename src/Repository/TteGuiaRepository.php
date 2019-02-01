@@ -57,7 +57,8 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->from(TteGuia::class, 'g')
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
-            ->where('g.codigoGuiaPk <> 0');
+            ->where('g.codigoGuiaPk <> 0')
+        ->orderBy('g.fechaIngreso', 'DESC');
         if(!$usuario->getAdmin()) {
             $qb->andWhere('g.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
         }
@@ -66,6 +67,9 @@ class TteGuiaRepository extends ServiceEntityRepository
         }
         if($session->get('filtroGuiaFechaHasta')){
             $qb->andWhere("g.fecha <= '{$session->get('filtroGuiaFechaHasta')} 23:59:59'");
+        }
+        if($session->get('filtroGuiaNumero')){
+            $qb->andWhere("g.numero = " . $session->get('filtroGuiaNumero'));
         }
         return $qb;
     }

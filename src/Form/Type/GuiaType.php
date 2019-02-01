@@ -54,7 +54,7 @@ class GuiaType extends AbstractType {
                 'choice_label' => 'nombre',
                 'attr' => ['class' => 'form-control']
             ))
-            ->add('codigoDestinatarioFk',TextType::class,['attr' => ['class' => 'form-control','style' => 'float: right;']])
+            ->add('codigoDestinatarioFk',TextType::class,['attr' => ['class' => 'form-control','style' => 'float: right;'],'required' => false])
             ->add('clienteDocumento', TextType::class,['attr' => ['class' => 'form-control'],'required' => false])
             ->add('remitente', TextType::class,['attr' => ['class' => 'form-control']])
             ->add('destinatarioTelefono', TextType::class,['attr' => ['class' => 'form-control']])

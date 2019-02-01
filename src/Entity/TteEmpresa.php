@@ -310,6 +310,22 @@ class TteEmpresa
         $this->despachosEmpresaRel = $despachosEmpresaRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getConsecutivoGuiaDesde()
+    {
+        return $this->consecutivoGuiaDesde;
+    }
+
+    /**
+     * @param mixed $consecutivoGuiaDesde
+     */
+    public function setConsecutivoGuiaDesde( $consecutivoGuiaDesde ): void
+    {
+        $this->consecutivoGuiaDesde = $consecutivoGuiaDesde;
+    }
+
 
 
 }

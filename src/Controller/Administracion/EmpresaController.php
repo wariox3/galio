@@ -25,7 +25,7 @@ class EmpresaController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
         $paginador = $this->container->get('knp_paginator');
-        $arEmpresas = $paginador->paginate($em->getRepository(TteEmpresa::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arEmpresas = $paginador->paginate($em->getRepository(TteEmpresa::class)->lista(), $request->query->getInt('page', 1), 100);
         return $this->render('administracion/empresa/lista.html.twig', [
             'arEmpresas' => $arEmpresas
         ]);

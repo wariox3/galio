@@ -22,6 +22,9 @@ class TteEmpresaRepository extends ServiceEntityRepository
             ->addSelect('e.nit')
             ->addSelect('e.direccion')
             ->addSelect('e.telefono')
+            ->addSelect('e.consecutivoGuiaDesde as desde')
+            ->addSelect('e.consecutivoGuia as consecutivo')
+            ->addSelect('e.consecutivoGuiaHasta as hasta')
             ->where('e.codigoEmpresaPk <> 0');
         return $qb;
     }

@@ -13,6 +13,7 @@ use App\Form\Type\GuiaType;
 use App\Formato\Etiqueta;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,6 +37,7 @@ class GuiaController extends Controller
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date form-control',], 'data' => $session->get('filtroGuiaFechaDesde') ? date_create($session->get('filtroGuiaFechaDesde')) : null, 'required' => false])
             ->add('fechaHasta', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date form-control',], 'data' => $session->get('filtroGuiaFechaHasta') ? date_create($session->get('filtroGuiaFechaHasta')) : null, 'required' => false])
+            ->add('txtNumero', TextType::class, ['data' => $session->get('filtroGuiaNumero'), 'required' => false])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-secondary']])
             ->getForm();
         $form->handleRequest($request);
@@ -48,6 +50,7 @@ class GuiaController extends Controller
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroGuiaFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
                 $session->set('filtroGuiaFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
+                $session->set('filtroGuiaNumero', $form->get('txtNumero')->getData());
             }
         }
         $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->lista($this->getUser()), $request->query->getInt('page', 1), 30);
@@ -78,21 +81,19 @@ class GuiaController extends Controller
         }
         $form = $this->createForm(GuiaType::class, $arGuia);
         $form->handleRequest($request);
-        if (!$this->getUser()->getAdmin()) {
-            /** @var  $arEmpresa TteEmpresa */
-            $arEmpresa = $this->getUser()->getEmpresaRel();
-            if ($arEmpresa->getConsecutivoGuiaHasta()) {
-                if (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 0) {
-                    Mensajes::error("Ya no tiene mas consecutivos, no puede crear mas guias, por favor solicitar mas remesas a sistemas@cotrascalsas.com");
-                    return $this->redirect($this->generateUrl('movimiento_guia_lista'));
-                } elseif (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 30) {
-                    Mensajes::error("Por favor solicitar mas remesas a sistemas@cotrascalsas.com");
-//                    return $this->redirect($this->generateUrl('movimiento_guia_lista'));
-                }
-            } else {
-                Mensajes::error('Por favor contactar a sistemas@cotrascalsas.com y solicitar la configuracion del "consecutivo hasta" de las guias para su empresa');
+
+        /** @var  $arEmpresa TteEmpresa */
+        $arEmpresa = $this->getUser()->getEmpresaRel();
+        if ($arEmpresa->getConsecutivoGuiaHasta()) {
+            if (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) < 0 || $arEmpresa->getConsecutivoGuia() < $arEmpresa->getConsecutivoGuiaDesde() || $arEmpresa->getConsecutivoGuia() > $arEmpresa->getConsecutivoGuiaHasta()) {
+                Mensajes::error("Ya no tiene mas consecutivos, no puede crear mas guias, por favor solicitar mas remesas a sistemas@cotrascalsas.com");
                 return $this->redirect($this->generateUrl('movimiento_guia_lista'));
+            } elseif (($arEmpresa->getConsecutivoGuiaHasta() - $arEmpresa->getConsecutivoGuia()) <= 30) {
+                Mensajes::error("Por favor solicitar mas remesas a sistemas@cotrascalsas.com");
             }
+        } else {
+            Mensajes::error('Por favor contactar a sistemas@cotrascalsas.com y solicitar la configuracion del "consecutivo hasta" de las guias para su empresa');
+            return $this->redirect($this->generateUrl('movimiento_guia_lista'));
         }
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var  $arUsuario Usuario */
@@ -101,7 +102,10 @@ class GuiaController extends Controller
             $arGuia->setUsuario($arUsuario->getUsername());
             $arGuia->setCodigoOperadorFk($arUsuario->getCodigoOperadorFk());
             $arGuia->setCiudadOrigenRel($arCiudadOrigen);
-            $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
+            if($arGuia->getCodigoDestinatarioFk()) {
+                $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
+            }
+
             $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getVrDeclara() / 100;
             if ($arGuia->getEmpresaRel()->getManejoMinimoDespacho() > $manejo) {
                 $manejo = $arGuia->getEmpresaRel()->getManejoMinimoDespacho();
@@ -125,7 +129,10 @@ class GuiaController extends Controller
             }
             $arGuia->setVrFlete(round($flete));
             if ($id == 0) {
-                $consecutivo = $em->getRepository(TteGuia::class)->consecutivo($arGuia->getEmpresaRel()->getCodigoEmpresaPk());
+                $arEmpresa = $em->getRepository(TteEmpresa::class)->find($arUsuario->getCodigoEmpresaFk());
+                $consecutivo = $arEmpresa->getConsecutivoGuia();
+                $arEmpresa->setConsecutivoGuia($consecutivo + 1);
+                $em->persist($arEmpresa);
                 $arGuia->setNumero($consecutivo);
             }
             $em->persist($arGuia);
