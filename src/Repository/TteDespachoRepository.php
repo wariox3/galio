@@ -28,6 +28,7 @@ class TteDespachoRepository extends ServiceEntityRepository
             ->addSelect('d.unidades')
             ->addSelect('d.peso')
             ->addSelect('d.vrDeclara')
+            ->addSelect('d.estadoImpreso')
             ->from(TteDespacho::class,'d')
             ->where('d.codigoDespachoPk <> 0');
         if(!$usuario->getAdmin()) {
@@ -40,5 +41,17 @@ class TteDespachoRepository extends ServiceEntityRepository
             $qb->andWhere("d.fecha <= '{$session->get('filtroDespachoFechaHasta')}'");
         }
         return $qb;
+    }
+
+    /**
+     * @param $arDespacho TteDespacho
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function aprobar($arDespacho)
+    {
+        $arDespacho->setEstadoAprobado(1);
+        $this->getEntityManager()->persist($arDespacho);
+        $this->getEntityManager()->flush();
     }
 }

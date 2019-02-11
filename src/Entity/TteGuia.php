@@ -4,6 +4,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TteGuiaRepository")
@@ -88,7 +89,11 @@ class TteGuia
     private $productoReferencia;
 
     /**
-     * @ORM\Column(name="cliente_documento", type="string", length=150, nullable=true)
+     * @ORM\Column(name="cliente_documento", type="string", length=80, nullable=true)
+     * @Assert\Length(
+     *     max=80,
+     *     maxMessage="El campo no puede contener mas de 80 caracteres")
+     * )
      */
     private $clienteDocumento;
 
@@ -879,4 +884,7 @@ class TteGuia
     {
         $this->guiaTipoRel = $guiaTipoRel;
     }
+
+
+
 }

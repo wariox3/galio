@@ -63,6 +63,11 @@ class TteDespacho
     private $estadoImpreso = false;
 
     /**
+     * @ORM\Column(name="estado_aprobado", type="boolean", nullable=true))
+     */
+    private $estadoAprobado = false;
+
+    /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="despachosEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
@@ -264,5 +269,23 @@ class TteDespacho
     {
         $this->guiasDespachoRel = $guiasDespachoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoAprobado()
+    {
+        return $this->estadoAprobado;
+    }
+
+    /**
+     * @param mixed $estadoAprobado
+     */
+    public function setEstadoAprobado($estadoAprobado): void
+    {
+        $this->estadoAprobado = $estadoAprobado;
+    }
+
+
 }
 

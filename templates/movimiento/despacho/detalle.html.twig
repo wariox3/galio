@@ -7,9 +7,9 @@
             <div class="row mt">
                 <div class="col-lg-12">
                     <div class="btn-group">
+                        {{ form_widget(form.btnAprobar) }}
                         {{ form_widget(form.btnImprimir) }}&nbsp;
                         {{ form_widget(form.btnImprimirEtiquetas) }}
-                        {#{{ form_widget(form.btnImprimirRelacionDocumentos) }}#}
                     </div>
                     <br /><br />
                     <div class="card">
@@ -105,16 +105,11 @@
                     <a class="btn btn-secondary btn-sm" href="{{ path('movimiento_despacho_lista') }}">Volver</a>
                 </div>
             </div>
-            <div class="btn-toolbar" style="float: right">
-                {% if arDespacho.estadoImpreso == 0 %}
-                    <div class="btn-group">
-
-                    </div>
-                {% endif %}
-            </div>
             <div class="row float-right" style="padding-right: 15px;">
+                {% if arDespacho.estadoAprobado == 0 %}
                 <a class="btn btn-secondary btn-sm" href="Javascript:abrirVentana3('{{ path('movimiento_despacho_guia', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a>&nbsp;
                 {{ form_widget(form.btnDetalleEliminar) }}
+                {% endif %}
             </div>
             {{ form_rest(form) }}
             {{ form_end(form) }}

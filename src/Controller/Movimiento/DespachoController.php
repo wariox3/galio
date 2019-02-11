@@ -85,16 +85,18 @@ class DespachoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginador = $this->container->get('knp_paginator');
         $arDespacho = $em->find(TteDespacho::class, $id);
-        $arrBotonImprimir = ['label' => 'Imprimir', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
+        $arrBotonImprimir = ['label' => 'Imprimir', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
+        $arrBotonAprobar = ['label' => 'Aprobar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
         $arrBotonImprimirEtiquetas = ['label' => 'Imprimir etiquetas', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
-//        $arrBotonImprimirRelacionDocumentos = ['label' => 'Imprimir relacion documentos', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
         $arrBotonDetalleEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger float-right']];
-        if ($arDespacho->getEstadoImpreso() == 1) {
+        if ($arDespacho->getEstadoAprobado() == 1) {
             $arrBotonDetalleEliminar['disabled'] = true;
+            $arrBotonAprobar['disabled'] = true;
+            $arrBotonImprimir['disabled'] = false;
         }
         $form = $this->createFormBuilder()
             ->add('btnImprimir', SubmitType::class, $arrBotonImprimir)
-//            ->add('btnImprimirRelacionDocumentos', SubmitType::class, $arrBotonImprimirRelacionDocumentos)
+            ->add('btnAprobar', SubmitType::class, $arrBotonAprobar)
             ->add('btnImprimirEtiquetas', SubmitType::class, $arrBotonImprimirEtiquetas)
             ->add('btnDetalleEliminar', SubmitType::class, $arrBotonDetalleEliminar)
             ->getForm();
@@ -120,6 +122,10 @@ class DespachoController extends Controller
             if ($form->get('btnImprimir')->isClicked()) {
                 $objFormato = new Despacho();
                 $objFormato->Generar($em, $id);
+            }
+            if ($form->get('btnAprobar')->isClicked()) {
+                $em->getRepository(TteDespacho::class)->Aprobar($arDespacho);
+                return $this->redirect($this->generateUrl('movimiento_despacho_detalle', ['id' => $id]));
             }
         }
         $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->despachoDetalles($id), $request->query->getInt('page', 1), 30);
