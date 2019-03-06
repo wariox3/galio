@@ -87,16 +87,22 @@ class DespachoController extends Controller
         $arDespacho = $em->find(TteDespacho::class, $id);
         $arrBotonImprimir = ['label' => 'Imprimir', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
         $arrBotonAprobar = ['label' => 'Aprobar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
+        $arrBotonAnular = ['label' => 'Anular', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-danger']];
         $arrBotonImprimirEtiquetas = ['label' => 'Imprimir etiquetas', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
         $arrBotonDetalleEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger float-right']];
         if ($arDespacho->getEstadoAprobado() == 1) {
             $arrBotonDetalleEliminar['disabled'] = true;
             $arrBotonAprobar['disabled'] = true;
             $arrBotonImprimir['disabled'] = false;
+            $arrBotonAnular['disabled'] = false;
+            if($arDespacho->getEstadoAnulado() == 1){
+                $arrBotonAnular['disabled'] = true;
+            }
         }
         $form = $this->createFormBuilder()
             ->add('btnImprimir', SubmitType::class, $arrBotonImprimir)
             ->add('btnAprobar', SubmitType::class, $arrBotonAprobar)
+            ->add('btnAnular', SubmitType::class, $arrBotonAnular)
             ->add('btnImprimirEtiquetas', SubmitType::class, $arrBotonImprimirEtiquetas)
             ->add('btnDetalleEliminar', SubmitType::class, $arrBotonDetalleEliminar)
             ->getForm();
@@ -125,6 +131,10 @@ class DespachoController extends Controller
             }
             if ($form->get('btnAprobar')->isClicked()) {
                 $em->getRepository(TteDespacho::class)->Aprobar($arDespacho);
+                return $this->redirect($this->generateUrl('movimiento_despacho_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnAnular')->isClicked()) {
+                $em->getRepository(TteDespacho::class)->Anular($arDespacho);
                 return $this->redirect($this->generateUrl('movimiento_despacho_detalle', ['id' => $id]));
             }
         }

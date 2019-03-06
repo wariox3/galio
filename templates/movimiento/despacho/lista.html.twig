@@ -42,6 +42,8 @@
                 <th scope="col" class="th">CANT</th>
                 <th scope="col" class="th">PESO</th>
                 <th scope="col" class="th">DECLARADO</th>
+                <th scope="col" class="th">APR</th>
+                <th scope="col" class="th">ANU</th>
                 <th scope="col" class="th"></th>
                 <th scope="col" class="th"></th>
             </tr>
@@ -55,7 +57,9 @@
                     <td style="text-align: right;">{{ arDespacho.unidades }}</td>
                     <td style="text-align: right;">{{ arDespacho.peso }}</td>
                     <td style="text-align: right;">{{ arDespacho.vrDeclara | number_format(0,'.',',') }}</td>
-                    {% if arDespacho.estadoImpreso == 0 %}
+                    <td style="text-align: center;">{{ arDespacho.estadoAprobado?'SI':'NO' }}</td>
+                    <td style="text-align: center;">{{ arDespacho.estadoAnulado?'SI':'NO' }}</td>
+                    {% if arDespacho.estadoAprobado == 0 %}
                     <td style="text-align: center;width: 10%;"><a href="Javascript:abrirVentana3('{{ path('movimiento_despacho_guia', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}','agregarGuia',600,1200)" class="btn btn-sm btn-secondary">Agregar</a></td>
                         {% else %}
                         <td></td>

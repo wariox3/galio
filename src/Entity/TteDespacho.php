@@ -58,9 +58,9 @@ class TteDespacho
     private $vrDeclara = 0;
 
     /**
-     * @ORM\Column(name="estado_impreso", type="boolean", nullable=true))
+     * @ORM\Column(name="estado_anulado", type="boolean", nullable=true))
      */
-    private $estadoImpreso = false;
+    private $estadoAnulado = false;
 
     /**
      * @ORM\Column(name="estado_aprobado", type="boolean", nullable=true))
@@ -225,17 +225,33 @@ class TteDespacho
     /**
      * @return mixed
      */
-    public function getEstadoImpreso()
+    public function getEstadoAnulado()
     {
-        return $this->estadoImpreso;
+        return $this->estadoAnulado;
     }
 
     /**
-     * @param mixed $estadoImpreso
+     * @param mixed $estadoAnulado
      */
-    public function setEstadoImpreso($estadoImpreso): void
+    public function setEstadoAnulado($estadoAnulado): void
     {
-        $this->estadoImpreso = $estadoImpreso;
+        $this->estadoAnulado = $estadoAnulado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoAprobado()
+    {
+        return $this->estadoAprobado;
+    }
+
+    /**
+     * @param mixed $estadoAprobado
+     */
+    public function setEstadoAprobado($estadoAprobado): void
+    {
+        $this->estadoAprobado = $estadoAprobado;
     }
 
     /**
@@ -270,21 +286,6 @@ class TteDespacho
         $this->guiasDespachoRel = $guiasDespachoRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEstadoAprobado()
-    {
-        return $this->estadoAprobado;
-    }
-
-    /**
-     * @param mixed $estadoAprobado
-     */
-    public function setEstadoAprobado($estadoAprobado): void
-    {
-        $this->estadoAprobado = $estadoAprobado;
-    }
 
 
 }

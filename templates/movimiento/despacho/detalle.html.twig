@@ -2,104 +2,113 @@
 {% block content %}
     <div class="content mt-3">
         <section class="wrapper">
-            {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+            {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
             {{ form_errors(form) }}
-            <div class="row mt">
-                <div class="col-lg-12">
-                    <div class="btn-group">
+            <div class="col-lg-12">
                         {{ form_widget(form.btnAprobar) }}
-                        {{ form_widget(form.btnImprimir) }}&nbsp;
+                        {{ form_widget(form.btnImprimir) }}
                         {{ form_widget(form.btnImprimirEtiquetas) }}
-                    </div>
-                    <br /><br />
-                    <div class="card">
-                        <div class="card-header">Información</div>
-                        <div class="card-body">
-                            <table width="100%" class="table table-condensed table-bordered">
-                                <tr>
-                                    <td class="titulo">NUMERO:</td>
-                                    <td class="td-in-well">{{ arDespacho.codigoDespachoPk }}</td>
-                                    <td class="titulo">FECHA:</td>
-                                    <td class="td-in-well">{{ arDespacho.fecha |date("Y/m/d") }}</td>
-                                    <td class="titulo" >GUIAS:</td>
-                                    <td align="right">{{ arDespacho.guias | number_format(0, '.', ',')}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="titulo"></td>
-                                    <td class="td-in-well"></td>
-                                    <td class="titulo"></td>
-                                    <td class="td-in-well"></td>
-                                    <td class="titulo" >CANTIDAD:</td>
-                                    <td align="right">{{ arDespacho.unidades | number_format(0, '.', ',')}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="titulo"></td>
-                                    <td class="td-in-well"></td>
-                                    <td class="titulo"></td>
-                                    <td class="td-in-well"></td>
-                                    <td class="titulo" >PESO:</td>
-                                    <td align="right">{{ arDespacho.peso | number_format(0, '.', ',')}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="titulo"></td>
-                                    <td class="td-in-well"></td>
-                                    <td class="titulo"></td>
-                                    <td class="td-in-well"></td>
-                                    <td class="titulo" >VOLUMEN:</td>
-                                    <td align="right">{{ arDespacho.pesoVolumen | number_format(0, '.', ',')}}</td>
-                                </tr>
-                                <tr>
-                                    <td class="titulo"></td>
-                                    <td class="td-in-well"></td>
-                                    <td class="titulo"></td>
-                                    <td class="td-in-well"></td>
-                                    <td class="titulo" >DECLARADO:</td>
-                                    <td align="right">{{ arDespacho.vrDeclara | number_format(0, '.', ',')}}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="content-panel">
-                        <section id="unseen">
-                            <table class="table table-bordered table-striped table-condensed">
-                                <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Guia</th>
-                                    <th>Documento</th>
-                                    <th>Destinatario</th>
-                                    <th>Destino</th>
-                                    <th class="numeric">Cant</th>
-                                    <th class="numeric">Peso</th>
-                                    <th class="numeric">Declarado</th>
-                                    <th class="numeric">Flete</th>
-                                    <th class="numeric">Manejo</th>
-                                    <th><input type="checkbox" name="ChkSeleccionarTodos" OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for arGuia in arGuias %}
-                                    <tr>
-                                        <td>{{ arGuia.codigoGuiaPk  }}</td>
-                                        <td>{{ arGuia.numero  }}</td>
-                                        <td>{{ arGuia.clienteDocumento  }}</td>
-                                        <td>{{ arGuia.destinatarioNombre  }}</td>
-                                        <td>{{ arGuia.ciudadDestino  }}</td>
-                                        <td class="numeric" style="text-align: right">{{ arGuia.unidades  }}</td>
-                                        <td class="numeric" style="text-align: right">{{ arGuia.pesoReal | number_format(0, '.', ',') }}</td>
-                                        <td class="numeric" style="text-align: right">{{ arGuia.vrDeclara | number_format(0, '.', ',') }}</td>
-                                        <td class="numeric" style="text-align: right">{{ arGuia.vrFlete | number_format(0, '.', ',') }}</td>
-                                        <td class="numeric" style="text-align: right">{{ arGuia.vrManejo | number_format(0, '.', ',') }}</td>
-                                        <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ arGuia.codigoGuiaPk }}" /></td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </section>
+                        {{ form_widget(form.btnAnular,  { 'attr': {'class': 'btn btn-danger btn-sm', 'onclick': 'return confirm("Esta seguro de anular el registro?")'} }) }}
+                <div style="float:right">
+                    {% if arDespacho.estadoAprobado == 1 %}<span
+                            class="badge badge-success">Aprobado</span>{% endif %}
+                    {% if arDespacho.estadoAnulado == 1 %}<span
+                            class="badge badge-danger">Anulado</span>{% endif %}
+                </div>
+                <br/><br/>
+                <div class="card">
+                    <div class="card-header">Información</div>
+                    <div class="card-body">
+                        <table width="100%" class="table table-condensed table-bordered">
+                            <tr>
+                                <td class="titulo">NUMERO:</td>
+                                <td class="td-in-well">{{ arDespacho.codigoDespachoPk }}</td>
+                                <td class="titulo">FECHA:</td>
+                                <td class="td-in-well">{{ arDespacho.fecha |date("Y/m/d") }}</td>
+                                <td class="titulo">GUIAS:</td>
+                                <td align="right">{{ arDespacho.guias | number_format(0, '.', ',') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="titulo"></td>
+                                <td class="td-in-well"></td>
+                                <td class="titulo"></td>
+                                <td class="td-in-well"></td>
+                                <td class="titulo">CANTIDAD:</td>
+                                <td align="right">{{ arDespacho.unidades | number_format(0, '.', ',') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="titulo"></td>
+                                <td class="td-in-well"></td>
+                                <td class="titulo"></td>
+                                <td class="td-in-well"></td>
+                                <td class="titulo">PESO:</td>
+                                <td align="right">{{ arDespacho.peso | number_format(0, '.', ',') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="titulo"></td>
+                                <td class="td-in-well"></td>
+                                <td class="titulo"></td>
+                                <td class="td-in-well"></td>
+                                <td class="titulo">VOLUMEN:</td>
+                                <td align="right">{{ arDespacho.pesoVolumen | number_format(0, '.', ',') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="titulo"></td>
+                                <td class="td-in-well"></td>
+                                <td class="titulo"></td>
+                                <td class="td-in-well"></td>
+                                <td class="titulo">DECLARADO:</td>
+                                <td align="right">{{ arDespacho.vrDeclara | number_format(0, '.', ',') }}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
+                <div class="content-panel">
+                    <section id="unseen">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Guia</th>
+                                <th>Documento</th>
+                                <th>Destinatario</th>
+                                <th>Destino</th>
+                                <th class="numeric">Cant</th>
+                                <th class="numeric">Peso</th>
+                                <th class="numeric">Declarado</th>
+                                <th class="numeric">Flete</th>
+                                <th class="numeric">Manejo</th>
+                                <th><input type="checkbox" name="ChkSeleccionarTodos"
+                                           OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arGuia in arGuias %}
+                                <tr>
+                                    <td>{{ arGuia.codigoGuiaPk }}</td>
+                                    <td>{{ arGuia.numero }}</td>
+                                    <td>{{ arGuia.clienteDocumento }}</td>
+                                    <td>{{ arGuia.destinatarioNombre }}</td>
+                                    <td>{{ arGuia.ciudadDestino }}</td>
+                                    <td class="numeric" style="text-align: right">{{ arGuia.unidades }}</td>
+                                    <td class="numeric"
+                                        style="text-align: right">{{ arGuia.pesoReal | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric"
+                                        style="text-align: right">{{ arGuia.vrDeclara | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric"
+                                        style="text-align: right">{{ arGuia.vrFlete | number_format(0, '.', ',') }}</td>
+                                    <td class="numeric"
+                                        style="text-align: right">{{ arGuia.vrManejo | number_format(0, '.', ',') }}</td>
+                                    <td><input type="checkbox" name="ChkSeleccionar[]"
+                                               value="{{ arGuia.codigoGuiaPk }}"/></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
             </div>
-            <br />
+            <br/>
             <div class="btn-toolbar" style="float: left">
                 <div class="btn-group">
                     <a class="btn btn-secondary btn-sm" href="{{ path('movimiento_despacho_lista') }}">Volver</a>
@@ -107,8 +116,9 @@
             </div>
             <div class="row float-right" style="padding-right: 15px;">
                 {% if arDespacho.estadoAprobado == 0 %}
-                <a class="btn btn-secondary btn-sm" href="Javascript:abrirVentana3('{{ path('movimiento_despacho_guia', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a>&nbsp;
-                {{ form_widget(form.btnDetalleEliminar) }}
+                    <a class="btn btn-secondary btn-sm"
+                       href="Javascript:abrirVentana3('{{ path('movimiento_despacho_guia', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}', 'buscarGuias', 600, 1200)">Agregar</a>&nbsp;
+                    {{ form_widget(form.btnDetalleEliminar) }}
                 {% endif %}
             </div>
             {{ form_rest(form) }}
