@@ -212,6 +212,12 @@ class TteGuia
     protected $empresaRel;
 
     /**
+     * @ORM\ManyToOne(targetEntity="TteOPerador", inversedBy="guiasOperadorRel")
+     * @ORM\JoinColumn(name="codigo_operador_fk", referencedColumnName="codigo_operador_pk")
+     */
+    protected $operadorREL;
+
+    /**
      * @ORM\ManyToOne(targetEntity="TteDestinatario", inversedBy="guiasDestinatarioRel")
      * @ORM\JoinColumn(name="codigo_destinatario_fk", referencedColumnName="codigo_destinatario_pk")
      */

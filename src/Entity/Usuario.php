@@ -53,6 +53,12 @@ class Usuario implements UserInterface, \Serializable
      */
     protected $empresaRel;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="TteOperador", inversedBy="usuariosOperadorRel")
+     * @ORM\JoinColumn(name="codigo_operador_fk", referencedColumnName="codigo_operador_pk")
+     */
+    protected $operadorRel;
+
     public function getRoles()
     {
         return array("ROLE_USER");
@@ -205,4 +211,23 @@ class Usuario implements UserInterface, \Serializable
     {
         $this->operacion = $operacion;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOperadorRel()
+    {
+        return $this->operadorRel;
+    }
+
+    /**
+     * @param mixed $operadorRel
+     */
+    public function setOperadorRel($operadorRel): void
+    {
+        $this->operadorRel = $operadorRel;
+    }
+
+
+
 }

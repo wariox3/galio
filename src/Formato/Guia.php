@@ -4,6 +4,7 @@ namespace App\Formato;
 
 use App\Entity\TteGuia;
 use App\Entity\TteEmpresa;
+use App\Entity\TteOperador;
 use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
 
 
@@ -14,7 +15,6 @@ class Guia extends \FPDF
     public static $codigoGuia;
     public static $imagen;
     public static $extension;
-    public static $masivo;
 
 
     public function Generar($em, $codigoGuia, $masivo = false)
@@ -23,7 +23,10 @@ class Guia extends \FPDF
         //$em = $miThis->getDoctrine()->getManager();
         self::$em = $em;
         self::$codigoGuia = $codigoGuia;
-        self::$masivo = $masivo;
+        $arGuia = self::$em->getRepository(TteGuia::class)->find(self::$codigoGuia);
+        $logo = self::$em->getRepository(TteOperador::class)->find(['codigoOperadorPk' => $arGuia->getCodigoOperadorFk()]);
+        self::$imagen="data:image/'{$logo->getExtension()}';base64," . base64_encode(stream_get_contents($logo->getImagen()));
+        self::$extension=$logo->getExtension();
         $pdf = new Guia();
         $pdf->AliasNbPages();
         $pdf->AddPage();
@@ -56,7 +59,10 @@ class Guia extends \FPDF
         $arEmpresa = $arGuia->getEmpresaRel();
         for ($i = 0; $i <= 3; $i++) {
             try {
-                $pdf->Image('img/logo.png', 10, $y - 16, 40, 15);
+                if (self::$imagen) {
+                    $pdf->Image(self::$imagen, 10, $y - 16, 40, 15, self::$extension);
+                }
+//                $pdf->Image('img/logo.png', 10, $y - 16, 40, 15);
             } catch (\Exception $exception) {
             }
             $codigoBarras->setText($arGuia->getNumero());
