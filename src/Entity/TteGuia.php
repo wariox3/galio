@@ -215,7 +215,7 @@ class TteGuia
      * @ORM\ManyToOne(targetEntity="TteOPerador", inversedBy="guiasOperadorRel")
      * @ORM\JoinColumn(name="codigo_operador_fk", referencedColumnName="codigo_operador_pk")
      */
-    protected $operadorREL;
+    protected $operadorRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="TteDestinatario", inversedBy="guiasDestinatarioRel")
@@ -841,6 +841,22 @@ class TteGuia
     public function setEmpresaRel($empresaRel): void
     {
         $this->empresaRel = $empresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOperadorRel()
+    {
+        return $this->operadorRel;
+    }
+
+    /**
+     * @param mixed $operadorRel
+     */
+    public function setOperadorRel($operadorRel): void
+    {
+        $this->operadorRel = $operadorRel;
     }
 
     /**

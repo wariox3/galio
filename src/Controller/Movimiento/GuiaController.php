@@ -106,7 +106,7 @@ class GuiaController extends Controller
             $arUsuario = $this->getUser();
             $arCiudadOrigen = $em->getRepository(TteCiudad::class)->find($arUsuario->getCodigoCiudadFk());
             $arGuia->setUsuario($arUsuario->getUsername());
-            $arGuia->setCodigoOperadorFk($arUsuario->getCodigoOperadorFk());
+            $arGuia->setOperadorRel($this->getUser()->getOperadorRel());
             $arGuia->setCiudadOrigenRel($arCiudadOrigen);
             if($arGuia->getCodigoDestinatarioFk()) {
                 $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
