@@ -11,6 +11,7 @@ use App\Entity\TteGuia;
 use App\Entity\Usuario;
 use App\Form\Type\GuiaType;
 use App\Formato\Etiqueta;
+use App\Formato\Guia;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -46,6 +47,11 @@ class GuiaController extends Controller
                 $codigoGuia = $request->request->get('OpImprimirEtiqueta');
                 $objDespacho = new Etiqueta();
                 $objDespacho->Generar($em, $codigoGuia);
+            }
+            if ($request->request->get('OpImprimirGuia')) {
+                $codigoGuia = $request->request->get('OpImprimirGuia');
+                $objGuia = new Guia();
+                $objGuia->Generar($em, $codigoGuia);
             }
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroGuiaFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);

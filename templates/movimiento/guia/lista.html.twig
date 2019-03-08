@@ -58,6 +58,7 @@
                 <th scope="col" class="th"></th>
                 <th scope="col" class="th"></th>
                 <th scope="col" class="th"></th>
+                <th scope="col" class="th"></th>
             </tr>
             </thead>
             <tbody>
@@ -76,6 +77,8 @@
                     <td class="numero">{{ arGuia.vrFlete | number_format(0,'.',',') }}</td>
                     <td class="numero">{{ arGuia.vrManejo | number_format(0,'.',',') }}</td>
                     <td>{% if arGuia.estadoImportado == 1 %} SI {% else %} NO {% endif %}</td>
+                    <td style="text-align: center;">
+                        <button class="btn btn-secondary btn-sm " type="submit" name="OpImprimirGuia" value="{{ arGuia.codigoGuiaPk }}">Guia</button></td>
                     <td style="text-align: center;">
                         <button class="btn btn-secondary btn-sm " type="submit" name="OpImprimirEtiqueta" value="{{ arGuia.codigoGuiaPk }}">Etiq</button></td>
                     <td style="text-align: center;">
