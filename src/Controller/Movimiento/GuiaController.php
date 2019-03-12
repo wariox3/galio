@@ -69,6 +69,57 @@ class GuiaController extends Controller
     /**
      * @param Request $request
      * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     * @Route("/movimiento/guia/detalle/{id}", name="movimiento_guia_detalle")
+     */
+    public function detalle(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $paginador = $this->container->get('knp_paginator');
+        $arGuia = $em->find(TteGuia::class, $id);
+        $arrBotonImprimir = ['label' => 'Imprimir', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
+        $arrBotonAnular = ['label' => 'Anular', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
+        $arrBotonImprimirEtiquetas = ['label' => 'Imprimir etiquetas', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
+
+        if ($arGuia->getEstadoAnulado() == 1) {
+            $arrBotonAnular['disabled'] = true;
+        }
+        $form = $this->createFormBuilder()
+            ->add('btnImprimir', SubmitType::class, $arrBotonImprimir)
+            ->add('btnAnular', SubmitType::class, $arrBotonAnular)
+            ->add('btnImprimirEtiquetas', SubmitType::class, $arrBotonImprimirEtiquetas)
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnImprimirEtiquetas')->isClicked()) {
+                $objDespacho = new Etiqueta();
+                $objDespacho->Generar($em, $id);
+            }
+            if ($form->get('btnImprimir')->isClicked()) {
+                $objFormato = new Guia();
+                $objFormato->Generar($em, $id);
+            }
+//            if ($form->get('btnAprobar')->isClicked()) {
+//                $em->getRepository(TteDespacho::class)->Aprobar($arDespacho);
+//                return $this->redirect($this->generateUrl('movimiento_despacho_detalle', ['id' => $id]));
+//            }
+            if ($form->get('btnAnular')->isClicked()) {
+                $em->getRepository(TteGuia::class)->Anular($arGuia);
+                return $this->redirect($this->generateUrl('movimiento_guia_detalle', ['id' => $id]));
+            }
+        }
+        return $this->render('movimiento/guia/detalle.html.twig', [
+            'form' => $form->createView(),
+            'arGuia' => $arGuia,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -108,7 +159,7 @@ class GuiaController extends Controller
             $arGuia->setUsuario($arUsuario->getUsername());
             $arGuia->setOperadorRel($this->getUser()->getOperadorRel());
             $arGuia->setCiudadOrigenRel($arCiudadOrigen);
-            if($arGuia->getCodigoDestinatarioFk()) {
+            if ($arGuia->getCodigoDestinatarioFk()) {
                 $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
             }
 

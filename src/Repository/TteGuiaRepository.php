@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Controller\Mensajes;
 use App\Entity\TteEmpresa;
 use App\Entity\TteGuia;
 use App\Entity\Usuario;
@@ -55,21 +56,22 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->addSelect('g.vrFlete')
             ->addSelect('g.vrManejo')
             ->addSelect('g.estadoImportado')
+            ->addSelect('g.estadoAnulado')
             ->from(TteGuia::class, 'g')
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
             ->where('g.codigoGuiaPk <> 0')
-        ->orderBy('g.fechaIngreso', 'DESC');
-        if(!$usuario->getAdmin()) {
-            $qb->andWhere('g.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
+            ->orderBy('g.fechaIngreso', 'DESC');
+        if (!$usuario->getAdmin()) {
+            $qb->andWhere('g.codigoEmpresaFk = ' . $usuario->getCodigoEmpresaFk());
         }
-        if($session->get('filtroGuiaFechaDesde')){
+        if ($session->get('filtroGuiaFechaDesde')) {
             $qb->andWhere("g.fecha >= '{$session->get('filtroGuiaFechaDesde')} 00:00:00'");
         }
-        if($session->get('filtroGuiaFechaHasta')){
+        if ($session->get('filtroGuiaFechaHasta')) {
             $qb->andWhere("g.fecha <= '{$session->get('filtroGuiaFechaHasta')} 23:59:59'");
         }
-        if($session->get('filtroGuiaNumero')){
+        if ($session->get('filtroGuiaNumero')) {
             $qb->andWhere("g.numero = " . $session->get('filtroGuiaNumero'));
         }
         return $qb;
@@ -99,7 +101,8 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
             ->where('g.codigoDespachoFk IS NULL')
-            ->andWhere('g.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
+            ->andWhere('g.codigoEmpresaFk = ' . $usuario->getCodigoEmpresaFk())
+            ->andWhere('g.estadoAnulado = 0');
         if ($session->get('filtroGuiaCodigo')) {
             $qb->andWhere("g.codigoGuiaPk = {$session->get('filtroGuiaCodigo')}");
         }
@@ -201,5 +204,38 @@ class TteGuiaRepository extends ServiceEntityRepository
             $respuesta = false;
         }
         return $respuesta;
+    }
+
+    /**
+     * @param $arGuia TteGuia
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function anular($arGuia)
+    {
+        $em = $this->getEntityManager();
+        $arGuia = $em->getRepository(TteGuia::class)->find($arGuia->getCodigoGuiaPk());
+        if ($arGuia->getCodigoDespachoFk() == null) {
+            if ($arGuia->getEstadoImportado() == 0) {
+                if (!$arGuia->getEstadoAnulado()) {
+                    $arGuia->setEstadoAnulado(1);
+                    $arGuia->setUnidades(0);
+                    $arGuia->setPesoReal(0);
+                    $arGuia->setPesoVolumen(0);
+                    $arGuia->setPesoFacturado(0);
+                    $arGuia->setVrFlete(0);
+                    $arGuia->setVrManejo(0);
+                    $arGuia->setVrDeclara(0);
+                    $this->getEntityManager()->persist($arGuia);
+                    $this->getEntityManager()->flush();
+                } else {
+                    Mensajes::error("La guia ya se encuentra anulada");
+                }
+            } else {
+                Mensajes::error("La guia ya se encuentra importada");
+            }
+        } else {
+            Mensajes::error("La guia se encuentra en el despacho numero: " . " " . $arGuia->getCodigoDespachoFk());
+        }
     }
 }

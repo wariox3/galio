@@ -183,6 +183,11 @@ class TteGuia
     private $estadoImportado = false;
 
     /**
+     * @ORM\Column(name="estado_anulado", type="boolean", nullable=true))
+     */
+    private $estadoAnulado = false;
+
+    /**
      * @ORM\Column(name="comentario", type="string", length=2000, nullable=true)
      */
     private $comentario;
@@ -905,6 +910,22 @@ class TteGuia
     public function setGuiaTipoRel($guiaTipoRel): void
     {
         $this->guiaTipoRel = $guiaTipoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoAnulado()
+    {
+        return $this->estadoAnulado;
+    }
+
+    /**
+     * @param mixed $estadoAnulado
+     */
+    public function setEstadoAnulado($estadoAnulado): void
+    {
+        $this->estadoAnulado = $estadoAnulado;
     }
 
 
