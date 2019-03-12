@@ -102,18 +102,27 @@ class GuiaController extends Controller
                 $objFormato = new Guia();
                 $objFormato->Generar($em, $id);
             }
-//            if ($form->get('btnAprobar')->isClicked()) {
-//                $em->getRepository(TteDespacho::class)->Aprobar($arDespacho);
-//                return $this->redirect($this->generateUrl('movimiento_despacho_detalle', ['id' => $id]));
-//            }
             if ($form->get('btnAnular')->isClicked()) {
                 $em->getRepository(TteGuia::class)->Anular($arGuia);
                 return $this->redirect($this->generateUrl('movimiento_guia_detalle', ['id' => $id]));
             }
         }
+        $arConfiguracion = $em->find(GenConfiguracion::class, 1);
+        $url = $arConfiguracion->getUrlCesio() . 'api/localizador/guia/estado/'.$arGuia->getCodigoOperadorFk().'/'.$id;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $estadoGuia = curl_exec($ch);
+        curl_close($ch);
+        $estadoGuia = json_decode($estadoGuia);
+        $arGuiaEstado = null;
+        if(!$estadoGuia->error){
+            $arGuiaEstado = $estadoGuia->guias;
+        }
         return $this->render('movimiento/guia/detalle.html.twig', [
             'form' => $form->createView(),
             'arGuia' => $arGuia,
+            'arGuiasEstado' => $arGuiaEstado,
         ]);
     }
 
