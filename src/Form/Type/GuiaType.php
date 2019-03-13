@@ -66,8 +66,6 @@ class GuiaType extends AbstractType {
             ->add('pesoReal', NumberType::class,['attr' => ['class' => 'form-control']])
             ->add('pesoVolumen', NumberType::class,['attr' => ['class' => 'form-control']])
             ->add('vrDeclara', NumberType::class,['attr' => ['class' => 'form-control']])
-            ->add('vrFlete', NumberType::class,['attr' => ['class' => 'form-control']])
-            ->add('vrManejo', NumberType::class,['attr' => ['class' => 'form-control']])
             ->add('comentario',TextareaType::class, ['required' => false, 'attr' => ['class' => 'form-control','rows' => '4']])
             ->add('guardar',SubmitType::class,['label' => 'Guardar','attr' => ['class' => 'btn btn-sm btn-primary float-right']]);
     }

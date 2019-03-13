@@ -37,32 +37,32 @@
                                 <td align="right">{{ arGuia.pesoReal | number_format(0, '.', ',') }}</td>
                             </tr>
                             <tr>
-                                <td class="titulo"></td>
-                                <td class="td-in-well"></td>
-                                <td class="titulo"></td>
-                                <td class="td-in-well"></td>
+                                <td class="titulo">DOCUMENTO:</td>
+                                <td class="td-in-well">{{ arGuia.clienteDocumento }}</td>
+                                <td class="titulo">REMITENTE:</td>
+                                <td class="td-in-well">{{ arGuia.remitente }}</td>
                                 <td class="titulo">VOLUMEN:</td>
                                 <td align="right">{{ arGuia.pesoVolumen | number_format(0, '.', ',') }}</td>
                             </tr>
                             <tr>
-                                <td class="titulo"></td>
-                                <td class="td-in-well"></td>
-                                <td class="titulo"></td>
-                                <td class="td-in-well"></td>
+                                <td class="titulo">CIUDAD ORIGEN:</td>
+                                <td class="td-in-well">{{ arGuia.ciudadOrigenRel.nombre }}</td>
+                                <td class="titulo">DESTINATARIO:</td>
+                                <td class="td-in-well">{{ arGuia.destinatarioNombre }}</td>
                                 <td class="titulo">PESO FACTURADO:</td>
                                 <td align="right">{{ arGuia.pesoFacturado | number_format(0, '.', ',') }}</td>
                             </tr>
                             <tr>
-                                <td class="titulo"></td>
-                                <td class="td-in-well"></td>
-                                <td class="titulo"></td>
-                                <td class="td-in-well"></td>
+                                <td class="titulo">TEL DESTINATARIO:</td>
+                                <td class="td-in-well">{{ arGuia.destinatarioTelefono }}</td>
+                                <td class="titulo">DIR DESTINATARIO:</td>
+                                <td class="td-in-well">{{ arGuia.destinatarioDireccion }}</td>
                                 <td class="titulo">DECLARADO:</td>
                                 <td align="right">{{ arGuia.vrDeclara | number_format(0, '.', ',') }}</td>
                             </tr>
                             <tr>
-                                <td class="titulo"></td>
-                                <td class="td-in-well"></td>
+                                <td class="titulo">CIUDAD DESTINO:</td>
+                                <td class="td-in-well">{{ arGuia.ciudadDestinoRel.nombre }}</td>
                                 <td class="titulo"></td>
                                 <td class="td-in-well"></td>
                                 <td class="titulo">FLETE:</td>
@@ -81,39 +81,36 @@
                 </div>
                 <div class="content-panel">
                     <section id="unseen">
-                        <table class="table table-bordered table-striped table-condensed">
+                        <table class="table table-bordered table-striped table-responsive">
+                            {% for arGuiaEstado in arGuiasEstado %}
                             <thead>
                             <tr>
-                                <th>GUIA</th>
-                                <th>TIPO</th>
-                                <th>DOCUMENTO</th>
-                                <th>ORIGEN</th>
-                                <th>DESTINO</th>
+                                <th scope="col" class="th">TIPO</th>
+                                <th scope="col" class="th">ESTADO</th>
+                                <th scope="col" class="th">FECHA</th>
+                            </tr>
+                            <tr>
                                 <th>INGRESO</th>
+                                <td>{% if arGuiaEstado.fechaIngreso == null %} NO {% else %} SI {% endif %}</td>
+                                <td>{{ arGuiaEstado.fechaIngreso | date('Y-m-d') }}</td>
+                            </tr>
+                            <tr>
                                 <th>DESPACHADO</th>
+                                <td>{% if arGuiaEstado.fechaDespachado == null %} NO {% else %} SI {% endif %}</td>
+                                <td>{{ arGuiaEstado.fechaDespachado | date('Y-m-d') }}</td>
+                            </tr>
+                            <tr>
                                 <th>ENTREGADO</th>
-                                <th>FECHA</th>
+                                <td>{% if arGuiaEstado.entregado == true %} SI {% else %} NO {% endif %}</td>
+                                <td>{% if arGuiaEstado.entregado == true %}{{ arGuiaEstado.fechaEntregado | date('Y-m-d') }} {% else %} --.-- {% endif %}</td>
+                            </tr>
+                            <tr>
                                 <th>CUMPLIDO</th>
-                                <th>FECHA</th>
+                                <td>{% if arGuiaEstado.cumplido == true %} SI {% else %} NO {% endif %}</td>
+                                <td>{% if arGuiaEstado.cumplido == true %}{{ arGuiaEstado.fechaCumplido | date('Y-m-d') }} {% else %} --.-- {% endif %}</td>
                             </tr>
                             </thead>
-                            <tbody>
-                            {% for arGuiaEstado in arGuiasEstado %}
-                                <tr>
-                                    <td>{{ arGuia.codigoGuiaPk }}</td>
-                                    <td>{{ arGuiaEstado.tipoGuia }}</td>
-                                    <td>{{ arGuiaEstado.documentoCliente }}</td>
-                                    <td>{{ arGuiaEstado.ciudadOrigen }}</td>
-                                    <td>{{ arGuiaEstado.ciudadDestino }}</td>
-                                    <td>{{ arGuiaEstado.fechaIngreso | date('Y-m-d') }}</td>
-                                    <td>{{ arGuiaEstado.fechaDespachado | date('Y-m-d') }}</td>
-                                    <td>{% if arGuiaEstado.entregado == true %} SI {% else %} NO {% endif %}</td>
-                                    <td>{{ arGuiaEstado.fechaEntregado | date('Y-m-d') }}</td>
-                                    <td>{% if arGuiaEstado.cumplido == true %} SI {% else %} NO {% endif %}</td>
-                                    <td>{{ arGuiaEstado.fechaCumplido | date('Y-m-d') }}</td>
-                                </tr>
                             {% endfor %}
-                            </tbody>
                         </table>
                     </section>
                 </div>
