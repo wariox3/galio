@@ -119,6 +119,7 @@ class GuiaController extends Controller
         if(!$estadoGuia->error){
             $arGuiaEstado = $estadoGuia->guias;
         }
+
         return $this->render('movimiento/guia/detalle.html.twig', [
             'form' => $form->createView(),
             'arGuia' => $arGuia,
