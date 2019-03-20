@@ -70,7 +70,7 @@ class UsuarioController extends Controller
         if ($id != '0') {
             $arUsuario = $em->find(Usuario::class, $id);
         } else {
-            $arUsuario->setCodigoOperadorFk($this->getUser()->getCodigoOperadorFk());
+            $arUsuario->setOperadorRel($this->getUser()->getOperadorRel());
         }
         $form = $this->createForm(UsuarioType::class, $arUsuario);
         $form->handleRequest($request);
