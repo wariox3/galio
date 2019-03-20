@@ -48,6 +48,11 @@ class Usuario implements UserInterface, \Serializable
     private $operacion;
 
     /**
+     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
+     */
+    private $codigoClienteFk;
+
+    /**
      * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="usuariosEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
@@ -226,6 +231,22 @@ class Usuario implements UserInterface, \Serializable
     public function setOperadorRel($operadorRel): void
     {
         $this->operadorRel = $operadorRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoClienteFk()
+    {
+        return $this->codigoClienteFk;
+    }
+
+    /**
+     * @param mixed $codigoClienteFk
+     */
+    public function setCodigoClienteFk($codigoClienteFk): void
+    {
+        $this->codigoClienteFk = $codigoClienteFk;
     }
 
 

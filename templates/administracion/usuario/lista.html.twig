@@ -9,6 +9,7 @@
                 <th scope="col" class="th">CIUDAD</th>
                 <th scope="col" class="th">EMPRESA</th>
                 <th scope="col" class="th">OPERACION</th>
+                <th scope="col" class="th" title="Codigo de cliente">COD_CLI</th>
                 <th scope="col" class="th"></th>
                 <th scope="col" class="th"></th>
             </tr>
@@ -20,6 +21,7 @@
                     <td>{{ arUsuario.codigoCiudadFk }}</td>
                     <td>{{ arUsuario.nombreEmpresa }}</td>
                     <td>{{ arUsuario.operacion }}</td>
+                    <td>{{ arUsuario.codigoClienteFk }}</td>
                     <td style="text-align: center;">
                         <a title="Editar el registro"
                            href="{{ path('administracion_usuario_nuevo',{'id':arUsuario.username }) }}">

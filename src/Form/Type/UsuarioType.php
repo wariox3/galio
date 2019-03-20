@@ -19,11 +19,12 @@ class UsuarioType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
-            ->add('password', PasswordType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('password', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
 //            ->add('admin', CheckboxType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('codigoCiudadFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
 //            ->add('codigoOperadorFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('operacion', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('codigoClienteFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('empresaRel', EntityType::class, [
                 'class' => TteEmpresa::class,
                 'required' => true,

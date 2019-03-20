@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form) }}
+    <div class="content mt-3">
+        <div class="card">
+            <div class="card-header">
+                Filtros
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-1" style="padding-top: 12px;">Desde:</label>
+                            {{ form_widget(form.fechaDesde) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-1" style="padding-top: 12px;">Numero:</label>
+                            {{ form_widget(form.txtNumero) }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-1" style="padding-top: 12px;">Hasta:</label>
+                            {{ form_widget(form.fechaHasta) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="badge col-sm-1" style="padding-top: 12px;">Documento:</label>
+                            {{ form_widget(form.txtDocumento) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row float-right">
+                    <div class="input-group" style="padding-right: 5px;">
+                        {{ form_widget(form.btnFiltrar) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered tabla-datos">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">GUÍA</th>
+                <th scope="col">FECHA</th>
+                <th scope="col">DOCUMENTO</th>
+                <th scope="col">DESTINATARIO</th>
+                <th scope="col">DESTINO</th>
+                <th scope="col">CANT</th>
+                <th scope="col" >PESO</th>
+                <th scope="col" title="Embarcado">EMB</th>
+                <th scope="col" title="Despachado">DES</th>
+                <th scope="col" title="Entregado">ENT</th>
+                <th scope="col" title="Soporte">SOP</th>
+                <th scope="col" title="Cumplido">CUM</th>
+                <th scope="col" title="Facturado">FAC</th>
+                <th scope="col" title="Novedad">NOV</th>
+                <th scope="col" title="Anulado">ANU</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for arGuia in arGuias %}
+                <tr>
+                    <th scope="row">{{ arGuia.codigoGuiaPk }}</th>
+                    <td>{{ arGuia.numero }}</td>
+                    <td>{{ arGuia.fechaIngreso | date('Y-m-d') }}</td>
+                    <td>{{ arGuia.documentoCliente }}</td>
+                    <td>{{ arGuia.nombreDestinatario }}</td>
+                    <td>{{ arGuia.ciudadDestino }}</td>
+                    <td class="numero">{{ arGuia.unidades | number_format(0,'.',',') }}</td>
+                    <td class="numero">{{ arGuia.pesoReal | number_format(0,'.',',') }}</td>
+                    <td class="estado">{{ arGuia.estadoEmbarcado ?'SI':'NO'}}</td>
+                    <td class="estado">{{ arGuia.estadoDespachado ?'SI':'NO'}}</td>
+                    <td class="estado">{{ arGuia.estadoEntregado ?'SI':'NO'}}</td>
+                    <td class="estado">{{ arGuia.estadoSoporte ?'SI':'NO'}}</td>
+                    <td class="estado">{{ arGuia.estadoCumplido ?'SI':'NO'}}</td>
+                    <td class="estado">{{ arGuia.estadoFacturado ?'SI':'NO'}}</td>
+                    <td class="estado">{{ arGuia.estadoNovedad ?'SI':'NO'}}</td>
+                    <td class="estado">{{ arGuia.estadoAnulado ?'SI':'NO'}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <br /><br /><br />
+    </div>
+    <style type="text/css">
+        .th {
+            font-size: 12px !important;
+        }
+
+        .numero {
+            text-align: right;
+        }
+    </style>
+    {{ form_end(form) }}
+{% endblock %}

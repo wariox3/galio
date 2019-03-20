@@ -23,6 +23,7 @@ class UsuarioRepository extends ServiceEntityRepository
             ->addSelect('u.codigoCiudadFk')
             ->addSelect('e.nombre as nombreEmpresa')
             ->addSelect('u.operacion')
+            ->addSelect('u.codigoClienteFk')
             ->leftJoin('u.empresaRel','e')
             ->where("u.codigoOperadorFk = '{$usuario->getCodigoOperadorFk()}'");
     }
