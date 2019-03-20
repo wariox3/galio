@@ -50,6 +50,8 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">GUÍA</th>
+                <th scope="col"title="Operacion ingreso">OI</th>
+                <th scope="col"title="Operacion cargo">OC</th>
                 <th scope="col">FECHA</th>
                 <th scope="col">DOCUMENTO</th>
                 <th scope="col">DESTINATARIO</th>
@@ -71,6 +73,8 @@
                 <tr>
                     <th scope="row">{{ arGuia.codigoGuiaPk }}</th>
                     <td>{{ arGuia.numero }}</td>
+                    <td>{{ arGuia.codigoOperacionIngresoFk }}</td>
+                    <td>{{ arGuia.codigoOperacionCargoFk }}</td>
                     <td>{{ arGuia.fechaIngreso | date('Y-m-d') }}</td>
                     <td>{{ arGuia.documentoCliente }}</td>
                     <td>{{ arGuia.nombreDestinatario }}</td>
