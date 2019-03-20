@@ -50,22 +50,19 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">GUÍA</th>
-                <th scope="col"title="Operacion ingreso">OI</th>
-                <th scope="col"title="Operacion cargo">OC</th>
-                <th scope="col">FECHA</th>
+                <th scope="col" title="OPERACION INGRESO">OI</th>
+                <th scope="col" title="OPERACION CARGO">OC</th>
                 <th scope="col">DOCUMENTO</th>
+                <th scope="col">FECHA</th>
+                <th scope="col" title="DESPACHADO">DESPACHADO</th>
+                <th scope="col">FECHA</th>
                 <th scope="col">DESTINATARIO</th>
                 <th scope="col">DESTINO</th>
-                <th scope="col">CANT</th>
-                <th scope="col" >PESO</th>
-                <th scope="col" title="Embarcado">EMB</th>
-                <th scope="col" title="Despachado">DES</th>
-                <th scope="col" title="Entregado">ENT</th>
-                <th scope="col" title="Soporte">SOP</th>
-                <th scope="col" title="Cumplido">CUM</th>
-                <th scope="col" title="Facturado">FAC</th>
-                <th scope="col" title="Novedad">NOV</th>
-                <th scope="col" title="Anulado">ANU</th>
+                <th scope="col" title="ENTREGADO">ENTREGADO</th>
+                <th scope="col">FECHA</th>
+                <th scope="col" title="CUMPLIDO">CUMPLIDO</th>
+                <th scope="col">FECHA</th>
+                <th scope="col" title="Anulado">NOVEDAD</th>
             </tr>
             </thead>
             <tbody>
@@ -75,20 +72,17 @@
                     <td>{{ arGuia.numero }}</td>
                     <td>{{ arGuia.codigoOperacionIngresoFk }}</td>
                     <td>{{ arGuia.codigoOperacionCargoFk }}</td>
-                    <td>{{ arGuia.fechaIngreso | date('Y-m-d') }}</td>
                     <td>{{ arGuia.documentoCliente }}</td>
+                    <td>{{ arGuia.fechaIngreso | date('Y-m-d') }}</td>
+                    <td class="estado">{{ arGuia.estadoDespachado ?'SI':'NO'}}</td>
+                    <td>{% if arGuia.estadoDespachado == true %}{{ arGuia.fechaDespacho | date('Y-m-d') }} {% else %} --.-- {% endif %}</td>
                     <td>{{ arGuia.nombreDestinatario }}</td>
                     <td>{{ arGuia.ciudadDestino }}</td>
-                    <td class="numero">{{ arGuia.unidades | number_format(0,'.',',') }}</td>
-                    <td class="numero">{{ arGuia.pesoReal | number_format(0,'.',',') }}</td>
-                    <td class="estado">{{ arGuia.estadoEmbarcado ?'SI':'NO'}}</td>
-                    <td class="estado">{{ arGuia.estadoDespachado ?'SI':'NO'}}</td>
                     <td class="estado">{{ arGuia.estadoEntregado ?'SI':'NO'}}</td>
-                    <td class="estado">{{ arGuia.estadoSoporte ?'SI':'NO'}}</td>
+                    <td>{% if arGuia.estadoEntregado == true %}{{ arGuia.fechaEntregado | date('Y-m-d') }} {% else %} --.-- {% endif %}</td>
                     <td class="estado">{{ arGuia.estadoCumplido ?'SI':'NO'}}</td>
-                    <td class="estado">{{ arGuia.estadoFacturado ?'SI':'NO'}}</td>
+                    <td>{% if arGuia.estadoCumplido == true %}{{ arGuia.fechaCumplido | date('Y-m-d') }} {% else %} --.-- {% endif %}</td>
                     <td class="estado">{{ arGuia.estadoNovedad ?'SI':'NO'}}</td>
-                    <td class="estado">{{ arGuia.estadoAnulado ?'SI':'NO'}}</td>
                 </tr>
             {% endfor %}
             </tbody>
