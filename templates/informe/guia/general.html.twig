@@ -55,7 +55,6 @@
                 <th scope="col">DOCUMENTO</th>
                 <th scope="col">FECHA</th>
                 <th scope="col" title="DESPACHADO">DESPACHADO</th>
-                <th scope="col">FECHA</th>
                 <th scope="col">DESTINATARIO</th>
                 <th scope="col">DESTINO</th>
                 <th scope="col" title="ENTREGADO">ENTREGADO</th>
@@ -75,7 +74,6 @@
                     <td>{{ arGuia.documentoCliente }}</td>
                     <td>{{ arGuia.fechaIngreso | date('Y-m-d') }}</td>
                     <td class="estado">{{ arGuia.estadoDespachado ?'SI':'NO'}}</td>
-                    <td>{% if arGuia.estadoDespachado == true %}{{ arGuia.fechaDespacho | date('Y-m-d') }} {% else %} --.-- {% endif %}</td>
                     <td>{{ arGuia.nombreDestinatario }}</td>
                     <td>{{ arGuia.ciudadDestino }}</td>
                     <td class="estado">{{ arGuia.estadoEntregado ?'SI':'NO'}}</td>
