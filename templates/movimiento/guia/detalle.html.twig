@@ -93,12 +93,12 @@
                             <tr>
                                 <th>INGRESO</th>
                                 <td>{% if arGuiaEstado.fechaIngreso == null %} NO {% else %} SI {% endif %}</td>
-                                <td>{{ arGuiaEstado.fechaIngreso | date('Y-m-d') }}</td>
+                                <td>{% if arGuiaEstado.fechaIngreso != null %}{{ arGuiaEstado.fechaIngreso | date ('Y-m-d') }}{% else %} --.-- {% endif %}</td>
                             </tr>
                             <tr>
                                 <th>DESPACHADO</th>
                                 <td>{% if arGuiaEstado.fechaDespachado == null %} NO {% else %} SI {% endif %}</td>
-                                <td>{{ arGuiaEstado.fechaDespachado | date('Y-m-d') }}</td>
+                                <td>{% if arGuiaEstado.fechaDespachado != null %}{{ arGuiaEstado.fechaDespachado | date ('Y-m-d') }}{% else %} --.-- {% endif %}</td>
                             </tr>
                             <tr>
                                 <th>ENTREGADO</th>

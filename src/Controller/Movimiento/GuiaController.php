@@ -108,7 +108,7 @@ class GuiaController extends Controller
             }
         }
         $arConfiguracion = $em->find(GenConfiguracion::class, 1);
-        $url = $arConfiguracion->getUrlCesio() . 'api/localizador/guia/estado/'.$arGuia->getCodigoOperadorFk().'/'.$id;
+        $url = $arConfiguracion->getUrlCesio() . 'api/localizador/guia/estado/'.$arGuia->getCodigoOperadorFk().'/'.$arGuia->getNumero();
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
