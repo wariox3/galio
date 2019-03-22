@@ -18,8 +18,10 @@ class TteProductoRepository extends ServiceEntityRepository
             ->select('p.nombre')
             ->addSelect('p.codigoProductoPk')
             ->addSelect('p.codigoOperadorFk')
+            ->addSelect('p.orden')
             ->from(TteProducto::class,'p')
-            ->where('p.codigoProductoPk IS NOT NULL');
+            ->where('p.codigoProductoPk IS NOT NULL')
+        ->orderBy('p.orden', 'ASC');
         return $qb;
     }
 }
