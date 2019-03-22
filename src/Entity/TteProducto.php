@@ -21,6 +21,11 @@ class TteProducto
     private $nombre;
 
     /**
+     * @ORM\Column(type="integer", name="orden", nullable=true)
+     */
+    private $orden;
+
+    /**
      * @ORM\Column(name="codigo_operador_fk", type="string", length=20, nullable=true)
      */
     private $codigoOperadorFk;
@@ -93,4 +98,22 @@ class TteProducto
     {
         $this->guiasProductoRel = $guiasProductoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrden()
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param mixed $orden
+     */
+    public function setOrden($orden): void
+    {
+        $this->orden = $orden;
+    }
+
+
 }

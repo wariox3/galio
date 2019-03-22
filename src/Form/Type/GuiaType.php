@@ -30,7 +30,7 @@ class GuiaType extends AbstractType {
                 'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('e')
                         ->where("e.codigoOperadorFk = '{$user->getCodigoOperadorFk()}'")
-                        ->orderBy('e.nombre', 'ASC');
+                        ->orderBy('e.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
                 'attr' => ['class' => 'form-control']
