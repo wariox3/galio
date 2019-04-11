@@ -35,16 +35,19 @@ class GuiaType extends AbstractType {
                 'choice_label' => 'nombre',
                 'attr' => ['class' => 'form-control']
             ))
-            ->add('ciudadDestinoRel', EntityType::class, array(
+            ->add('ciudadDestinoRel',EntityType::class,[
+                'required' => true,
                 'class' => TteCiudad::class,
                 'query_builder' => function (EntityRepository $er) use ($user) {
                     return $er->createQueryBuilder('c')
                         ->where("c.codigoOperadorFk = '{$user->getCodigoOperadorFk()}'")
                         ->orderBy('c.nombre', 'ASC');
                 },
-                'choice_label' => 'nombre',
-                'attr' => ['class' => 'form-control']
-            ))
+                'choice_label' => function($er){
+                    $ciudad = $er->getNombre();
+                    return $ciudad.' - '.$er->getDepartamentoRel()->getNombre();
+                },
+            ])
             ->add('guiaTipoRel', EntityType::class, array(
                 'class' => TteGuiaTipo::class,
                 'query_builder' => function (EntityRepository $er) use ($user) {
