@@ -60,17 +60,17 @@
                             <tr>
                                 <td>Despachado</td>
                                 <td>{{ arrEstados.despachado?'SI':'NO' }}</td>
-                                <td>{% if arrEstados.fechaDespachado != null %}{{ arrEstados.fechaCumplido | date('Y-m-d') }}{% endif %}</td>
+                                <td>{% if arrEstados.fechaDespachado != null %}{{ arrEstados.fechaDespachado | date('Y-m-d') }}{% endif %}</td>
                             </tr>
                             <tr>
                                 <td>Entregado</td>
                                 <td>{{ arrEstados.entregado?'SI':'NO' }}</td>
-                                <td>{% if arrEstados.fechaEntregado != null %}{{ arrEstados.fechaCumplido | date('Y-m-d') }}{% endif %}</td>
+                                <td>{% if arrEstados.fechaEntregado != null %}{{ arrEstados.fechaEntregado | date('Y-m-d') }}{% endif %}</td>
                             </tr>
                             <tr>
                                 <td>Soporte</td>
                                 <td>{{ arrEstados.soporte?'SI':'NO' }}</td>
-                                <td>{% if arrEstados.fechaSoporte != null %}{{ arrEstados.fechaCumplido | date('Y-m-d') }}{% endif %}</td>
+                                <td>{% if arrEstados.fechaSoporte != null %}{{ arrEstados.fechaSoporte | date('Y-m-d') }}{% endif %}</td>
                             </tr>
                             <tr>
                                 <td>Cumplido</td>
