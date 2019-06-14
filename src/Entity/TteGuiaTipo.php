@@ -26,6 +26,11 @@ class TteGuiaTipo
     private $nombre;
 
     /**
+     * @ORM\Column(name="orden", type="integer", nullable=true)
+     */
+    private $orden;
+
+    /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="guiaTipoRel")
      */
     protected $guiasGuiaTipoRel;
@@ -61,5 +66,23 @@ class TteGuiaTipo
     {
         return $this->guiasGuiaTipoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrden()
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param mixed $orden
+     */
+    public function setOrden($orden): void
+    {
+        $this->orden = $orden;
+    }
+
+
 }
 

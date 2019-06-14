@@ -51,8 +51,8 @@ class GuiaType extends AbstractType {
             ->add('guiaTipoRel', EntityType::class, array(
                 'class' => TteGuiaTipo::class,
                 'query_builder' => function (EntityRepository $er) use ($user) {
-                    return $er->createQueryBuilder('c')
-                        ->orderBy('c.nombre', 'ASC');
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
                 'attr' => ['class' => 'form-control']

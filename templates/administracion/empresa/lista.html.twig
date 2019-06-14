@@ -10,8 +10,8 @@
                 <th scope="col" class="th">DIRECCIÓN</th>
                 <th scope="col" class="th">TELÉFONO</th>
                 <th scope="col" class="th">DESDE</th>
-                <th scope="col" class="th">NUMERO</th>
                 <th scope="col" class="th">HASTA</th>
+                <th scope="col" class="th">SIGUIENTE</th>
                 <th scope="col" class="th"></th>
             </tr>
             </thead>
@@ -24,8 +24,8 @@
                     <td>{{ arEmpresa.direccion }}</td>
                     <td>{{ arEmpresa.telefono }}</td>
                     <td>{{ arEmpresa.desde }}</td>
-                    <td>{{ arEmpresa.consecutivo }}</td>
                     <td>{{ arEmpresa.hasta }}</td>
+                    <td>{{ arEmpresa.consecutivo }}</td>
                     <td style="text-align: center;">
                         <a title="Editar el registro"
                            href="{{ path('administracion_empresa_nuevo',{'id' : arEmpresa.codigoEmpresaPk }) }}">
