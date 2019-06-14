@@ -145,6 +145,7 @@ class GuiaController extends Controller
             $arGuia->setEmpresaRel($this->getUser()->getEmpresaRel());
             $arGuia->setFecha(new \DateTime('now'));
             $arGuia->setFechaIngreso(new \DateTime('now'));
+            $arGuia->setRemitente($this->getUser()->getEmpresaRel()->getNombre());
         }
         $form = $this->createForm(GuiaType::class, $arGuia);
         $form->handleRequest($request);
