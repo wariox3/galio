@@ -127,7 +127,7 @@ class DespachoController extends Controller
             }
             if ($form->get('btnImprimir')->isClicked()) {
                 $objFormato = new Despacho();
-                $objFormato->Generar($em, $id);
+                $objFormato->Generar($em, $id, $this->getUser()->getCodigoOperadorFk());
             }
             if ($form->get('btnAprobar')->isClicked()) {
                 $em->getRepository(TteDespacho::class)->Aprobar($arDespacho);

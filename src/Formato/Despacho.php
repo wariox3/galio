@@ -5,25 +5,31 @@ namespace App\Formato;
 use App\Entity\TteDespacho;
 use App\Entity\TteEmpresa;
 use App\Entity\TteGuia;
+use App\Entity\TteOperador;
 
 class Despacho extends \FPDF {
+
     public static $em;
     public static $codigoDespacho;
+    public static $operador;
     
-    public function Generar($em, $codigoDespacho) {        
+    public function Generar($em, $codigoDespacho, $operador) {
         ob_clean();
         //$em = $miThis->getDoctrine()->getManager();
         self::$em = $em;
         self::$codigoDespacho = $codigoDespacho;
+        self::$operador = $operador;
         $pdf = new Despacho();
         $pdf->AliasNbPages();
         $pdf->AddPage();
         $pdf->SetFont('Times', '', 12);
         $this->Body($pdf);
         $pdf->Output("Despacho$codigoDespacho.pdf", 'D');                
-    } 
-    
+    }
+
     public function Header() {
+        /** @var  $em ObjectManager */
+        $em = self::$em;
         /** @var  $arDespacho TteDespacho */
         $arDespacho = self::$em->getRepository(TteDespacho::class)->find(self::$codigoDespacho);
         /** @var  $arEmpresa TteEmpresa */
@@ -31,11 +37,13 @@ class Despacho extends \FPDF {
         $this->SetFillColor(200, 200, 200);        
         $this->SetFont('Arial','B',10);
         //Logo
-
-//        try{
-            $this->Image('img/logo.png', 12, 13, 35, 17);
-//        } catch (\Exception $exception){
-//        }
+        try {
+            $logo = $em->getRepository(TteOperador::class)->find(self::$operador);
+            if ($logo) {
+                $this->Image("data:image/'{$logo->getExtension()}';base64," . base64_encode(stream_get_contents($logo->getImagen())), 10, 10, 40, 25, $logo->getExtension());
+            }
+        } catch (\Exception $exception) {
+        }
         //INFORMACIÓN EMPRESA
         $this->SetXY(50, 10);
         $this->Cell(150, 7, utf8_decode("RELACION DESPACHO"), 0, 0, 'C', 1);
