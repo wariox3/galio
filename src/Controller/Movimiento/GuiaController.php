@@ -12,6 +12,7 @@ use App\Entity\Usuario;
 use App\Form\Type\GuiaType;
 use App\Formato\Etiqueta;
 use App\Formato\Guia;
+use App\Formato\GuiaEnergy;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -108,7 +109,7 @@ class GuiaController extends Controller
             }
         }
         $arConfiguracion = $em->find(GenConfiguracion::class, 1);
-        $url = $arConfiguracion->getUrlCesio() . 'api/localizador/guia/estado/'.$arGuia->getCodigoOperadorFk().'/'.$arGuia->getNumero();
+        $url = $arConfiguracion->getUrlCesio() . 'api/localizador/guia/estado/' . $arGuia->getCodigoOperadorFk() . '/' . $arGuia->getNumero();
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -116,7 +117,7 @@ class GuiaController extends Controller
         curl_close($ch);
         $estadoGuia = json_decode($estadoGuia);
         $arGuiaEstado = null;
-        if(!$estadoGuia->error){
+        if (!$estadoGuia->error) {
             $arGuiaEstado = $estadoGuia->guias;
         }
 
@@ -135,7 +136,8 @@ class GuiaController extends Controller
      * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/movimiento/guia/nuevo/{id}", name="movimiento_guia_nuevo")
      */
-    public function nuevo(Request $request, $id)
+    public
+    function nuevo(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $arGuia = new TteGuia();
