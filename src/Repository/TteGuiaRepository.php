@@ -61,6 +61,7 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
             ->where('g.codigoGuiaPk <> 0')
+            ->andWhere("g.codigoOperadorFk = '{$usuario->getCodigoOperadorFk()}'")
             ->orderBy('g.fechaIngreso', 'DESC');
         if (!$usuario->getAdmin()) {
             $qb->andWhere('g.codigoEmpresaFk = ' . $usuario->getCodigoEmpresaFk());
@@ -102,6 +103,7 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->leftJoin('g.ciudadOrigenRel', 'co')
             ->where('g.codigoDespachoFk IS NULL')
             ->andWhere('g.codigoEmpresaFk = ' . $usuario->getCodigoEmpresaFk())
+            ->andWhere("g.codigoOperadorFk = '{$usuario->getCodigoOperadorFk()}'")
             ->andWhere('g.estadoAnulado = 0');
         if ($session->get('filtroGuiaCodigo')) {
             $qb->andWhere("g.codigoGuiaPk = {$session->get('filtroGuiaCodigo')}");

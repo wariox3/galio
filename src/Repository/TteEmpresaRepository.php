@@ -14,7 +14,7 @@ class TteEmpresaRepository extends ServiceEntityRepository
         parent::__construct($registry, TteEmpresa::class);
     }
 
-    public function lista(){
+    public function lista($operador){
         $qb = $this->_em->createQueryBuilder()
             ->from(TteEmpresa::class,'e')
             ->select('e.codigoEmpresaPk')
@@ -25,7 +25,8 @@ class TteEmpresaRepository extends ServiceEntityRepository
             ->addSelect('e.consecutivoGuiaDesde as desde')
             ->addSelect('e.consecutivoGuia as consecutivo')
             ->addSelect('e.consecutivoGuiaHasta as hasta')
-            ->where('e.codigoEmpresaPk <> 0');
+            ->where('e.codigoEmpresaPk <> 0')
+        ->andWhere("e.codigoOperadorFk = '$operador'");
         return $qb;
     }
 }

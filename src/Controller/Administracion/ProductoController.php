@@ -30,7 +30,7 @@ class ProductoController extends Controller
             ->add('btnEliminar')
             ->getForm();
         $form->handleRequest($request);
-        $arProductos = $paginador->paginate($em->getRepository(TteProducto::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arProductos = $paginador->paginate($em->getRepository(TteProducto::class)->lista($this->getUser()), $request->query->getInt('page', 1), 30);
         return $this->render('administracion/producto/lista.html.twig', [
             'arProductos' => $arProductos,
             'form' => $form->createView()

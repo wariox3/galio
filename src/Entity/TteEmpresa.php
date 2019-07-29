@@ -27,6 +27,11 @@ class TteEmpresa
     private $nit;
 
     /**
+     * @ORM\Column(name="codigo_operador_fk", type="string",length=20, nullable=true)
+     */
+    private $codigoOperadorFk;
+
+    /**
      * @ORM\Column(name="lista_precio", type="integer", nullable=true)
      */
     private $listaPrecio;
@@ -324,6 +329,22 @@ class TteEmpresa
     public function setConsecutivoGuiaDesde( $consecutivoGuiaDesde ): void
     {
         $this->consecutivoGuiaDesde = $consecutivoGuiaDesde;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoOperadorFk()
+    {
+        return $this->codigoOperadorFk;
+    }
+
+    /**
+     * @param mixed $codigoOperadorFk
+     */
+    public function setCodigoOperadorFk($codigoOperadorFk): void
+    {
+        $this->codigoOperadorFk = $codigoOperadorFk;
     }
 
 

@@ -34,6 +34,7 @@ class TteDespachoRepository extends ServiceEntityRepository
             ->addSelect('d.estadoAnulado')
             ->from(TteDespacho::class,'d')
             ->where('d.codigoDespachoPk <> 0')
+//            ->andWhere("d.codigoOperadorFk = '{$usuario->getCodigoOperadorFk()}'")
         ->orderBy('d.fecha', 'DESC');
         if(!$usuario->getAdmin()) {
             $qb->andWhere('d.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
