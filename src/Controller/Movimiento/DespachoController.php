@@ -58,6 +58,7 @@ class DespachoController extends Controller
         } else {
             $arDespacho->setFecha(new \DateTime('now'));
             $arDespacho->setEmpresaRel($this->getUser()->getEmpresaRel());
+            $arDespacho->setCodigoOperadorFk($this->getUser()->getCodigoOperadorFk());
         }
         $form = $this->createForm(DespachoType::class, $arDespacho);
         $form->handleRequest($request);

@@ -23,6 +23,11 @@ class TteDespacho
     private $codigoEmpresaFk;
 
     /**
+     * @ORM\Column(name="codigo_operador_fk", type="string",length=20, nullable=true)
+     */
+    private $codigoOperadorFk;
+
+    /**
      * @ORM\Column(name="numero", type="float", nullable=true)
      */
     private $numero = 0;
@@ -284,6 +289,22 @@ class TteDespacho
     public function setGuiasDespachoRel($guiasDespachoRel): void
     {
         $this->guiasDespachoRel = $guiasDespachoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoOperadorFk()
+    {
+        return $this->codigoOperadorFk;
+    }
+
+    /**
+     * @param mixed $codigoOperadorFk
+     */
+    public function setCodigoOperadorFk($codigoOperadorFk): void
+    {
+        $this->codigoOperadorFk = $codigoOperadorFk;
     }
 
 
