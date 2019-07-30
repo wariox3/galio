@@ -50,6 +50,7 @@ class EmpresaController extends Controller
         $form = $this->createForm(EmpresaType::class, $arEmpresa);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $arEmpresa->setCodigoOperadorFk($this->getUser()->getCodigoOperadorFk());
             $em->persist($arEmpresa);
             $em->flush();
             return $this->redirect($this->generateUrl('administracion_empresa_lista'));
