@@ -32,6 +32,16 @@ class TteEmpresa
     private $codigoOperadorFk;
 
     /**
+     * @ORM\Column(name="codigo_condicion_fk", type="integer", nullable=true)
+     */
+    private $codigoCondicionFk;
+
+    /**
+     * @ORM\Column(name="tipo_liquidacion", type="string", length=1, nullable=true, options={"default" : "K"})
+     */
+    private $tipoLiquidacion;
+
+    /**
      * @ORM\Column(name="lista_precio", type="integer", nullable=true)
      */
     private $listaPrecio;
@@ -346,6 +356,39 @@ class TteEmpresa
     {
         $this->codigoOperadorFk = $codigoOperadorFk;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCondicionFk()
+    {
+        return $this->codigoCondicionFk;
+    }
+
+    /**
+     * @param mixed $codigoCondicionFk
+     */
+    public function setCodigoCondicionFk($codigoCondicionFk): void
+    {
+        $this->codigoCondicionFk = $codigoCondicionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTipoLiquidacion()
+    {
+        return $this->tipoLiquidacion;
+    }
+
+    /**
+     * @param mixed $tipoLiquidacion
+     */
+    public function setTipoLiquidacion($tipoLiquidacion): void
+    {
+        $this->tipoLiquidacion = $tipoLiquidacion;
+    }
+
 
 
 

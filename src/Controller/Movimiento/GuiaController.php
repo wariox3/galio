@@ -84,11 +84,12 @@ class GuiaController extends Controller
         $arrBotonImprimir = ['label' => 'Imprimir', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
         $arrBotonAnular = ['label' => 'Anular', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
         $arrBotonImprimirEtiquetas = ['label' => 'Imprimir etiquetas', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
-
+        $arrBotonReliquidar = ['label' => 'Re-liquidar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
         if ($arGuia->getEstadoAnulado() == 1) {
             $arrBotonAnular['disabled'] = true;
         }
         $form = $this->createFormBuilder()
+            ->add('btnReliquidar', SubmitType::class, $arrBotonReliquidar)
             ->add('btnImprimir', SubmitType::class, $arrBotonImprimir)
             ->add('btnAnular', SubmitType::class, $arrBotonAnular)
             ->add('btnImprimirEtiquetas', SubmitType::class, $arrBotonImprimirEtiquetas)
@@ -106,6 +107,11 @@ class GuiaController extends Controller
             if ($form->get('btnAnular')->isClicked()) {
                 $em->getRepository(TteGuia::class)->Anular($arGuia);
                 return $this->redirect($this->generateUrl('movimiento_guia_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnReliquidar')->isClicked()) {
+                $em->getRepository(TteGuia::class)->liquidar($arGuia, $this->getUser()->getCodigoOperadorFk());
+                $em->persist($arGuia);
+                $em->flush();
             }
         }
         $arConfiguracion = $em->find(GenConfiguracion::class, 1);
@@ -176,11 +182,6 @@ class GuiaController extends Controller
                 $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
             }
 
-            $manejo = $arGuia->getEmpresaRel()->getPorcentajeManejo() * $arGuia->getVrDeclara() / 100;
-            if ($arGuia->getEmpresaRel()->getManejoMinimoDespacho() > $manejo) {
-                $manejo = $arGuia->getEmpresaRel()->getManejoMinimoDespacho();
-            }
-            $arGuia->setVrManejo(round($manejo));
             if ($arGuia->getPesoReal() >= $arGuia->getPesoVolumen()) {
                 $pesoFacturar = $arGuia->getPesoReal();
             } else {
@@ -188,16 +189,6 @@ class GuiaController extends Controller
             }
             $arGuia->setPesoFacturado($pesoFacturar);
             $arGuia->setOperacion($arUsuario->getOperacion());
-            $flete = 0;
-            if ($pesoFacturar > 0) {
-                $arConfiguracion = $em->find(GenConfiguracion::class, 1);
-                $ch = curl_init($arConfiguracion->getUrlCesio() . 'api/precio/calcular/' . $arGuia->getCiudadOrigenRel()->getCodigoCiudadOperadorFk() . '/' . $arGuia->getCiudadDestinoRel()->getCodigoCiudadOperadorFk() . '/' . $arGuia->getProductoRel()->getCodigoProductoPk() . '/' . $arGuia->getPesoFacturado() . '/' . $arUsuario->getCodigoOperadorFk() . '/' . $arGuia->getEmpresaRel()->getListaPrecio());
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $flete = json_decode(curl_exec($ch));
-                curl_close($ch);
-            }
-            $arGuia->setVrFlete(round($flete));
             if ($id == 0) {
                 $arEmpresa = $em->getRepository(TteEmpresa::class)->find($arUsuario->getCodigoEmpresaFk());
                 $consecutivo = $arEmpresa->getConsecutivoGuia();
@@ -205,6 +196,7 @@ class GuiaController extends Controller
                 $em->persist($arEmpresa);
                 $arGuia->setNumero($consecutivo);
             }
+            $em->getRepository(TteGuia::class)->liquidar($arGuia, $this->getUser()->getCodigoOperadorFk());
             $em->persist($arGuia);
             $em->flush();
             return $this->redirect($this->generateUrl('movimiento_guia_lista'));

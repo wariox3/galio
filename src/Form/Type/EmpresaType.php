@@ -26,6 +26,8 @@ class EmpresaType extends AbstractType
             ->add('porcentajeManejo',NumberType::class,['required' => false,'attr' => ['class' => 'form-control']])
             ->add('listaPrecio',NumberType::class,['required' => true,'attr' => ['class' => 'form-control']])
             ->add('manejoMinimoDespacho',NumberType::class,['required' => true,'attr' => ['class' => 'form-control']])
+            ->add('codigoCondicionFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('tipoLiquidacion', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('guardar',SubmitType::class,['label' => 'Guardar','attr' => ['class' => 'btn btn-sm btn-primary float-right']])
         ;
     }

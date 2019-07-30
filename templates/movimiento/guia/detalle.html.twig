@@ -5,9 +5,10 @@
             {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
             {{ form_errors(form) }}
             <div class="col-lg-12">
-
+                <a class="btn btn-secondary btn-sm" href="{{ path('movimiento_guia_lista') }}">Volver</a>
                         {{ form_widget(form.btnImprimir) }}
                         {{ form_widget(form.btnImprimirEtiquetas) }}
+                        {{ form_widget(form.btnReliquidar) }}
                         {{ form_widget(form.btnAnular,  { 'attr': {'class': 'btn btn-danger btn-sm', 'onclick': 'return confirm("Esta seguro de anular el registro?")'} }) }}
                 <div style="float:right">
                     {% if arGuia.estadoImportado == 1 %}<span

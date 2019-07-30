@@ -22,7 +22,7 @@ class UsuarioType extends AbstractType
             ->add('codigoCiudadFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
 //            ->add('codigoOperadorFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('operacion', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
-            ->add('codigoClienteFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('codigoCienteFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('empresaRel', EntityType::class, [
                 'class' => TteEmpresa::class,
                 'required' => true,

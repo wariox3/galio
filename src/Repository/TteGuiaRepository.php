@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Controller\Mensajes;
+use App\Entity\GenConfiguracion;
 use App\Entity\TteEmpresa;
 use App\Entity\TteGuia;
 use App\Entity\Usuario;
@@ -238,6 +239,51 @@ class TteGuiaRepository extends ServiceEntityRepository
             }
         } else {
             Mensajes::error("La guia se encuentra en el despacho numero: " . " " . $arGuia->getCodigoDespachoFk());
+        }
+    }
+
+    /**
+     * @param $arGuia TteGuia
+     * @param $operador
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function liquidar($arGuia, $operador) {
+        $em = $this->getEntityManager();
+        $arConfiguracion = $em->find(GenConfiguracion::class, 1);
+        $datos = [
+            "codigoOperador" => $operador,
+            "cliente" => "2296",
+            "condicion" => "173",
+            "precio" => "1",
+            "origen" => $arGuia->getCiudadOrigenRel()->getCodigoCiudadOperadorFk(),
+            "destino" => $arGuia->getCiudadDestinoRel()->getCodigoCiudadOperadorFk(),
+            "producto" => $arGuia->getProductoRel()->getCodigoProductoPk(),
+            "zona" => "",
+            "tipoLiquidacion" => "K",
+            "unidades" => $arGuia->getUnidades(),
+            "peso" => $arGuia->getPesoFacturado(),
+            "declarado" => $arGuia->getVrDeclara()
+        ];
+        $data_string = json_encode($datos);
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_POST => 1,
+            CURLOPT_URL => $url = $arConfiguracion->getUrlCesio() . "api/guia/liquidar",
+            CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' .strlen($data_string))
+        ]);
+        $resp = json_decode(curl_exec($curl), true);
+        //dd($resp);
+        curl_close($curl);
+        if(!isset($resp['error'])) {
+            $arGuia->setVrFlete($resp['flete']);
+            $arGuia->setVrManejo($resp['manejo']);
         }
     }
 }
