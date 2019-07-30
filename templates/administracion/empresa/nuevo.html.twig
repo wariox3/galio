@@ -4,7 +4,9 @@
     <div class="content mt-3" style="margin-bottom: 15px;">
         <div class="card">
             <div class="card-header">
-                Información general <span class="fa fa-question-circle float-right" style="color: grey;padding-top: 3px;" title="Para ver el nombre completo de los campos con puntos (e.j: Por.), posicione el ratón sobre el nombre"></span>
+                Información general <span class="fa fa-question-circle float-right"
+                                          style="color: grey;padding-top: 3px;"
+                                          title="Para ver el nombre completo de los campos con puntos (e.j: Por.), posicione el ratón sobre el nombre"></span>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -51,7 +53,15 @@
                         </div>
                     </div>
                 </div>
-                <br>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Informacion del cliente <span class="fa fa-question-circle float-right"
+                                              style="color: grey;padding-top: 3px;"
+                                              title="Para ver el nombre completo de los campos con puntos (e.j: Por.), posicione el ratón sobre el nombre"></span>
+            </div>
+            <div class="card-body">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="input-group">
@@ -61,7 +71,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <label for="" class="col-sm-2 badge" title="Manejo mínimo despacho">Condicion comercial:</label>
+                            <label for="" class="col-sm-2 badge" title="Manejo mínimo despacho">Condicion
+                                comercial:</label>
                             {{ form_widget(form.codigoCondicionFk) }}
                         </div>
                     </div>
@@ -74,12 +85,19 @@
                             {{ form_widget(form.tipoLiquidacion) }}
                         </div>
                     </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge" title="Porcentaje manejo">Codigo cliente:</label>
+                            {{ form_widget(form.codigoClienteFk) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="card">
             <div class="card-header">
-                Numeracion <span class="fa fa-question-circle float-right" style="color: grey;padding-top: 3px;" title="Para ver el nombre completo de los campos con puntos (e.j: Por.), posicione el ratón sobre el nombre"></span>
+                Numeracion <span class="fa fa-question-circle float-right" style="color: grey;padding-top: 3px;"
+                                 title="Para ver el nombre completo de los campos con puntos (e.j: Por.), posicione el ratón sobre el nombre"></span>
             </div>
             <div class="card-body">
                 <div class="row">

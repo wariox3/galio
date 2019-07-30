@@ -244,22 +244,23 @@ class TteGuiaRepository extends ServiceEntityRepository
 
     /**
      * @param $arGuia TteGuia
+     * @param $empresa TteEmpresa
      * @param $operador
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function liquidar($arGuia, $operador) {
+    public function liquidar($arGuia, $operador, $empresa) {
         $em = $this->getEntityManager();
         $arConfiguracion = $em->find(GenConfiguracion::class, 1);
         $datos = [
             "codigoOperador" => $operador,
-            "cliente" => "2296",
-            "condicion" => "173",
-            "precio" => "1",
+            "cliente" => $empresa->getCodigoClienteFk(),
+            "condicion" => $empresa->getCodigoCondicionFK(),
+            "precio" => $empresa->getListaPrecio(),
             "origen" => $arGuia->getCiudadOrigenRel()->getCodigoCiudadOperadorFk(),
             "destino" => $arGuia->getCiudadDestinoRel()->getCodigoCiudadOperadorFk(),
-            "producto" => $arGuia->getProductoRel()->getCodigoProductoPk(),
+            "producto" => "1",
             "zona" => "",
             "tipoLiquidacion" => "K",
             "unidades" => $arGuia->getUnidades(),

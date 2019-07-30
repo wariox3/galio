@@ -37,6 +37,11 @@ class TteEmpresa
     private $codigoCondicionFk;
 
     /**
+     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
+     */
+    private $codigoClienteFk;
+
+    /**
      * @ORM\Column(name="tipo_liquidacion", type="string", length=1, nullable=true, options={"default" : "K"})
      */
     private $tipoLiquidacion;
@@ -387,6 +392,22 @@ class TteEmpresa
     public function setTipoLiquidacion($tipoLiquidacion): void
     {
         $this->tipoLiquidacion = $tipoLiquidacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoClienteFk()
+    {
+        return $this->codigoClienteFk;
+    }
+
+    /**
+     * @param mixed $codigoClienteFk
+     */
+    public function setCodigoClienteFk($codigoClienteFk): void
+    {
+        $this->codigoClienteFk = $codigoClienteFk;
     }
 
 

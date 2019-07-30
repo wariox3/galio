@@ -79,6 +79,7 @@ class GuiaController extends Controller
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $arEmpresa =  $em->getRepository(TteEmpresa::class)->find($this->getUser()->getCodigoEmpresaFk());
         $paginador = $this->container->get('knp_paginator');
         $arGuia = $em->find(TteGuia::class, $id);
         $arrBotonImprimir = ['label' => 'Imprimir', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-secondary']];
@@ -109,7 +110,7 @@ class GuiaController extends Controller
                 return $this->redirect($this->generateUrl('movimiento_guia_detalle', ['id' => $id]));
             }
             if ($form->get('btnReliquidar')->isClicked()) {
-                $em->getRepository(TteGuia::class)->liquidar($arGuia, $this->getUser()->getCodigoOperadorFk());
+                $em->getRepository(TteGuia::class)->liquidar($arGuia, $this->getUser()->getCodigoOperadorFk() ,$arEmpresa);
                 $em->persist($arGuia);
                 $em->flush();
             }
@@ -146,6 +147,7 @@ class GuiaController extends Controller
     function nuevo(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $arEmpresa =  $em->getRepository(TteEmpresa::class)->find($this->getUser()->getCodigoEmpresaFk());
         $arGuia = new TteGuia();
         if ($id != 0) {
             $arGuia = $em->find(TteGuia::class, $id);
@@ -196,7 +198,7 @@ class GuiaController extends Controller
                 $em->persist($arEmpresa);
                 $arGuia->setNumero($consecutivo);
             }
-            $em->getRepository(TteGuia::class)->liquidar($arGuia, $this->getUser()->getCodigoOperadorFk());
+            $em->getRepository(TteGuia::class)->liquidar($arGuia, $this->getUser()->getCodigoOperadorFk(), $arEmpresa);
             $em->persist($arGuia);
             $em->flush();
             return $this->redirect($this->generateUrl('movimiento_guia_lista'));
