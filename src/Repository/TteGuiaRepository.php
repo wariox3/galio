@@ -52,6 +52,7 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->addSelect('cd.nombre as ciudadDestino')
             ->addSelect('co.nombre as ciudadOrigen')
             ->addSelect('g.unidades')
+            ->addSelect('g.pesoReal')
             ->addSelect('g.pesoFacturado')
             ->addSelect('g.vrDeclara')
             ->addSelect('g.vrFlete')
@@ -285,6 +286,7 @@ class TteGuiaRepository extends ServiceEntityRepository
         if(!isset($resp['error'])) {
             $arGuia->setVrFlete($resp['flete']);
             $arGuia->setVrManejo($resp['manejo']);
+            $arGuia->setPesoFacturado($resp['pesoFacturado']);
         }
     }
 }

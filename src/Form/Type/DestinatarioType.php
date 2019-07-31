@@ -24,14 +24,14 @@ class DestinatarioType extends AbstractType
         $builder
             ->add('numeroIdentificacion', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('digitoVerificacion', IntegerType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('nombreCorto', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('nombre1', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('nombreCorto', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('nombre1', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
             ->add('nombre2', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('apellido1', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('apellido1', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
             ->add('apellido2', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
             ->add('direccion', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('barrio', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('telefono', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('telefono', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('correo', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
             ->add('ciudadRel', EntityType::class, [
                 'class' => TteCiudad::class,
