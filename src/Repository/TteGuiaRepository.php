@@ -260,7 +260,7 @@ class TteGuiaRepository extends ServiceEntityRepository
             "precio" => $empresa->getListaPrecio(),
             "origen" => $arGuia->getCiudadOrigenRel()->getCodigoCiudadOperadorFk(),
             "destino" => $arGuia->getCiudadDestinoRel()->getCodigoCiudadOperadorFk(),
-            "producto" => "1",
+            "producto" => $arGuia->getProductoRel()->getCodigoProductoOperadorFk(),
             "zona" => "",
             "tipoLiquidacion" => "K",
             "unidades" => $arGuia->getUnidades(),

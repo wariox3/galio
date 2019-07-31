@@ -32,6 +32,21 @@ class TteOperador
     private $nombre;
 
     /**
+     * @ORM\Column(name="direccion", type="string", length=150, nullable=true)
+     */
+    private $direccion;
+
+    /**
+     * @ORM\Column(name="telefono", type="string", length=80, nullable=true)
+     */
+    private $telefono;
+
+    /**
+     * @ORM\Column(name="numero_identificacion", type="string", length=50, nullable=true)
+     */
+    private $numeroIdentificacion;
+
+    /**
      * @ORM\OneToMany(targetEntity="Usuario", mappedBy="operadorRel")
      */
     protected $usuariosOperadorRel;
@@ -119,6 +134,70 @@ class TteOperador
     public function setNombre($nombre): void
     {
         $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * @param mixed $direccion
+     */
+    public function setDireccion($direccion): void
+    {
+        $this->direccion = $direccion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * @param mixed $telefono
+     */
+    public function setTelefono($telefono): void
+    {
+        $this->telefono = $telefono;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGuiasOperadorRel()
+    {
+        return $this->guiasOperadorRel;
+    }
+
+    /**
+     * @param mixed $guiasOperadorRel
+     */
+    public function setGuiasOperadorRel($guiasOperadorRel): void
+    {
+        $this->guiasOperadorRel = $guiasOperadorRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumeroIdentificacion()
+    {
+        return $this->numeroIdentificacion;
+    }
+
+    /**
+     * @param mixed $numeroIdentificacion
+     */
+    public function setNumeroIdentificacion($numeroIdentificacion): void
+    {
+        $this->numeroIdentificacion = $numeroIdentificacion;
     }
 
 

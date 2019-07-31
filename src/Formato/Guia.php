@@ -77,10 +77,10 @@ class Guia extends \FPDF
             $pdf->SetXY(168, $y - 15);
             $pdf->Cell(30, 4, $arGuia->getNumero(), 0, 0, 'R');
             $pdf->SetFont('Arial', '', 8);
-            $pdf->Text(55, $y - 13, utf8_decode($arEmpresa->getNombre()));
-            $pdf->Text(55, $y - 9, utf8_decode($arEmpresa->getNit()));
-            $pdf->Text(55, $y - 5, utf8_decode($arEmpresa->getDireccion()));
-            $pdf->Text(55, $y - 1, utf8_decode($arEmpresa->getTelefono()));
+            $pdf->Text(55, $y - 13, utf8_decode($arGuia->getOperadorRel()->getNombre()));
+            $pdf->Text(55, $y - 9, utf8_decode($arGuia->getOperadorRel()->getNumeroIdentificacion()));
+            $pdf->Text(55, $y - 5, utf8_decode($arGuia->getOperadorRel()->getDireccion()));
+            $pdf->Text(55, $y - 1, utf8_decode($arGuia->getOperadorRel()->getTelefono()));
             $pdf->SetXY(10, $y);
             $pdf->SetFillColor(272, 272, 272);
             $pdf->SetFont('Arial', 'B', 8);

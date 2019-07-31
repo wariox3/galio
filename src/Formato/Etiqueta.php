@@ -89,7 +89,7 @@ class Etiqueta extends \FPDF
         $codigoBarras = $codigoBarras->generate();
         for ($i = 1; $i <= $arGuia->getUnidades(); $i++) {
             $pdf->SetFont('Arial', 'B', 12);
-            $pdf->Text(5, 5, "COTRASCAL S.A.S   " . $arGuia->getNumero());
+            $pdf->Text(5, 5, $arGuia->getOperadorRel()->getNombre() . ' '.$arGuia->getNumero());
             $pdf->SetFont('Arial', 'B', 7);
             $pdf->Text(5, 10, 'REMITE:' . $arGuia->getEmpresaRel()->getNombre());
             $pdf->Text(15, 14, "INFORMACION DESTINATARIO");
