@@ -19,6 +19,7 @@ class TteProductoRepository extends ServiceEntityRepository
             ->addSelect('p.codigoProductoPk')
             ->addSelect('p.codigoOperadorFk')
             ->addSelect('p.orden')
+            ->addSelect('p.codigoProductoOperadorFk')
             ->from(TteProducto::class,'p')
             ->where('p.codigoProductoPk IS NOT NULL')
             ->andWhere("p.codigoOperadorFk = '{$usuario->getCodigoOperadorFk()}'")
