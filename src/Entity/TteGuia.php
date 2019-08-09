@@ -217,7 +217,7 @@ class TteGuia
     protected $empresaRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TteOPerador", inversedBy="guiasOperadorRel")
+     * @ORM\ManyToOne(targetEntity="TteOperador", inversedBy="guiasOperadorRel")
      * @ORM\JoinColumn(name="codigo_operador_fk", referencedColumnName="codigo_operador_pk")
      */
     protected $operadorRel;
@@ -771,6 +771,22 @@ class TteGuia
     /**
      * @return mixed
      */
+    public function getEstadoAnulado()
+    {
+        return $this->estadoAnulado;
+    }
+
+    /**
+     * @param mixed $estadoAnulado
+     */
+    public function setEstadoAnulado($estadoAnulado): void
+    {
+        $this->estadoAnulado = $estadoAnulado;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getComentario()
     {
         return $this->comentario;
@@ -912,21 +928,6 @@ class TteGuia
         $this->guiaTipoRel = $guiaTipoRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEstadoAnulado()
-    {
-        return $this->estadoAnulado;
-    }
-
-    /**
-     * @param mixed $estadoAnulado
-     */
-    public function setEstadoAnulado($estadoAnulado): void
-    {
-        $this->estadoAnulado = $estadoAnulado;
-    }
 
 
 

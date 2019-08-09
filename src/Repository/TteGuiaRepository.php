@@ -172,10 +172,12 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->addSelect('g.vrDeclara')
             ->addSelect('g.vrFlete')
             ->addSelect('g.vrManejo')
+            ->addSelect('p.codigoProductoOperadorFk')
             ->addSelect('g.comentario')
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
             ->leftJoin('g.empresaRel', 'e')
+            ->leftJoin('g.productoRel', 'p')
             ->where("g.codigoOperadorFk = '{$codigoOperador}'")
             ->andWhere('g.estadoImportado = 0');
         if ($arrFiltros['fechaDesde'] != '') {
