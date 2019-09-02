@@ -265,7 +265,7 @@ class TteGuiaRepository extends ServiceEntityRepository
             "destino" => $arGuia->getCiudadDestinoRel()->getCodigoCiudadOperadorFk(),
             "producto" => $arGuia->getProductoRel()->getCodigoProductoOperadorFk(),
             "zona" => "",
-            "tipoLiquidacion" => "K",
+            "tipoLiquidacion" => $empresa->getTipoLiquidacion(),
             "unidades" => $arGuia->getUnidades(),
             "peso" => $arGuia->getPesoFacturado(),
             "declarado" => $arGuia->getVrDeclara()
