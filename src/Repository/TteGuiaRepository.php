@@ -289,6 +289,10 @@ class TteGuiaRepository extends ServiceEntityRepository
             $arGuia->setVrFlete($resp['flete']);
             $arGuia->setVrManejo($resp['manejo']);
             $arGuia->setPesoFacturado($resp['pesoFacturado']);
+        } else {
+            $arGuia->setVrFlete(0);
+            $arGuia->setVrManejo(0);
+            $arGuia->setPesoFacturado(0);
         }
     }
 }
