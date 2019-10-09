@@ -253,7 +253,8 @@ class TteGuiaRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function liquidar($arGuia, $operador, $empresa) {
+    public function liquidar($arGuia, $operador, $empresa)
+    {
         $em = $this->getEntityManager();
         $arConfiguracion = $em->find(GenConfiguracion::class, 1);
         $datos = [
@@ -280,12 +281,12 @@ class TteGuiaRepository extends ServiceEntityRepository
             CURLOPT_URL => $url = $arConfiguracion->getUrlCesio() . "api/guia/liquidar",
             CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json',
-                'Content-Length: ' .strlen($data_string))
+                'Content-Length: ' . strlen($data_string))
         ]);
         $resp = json_decode(curl_exec($curl), true);
         //dd($resp);
         curl_close($curl);
-        if(!isset($resp['error'])) {
+        if (!isset($resp['error'])) {
             $arGuia->setVrFlete($resp['flete']);
             $arGuia->setVrManejo($resp['manejo']);
             $arGuia->setPesoFacturado($resp['pesoFacturado']);
@@ -293,6 +294,33 @@ class TteGuiaRepository extends ServiceEntityRepository
             $arGuia->setVrFlete(0);
             $arGuia->setVrManejo(0);
             $arGuia->setPesoFacturado(0);
+        }
+    }
+
+    /**
+     * @param $arrSeleccionados
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function eliminar($arrSeleccionados)
+    {
+        $respuesta = '';
+        if ($arrSeleccionados) {
+            foreach ($arrSeleccionados as $codigo) {
+                $arRegistro = $this->getEntityManager()->getRepository(TteGuia::class)->find($codigo);
+                if ($arRegistro) {
+                    if ($arRegistro->getEstadoImportado() == 0) {
+                        $this->getEntityManager()->remove($arRegistro);
+                    } else {
+                        $respuesta = 'No se puede eliminar, el registro se encuentra aprobado';
+                    }
+                }
+                if ($respuesta != '') {
+                    Mensajes::error($respuesta);
+                } else {
+                    $this->getEntityManager()->flush();
+                }
+            }
         }
     }
 }

@@ -21,7 +21,8 @@ class TteDespachoRepository extends ServiceEntityRepository
      * @param $usuario Usuario
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function lista($usuario){
+    public function lista($usuario)
+    {
         $session = new Session();
         $qb = $this->_em->createQueryBuilder()
             ->select('d.codigoDespachoPk')
@@ -32,17 +33,17 @@ class TteDespachoRepository extends ServiceEntityRepository
             ->addSelect('d.vrDeclara')
             ->addSelect('d.estadoAprobado')
             ->addSelect('d.estadoAnulado')
-            ->from(TteDespacho::class,'d')
+            ->from(TteDespacho::class, 'd')
             ->where('d.codigoDespachoPk <> 0')
             ->andWhere("d.codigoOperadorFk = '{$usuario->getCodigoOperadorFk()}'")
-        ->orderBy('d.fecha', 'DESC');
-        if(!$usuario->getAdmin()) {
-            $qb->andWhere('d.codigoEmpresaFk = '.$usuario->getCodigoEmpresaFk());
+            ->orderBy('d.fecha', 'DESC');
+        if (!$usuario->getAdmin()) {
+            $qb->andWhere('d.codigoEmpresaFk = ' . $usuario->getCodigoEmpresaFk());
         }
-        if($session->get('filtroDespachoFechaDesde')){
+        if ($session->get('filtroDespachoFechaDesde')) {
             $qb->andWhere("d.fecha >= '{$session->get('filtroDespachoFechaDesde')}'");
         }
-        if($session->get('filtroDespachoFechaHasta')){
+        if ($session->get('filtroDespachoFechaHasta')) {
             $qb->andWhere("d.fecha <= '{$session->get('filtroDespachoFechaHasta')}'");
         }
         return $qb;
@@ -67,10 +68,10 @@ class TteDespachoRepository extends ServiceEntityRepository
      */
     public function anular($arDespacho)
     {
-        $em =  $this->getEntityManager();
-        if($arDespacho->getEstadoAprobado() && !$arDespacho->getEstadoAnulado()){
+        $em = $this->getEntityManager();
+        if ($arDespacho->getEstadoAprobado() && !$arDespacho->getEstadoAnulado()) {
             $arGuias = $em->getRepository(TteGuia::class)->findBy(['codigoDespachoFk' => $arDespacho->getCodigoDespachoPk()]);
-            foreach ($arGuias as $arGuia){
+            foreach ($arGuias as $arGuia) {
                 $arGuia->setDespachoRel(null);
                 $em->persist($arGuia);
             }
@@ -82,6 +83,33 @@ class TteDespachoRepository extends ServiceEntityRepository
             $arDespacho->setGuias(0);
             $this->getEntityManager()->persist($arDespacho);
             $this->getEntityManager()->flush();
+        }
+    }
+
+    public function eliminar($arrSeleccionados)
+    {
+        $respuesta = '';
+        if ($arrSeleccionados) {
+            foreach ($arrSeleccionados as $codigo) {
+                $arRegistro = $this->getEntityManager()->getRepository(TteDespacho::class)->find($codigo);
+                if ($arRegistro) {
+                    if ($arRegistro->getEstadoAprobado() == 0) {
+
+                        if (count($this->getEntityManager()->getRepository(TteGuia::class)->findBy(['codigoDespachoFk' => $arRegistro->getCodigoDespachoPk()])) <= 0) {
+                            $this->getEntityManager()->remove($arRegistro);
+                        } else {
+                            $respuesta = 'No se puede eliminar, el registro tiene guias asociadas';
+                        }
+                    } else {
+                        $respuesta = 'No se puede eliminar, el registro se encuentra aprobado';
+                    }
+                }
+                if ($respuesta != '') {
+                    Mensajes::error($respuesta);
+                } else {
+                    $this->getEntityManager()->flush();
+                }
+            }
         }
     }
 }

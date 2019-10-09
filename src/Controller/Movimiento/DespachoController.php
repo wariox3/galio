@@ -25,21 +25,30 @@ class DespachoController extends Controller
     public function lista(Request $request)
     {
         $session = new Session();
+        $usuario = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $paginador = $this->container->get('knp_paginator');
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date form-control',], 'data' => $session->get('filtroDespachoFechaDesde') ? date_create($session->get('filtroDespachoFechaDesde')) : null, 'required' => false])
             ->add('fechaHasta', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date form-control',], 'data' => $session->get('filtroDespachoFechaHasta') ? date_create($session->get('filtroDespachoFechaHasta')) : null, 'required' => false])
+            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar'])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-secondary']])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $session->set('filtroDespachoFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
             $session->set('filtroDespachoFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
+
+            if ($form->get('btnEliminar')->isClicked() && $usuario->getAdmin() == true) {
+                $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                $em->getRepository(TteDespacho::class)->eliminar($arrSeleccionados);
+                return $this->redirect($this->generateUrl('movimiento_despacho_lista'));
+            }
         }
         $arDespachos = $paginador->paginate($em->getRepository(TteDespacho::class)->lista($this->getUser()), $request->query->getInt('page', 1), 30);
         return $this->render('movimiento/despacho/lista.html.twig', [
             'form' => $form->createView(),
+            'arUsuario' => $usuario,
             'arDespachos' => $arDespachos
         ]);
     }
@@ -96,7 +105,7 @@ class DespachoController extends Controller
             $arrBotonAprobar['disabled'] = true;
             $arrBotonImprimir['disabled'] = false;
             $arrBotonAnular['disabled'] = false;
-            if($arDespacho->getEstadoAnulado() == 1){
+            if ($arDespacho->getEstadoAnulado() == 1) {
                 $arrBotonAnular['disabled'] = true;
             }
         }
@@ -117,14 +126,14 @@ class DespachoController extends Controller
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
                 foreach ($arrSeleccionados as $codigoGuia) {
                     $arGuia = $em->find(TteGuia::class, $codigoGuia);
-                    if($arGuia){
+                    if ($arGuia) {
                         $arGuia->setCodigoDespachoFk(null);
                         $arGuia->setDespachoRel(null);
                         $em->persist($arGuia);
                     }
                 }
                 $em->flush();
-                return $this->redirect($this->generateUrl('movimiento_despacho_detalle',['id' => $id]));
+                return $this->redirect($this->generateUrl('movimiento_despacho_detalle', ['id' => $id]));
             }
             if ($form->get('btnImprimir')->isClicked()) {
                 $objFormato = new Despacho();

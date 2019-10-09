@@ -46,6 +46,8 @@
                 <th scope="col" class="th">ANU</th>
                 <th scope="col" class="th"></th>
                 <th scope="col" class="th"></th>
+                <th class="text-center" title="seleccionar todos"><input type="checkbox" name="ChkSeleccionarTodos"
+                                                                         onclick="ChequearTodosTabla(this, 'ChkSeleccionar[]')"> </th>
             </tr>
             </thead>
             <tbody>
@@ -60,27 +62,43 @@
                     <td style="text-align: center;">{{ arDespacho.estadoAprobado?'SI':'NO' }}</td>
                     <td style="text-align: center;">{{ arDespacho.estadoAnulado?'SI':'NO' }}</td>
                     {% if arDespacho.estadoAprobado == 0 %}
-                    <td style="text-align: center;width: 10%;"><a href="Javascript:abrirVentana3('{{ path('movimiento_despacho_guia', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}','agregarGuia',600,1200)" class="btn btn-sm btn-secondary">Agregar</a></td>
-                        {% else %}
+                        <td style="text-align: center;width: 10%;"><a
+                                    href="Javascript:abrirVentana3('{{ path('movimiento_despacho_guia', {'codigoDespacho': arDespacho.codigoDespachoPk}) }}','agregarGuia',600,1200)"
+                                    class="btn btn-sm btn-secondary">Agregar</a></td>
+                    {% else %}
                         <td></td>
                     {% endif %}
-                    <td style="text-align: center;"><a href="{{ path('movimiento_despacho_detalle',{'id' : arDespacho.codigoDespachoPk }) }}" style="color: black;"><i class="fa fa-share-square-o" style="font-size: large"></i></a></td>
+                    <td style="text-align: center;"><a
+                                href="{{ path('movimiento_despacho_detalle',{'id' : arDespacho.codigoDespachoPk }) }}"
+                                style="color: black;"><i class="fa fa-share-square-o" style="font-size: large"></i></a>
+                    </td>
+                    <td class="text-center">
+                        <input type="checkbox" name="ChkSeleccionar[]" value="{{  arDespacho.codigoDespachoPk  }}" />
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
         <hr>
-        <div class="row float-right" style="padding-right: 15px;">
+        <div class="btn-group" style="float: right; margin-right: 5px !important;">
             <a href="{{ path('movimiento_despacho_nuevo',{'id' : 0}) }}"
                class="btn btn-sm btn-secondary float-right">Nuevo</a>
         </div>
+        {% if arUsuario.admin == true %}
+            <div class="btn-group" style="float: right; margin-right: 5px !important;">
+                {{ form_widget(form.btnEliminar, { 'attr': {'class': 'btn btn-danger btn-sm'} }) }}
+            </div>
+            {% else %}
+                <div class="btn-group" style="float: right; margin-right: 5px !important; visibility: hidden">
+                    {{ form_widget(form.btnEliminar, { 'attr': {'class': 'btn btn-danger btn-sm'} }) }}
+                </div>
+        {% endif %}
         <div class="btn-group" style="float: left;padding-top: 2px;">
             <div class="btn btn-light btn-sm" style="border-style: solid!important;border-color: lightgray;">Registros
                 <span class="badge badge-secondary">{{ arDespachos.getTotalItemCount }}
                 </span>
             </div>
         </div>
-        &nbsp;
         <div class="btn-group">
             {{ knp_pagination_render(arDespachos) }}
         </div>
@@ -90,5 +108,6 @@
             font-size: 12px !important;
         }
     </style>
+    <br/><br/><br/>
     {{ form_end(form) }}
 {% endblock %}

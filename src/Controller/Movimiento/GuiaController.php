@@ -33,13 +33,15 @@ class GuiaController extends Controller
      */
     public function lista(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $session = new Session();
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $this->getUser();
         $paginador = $this->container->get('knp_paginator');
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date form-control',], 'data' => $session->get('filtroGuiaFechaDesde') ? date_create($session->get('filtroGuiaFechaDesde')) : null, 'required' => false])
             ->add('fechaHasta', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date form-control',], 'data' => $session->get('filtroGuiaFechaHasta') ? date_create($session->get('filtroGuiaFechaHasta')) : null, 'required' => false])
             ->add('txtNumero', TextType::class, ['data' => $session->get('filtroGuiaNumero'), 'required' => false])
+            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar'])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-secondary']])
             ->getForm();
         $form->handleRequest($request);
@@ -59,10 +61,16 @@ class GuiaController extends Controller
                 $session->set('filtroGuiaFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
                 $session->set('filtroGuiaNumero', $form->get('txtNumero')->getData());
             }
+            if ($form->get('btnEliminar')->isClicked() && $usuario->getAdmin() == true) {
+                $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                $em->getRepository(TteGuia::class)->eliminar($arrSeleccionados);
+                return $this->redirect($this->generateUrl('movimiento_guia_lista'));
+            }
         }
         $arGuias = $paginador->paginate($em->getRepository(TteGuia::class)->lista($this->getUser()), $request->query->getInt('page', 1), 30);
         return $this->render('movimiento/guia/lista.html.twig', [
             'form' => $form->createView(),
+            'arUsuario' => $usuario,
             'arGuias' => $arGuias
         ]);
     }
@@ -93,6 +101,7 @@ class GuiaController extends Controller
             ->add('btnReliquidar', SubmitType::class, $arrBotonReliquidar)
             ->add('btnImprimir', SubmitType::class, $arrBotonImprimir)
             ->add('btnAnular', SubmitType::class, $arrBotonAnular)
+            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar'])
             ->add('btnImprimirEtiquetas', SubmitType::class, $arrBotonImprimirEtiquetas)
             ->getForm();
         $form->handleRequest($request);
