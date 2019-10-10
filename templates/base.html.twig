@@ -58,11 +58,17 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>General</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-user"></i><a href="{{ path('administracion_destinatario_lista') }}">Destinatario</a></li>
+                        <li><i class="fa fa-user"></i><a href="{{ path('administracion_destinatario_lista') }}">Destinatario</a>
+                        </li>
                         {% if app.user.admin %}
-                        <li><i class="fa fa-building"></i><a href="{{ path('administracion_empresa_lista') }}">Empresa</a></li>
-                        <li><i class="fa fa-product-hunt"></i><a href="{{ path('administracion_producto_lista') }}">Producto</a></li>
-                        <li><i class="fa fa-user-circle-o"></i><a href="{{ path('administracion_usuario_lista') }}">Usuario</a></li>
+                            <li><i class="fa fa-building"></i><a href="{{ path('administracion_empresa_lista') }}">Empresa</a>
+                            </li>
+                            <li><i class="fa fa-product-hunt"></i><a href="{{ path('administracion_producto_lista') }}">Producto</a>
+                            </li>
+                            <li><i class="fa fa-user-circle-o"></i><a href="{{ path('administracion_usuario_lista') }}">Usuario</a>
+                            </li>
+                            <li><i class="fa fa-map"></i><a href="{{ path('administracion_ciudad_lista') }}">Ciudad</a>
+                            </li>
                         {% endif %}
                     </ul>
                 </li>
@@ -152,9 +158,10 @@
         <div class="col-sm-4">
             <div class="page-header float-left">
                 <div class="page-title">
-                        {% set ruta = app.request.attributes.get('_route')|split('_') %}
-                    {% if ruta.1 is defined  %}
-                        <h1>{{ ruta.0| capitalize }} <span style="color: grey;"> / {{ ruta.1| capitalize }}</span><span style="color: darkgrey;"> / {{ ruta.2 | capitalize }}</span></h1>
+                    {% set ruta = app.request.attributes.get('_route')|split('_') %}
+                    {% if ruta.1 is defined %}
+                        <h1>{{ ruta.0| capitalize }} <span style="color: grey;"> / {{ ruta.1| capitalize }}</span><span
+                                    style="color: darkgrey;"> / {{ ruta.2 | capitalize }}</span></h1>
                     {% else %}
                         <h1>Inicio</h1>
                     {% endif %}

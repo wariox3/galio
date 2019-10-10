@@ -12,4 +12,19 @@ class TteCiudadRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, TteCiudad::class);
     }
+
+    public function lista($usuario){
+        $qb = $this->_em->createQueryBuilder()
+            ->select('c.nombre')
+            ->addSelect('d.nombre AS departamento')
+            ->addSelect('c.codigoCiudadPk')
+            ->addSelect('c.codigoOperadorFk')
+            ->addSelect('c.codigoCiudadOperadorFk')
+            ->from(TteCiudad::class,'c')
+            ->leftJoin('c.departamentoRel', 'd')
+            ->where('c.codigoCiudadPk IS NOT NULL')
+            ->andWhere("c.codigoOperadorFk = '{$usuario->getCodigoOperadorFk()}'")
+            ->orderBy('c.codigoCiudadPk', 'ASC');
+        return $qb;
+    }
 }

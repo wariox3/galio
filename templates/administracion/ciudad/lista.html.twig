@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div class="content mt-3">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col" class="th">ID</th>
+                <th scope="col" class="th">DEPARTAMENTO</th>
+                <th scope="col" class="th">NOMBRE</th>
+                <th scope="col" class="th">OPERADOR</th>
+                <th scope="col" class="th">CODIGO CIUDAD OPERADOR</th>
+                <th scope="col" class="th"></th>
+                <th scope="col" class="th"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for arCiudad in arCiudades %}
+                <tr>
+                    <th scope="row">{{ arCiudad.codigoCiudadPk }}</th>
+                    <td>{{ arCiudad.departamento }}</td>
+                    <td>{{ arCiudad.nombre }}</td>
+                    <td>{{ arCiudad.codigoOperadorFk }}</td>
+                    <td>{{ arCiudad.codigoCiudadOperadorFk }}</td>
+                    <td style="text-align: center;">
+                        <a title="Editar el registro"
+                           href="{{ path('administracion_ciudad_nuevo',{'id':arCiudad.codigoCiudadPk }) }}">
+                            <span class="fa fa-edit" style="color: black;font-size: medium;"></span>
+                        </a>
+                    </td>
+                    <td style="text-align: center;"><input type="checkbox" name="ChkSeleccionar[]"
+                                                           value="{{ arCiudad.codigoCiudadPk }}"
+                                                           title="Seleccionar">
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <div class="row float-right" style="padding-right: 15px;">
+            <a href="{{ path('administracion_ciudad_nuevo',{'id':0}) }}"
+               class="btn btn-sm btn-secondary  float-right">Nuevo</a>&nbsp;
+            {#{{ form_widget(form.btnEliminar) }}#}
+        </div>
+        <div class="btn-group" style="float: left;padding-top: 2px;">
+            <div class="btn btn-light btn-sm" style="border-style: solid!important;border-color: lightgray;">Registros
+                <span class="badge badge-secondary">{{ arCiudades.getTotalItemCount }}
+            </span>
+            </div>
+        </div>
+        &nbsp;
+        <div class="btn-group">
+            {{ knp_pagination_render(arCiudades) }}
+        </div>
+    </div>
+    <style type="text/css">
+        .th {
+            font-size: 12px !important;
+        }
+    </style>
+{% endblock %}
