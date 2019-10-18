@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div class="content mt-3">
+        <section class="wrapper">
+            {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+            {{ form_errors(form) }}
+            <div class="col-lg-12">
+                <div style="float:right">
+                </div>
+                <br/><br/>
+                <div class="card">
+                    <div class="card-header">Información</div>
+                    <div class="card-body">
+                        <table width="100%" class="table table-condensed table-bordered">
+                            <tr>
+                                <td class="titulo">ID:</td>
+                                <td class="td-in-well">{{ arEmpresa.codigoEmpresaPk }}</td>
+                                <td class="titulo">NOMBRE:</td>
+                                <td class="td-in-well">{{ arEmpresa.nombre }}</td>
+                                <td class="titulo">NIT:</td>
+                                <td align="right">{{ arEmpresa.nit }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="content-panel">
+                    <section id="unseen">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Producto</th>
+                                <th>Orden</th>
+                                <th><input type="checkbox" name="ChkSeleccionarTodos"
+                                           OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arProductoEmpresa in arProductosEmpresa %}
+                                <tr>
+                                    <td>{{ arProductoEmpresa.codigoProductoEmpresaPk }}</td>
+                                    <td>{{ arProductoEmpresa.producto }}</td>
+                                    <td>{{ arProductoEmpresa.orden }}</td>
+                                    <td><input type="checkbox" name="ChkSeleccionar[]"
+                                               value="{{ arProductoEmpresa.codigoProductoEmpresaPk }}"/></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+            <br/>
+            <div class="btn-toolbar" style="float: left">
+                <div class="btn-group">
+                    <a class="btn btn-secondary btn-sm" href="{{ path('administracion_empresa_lista') }}">Volver</a>
+                </div>
+            </div>
+            <div class="row float-right" style="padding-right: 15px;">
+                <a class="btn btn-secondary btn-sm"
+                   href="Javascript:abrirVentana3('{{ path('administracion_empresa_detalle_nuevo', {'codigoEmpresa': arEmpresa.codigoEmpresaPk, 'id': 0}) }}', 'BuscarProducto', 600, 1200)">Agregar</a>&nbsp;
+                {{ form_widget(form.btnEliminarDetalle) }}
+            </div>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </section>
+    </div>
+{% endblock %}

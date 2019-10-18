@@ -13,6 +13,7 @@
                 <th scope="col" class="th">HASTA</th>
                 <th scope="col" class="th">SIGUIENTE</th>
                 <th scope="col" class="th"></th>
+                <th scope="col" class="th"></th>
             </tr>
             </thead>
             <tbody>
@@ -31,6 +32,10 @@
                            href="{{ path('administracion_empresa_nuevo',{'id' : arEmpresa.codigoEmpresaPk }) }}">
                             <span class="fa fa-edit" style="color: black;font-size: medium;"></span>
                         </a>
+                    </td>
+                    <td style="text-align: center;"><a
+                                href="{{ path('administracion_empresa_detalle',{'id' : arEmpresa.codigoEmpresaPk }) }}"
+                                style="color: black;"><i class="fa fa-share-square-o" style="font-size: large"></i></a>
                     </td>
                 </tr>
             {% endfor %}
