@@ -41,6 +41,12 @@ class TteProducto
     protected $guiasProductoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="TteProductoEmpresa", mappedBy="productoRel")
+     */
+    protected $productosEmpresaProductoRel;
+
+
+    /**
      * @return mixed
      */
     public function getCodigoProductoPk()

@@ -107,6 +107,11 @@ class TteEmpresa
     protected $despachosEmpresaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="TteProductoEmpresa", mappedBy="empresaRel")
+     */
+    protected $productosEmpresaRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoEmpresaPk()
