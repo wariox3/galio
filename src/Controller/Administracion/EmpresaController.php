@@ -117,6 +117,7 @@ class EmpresaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 $arProducto->setEmpresaRel($arEmpresa);
+                $arProducto->setCodigoOperadorFk($arEmpresa->getCodigoOperadorFk());
                 $em->persist($arProducto);
                 $em->flush();
                 echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
