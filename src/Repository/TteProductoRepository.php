@@ -13,7 +13,7 @@ class TteProductoRepository extends ServiceEntityRepository
         parent::__construct($registry, TteProducto::class);
     }
 
-    public function lista($usuario){
+    public function lista($codigoEmpresa){
         $qb = $this->_em->createQueryBuilder()
             ->select('p.nombre')
             ->addSelect('p.codigoProductoPk')
@@ -22,8 +22,22 @@ class TteProductoRepository extends ServiceEntityRepository
             ->addSelect('p.codigoProductoOperadorFk')
             ->from(TteProducto::class,'p')
             ->where('p.codigoProductoPk IS NOT NULL')
-            ->andWhere("p.codigoOperadorFk = '{$usuario->getCodigoOperadorFk()}'")
+            ->andWhere("p.codigoEmpresaFk = '{$codigoEmpresa}'")
         ->orderBy('p.orden', 'ASC');
         return $qb;
+    }
+
+    public function eliminar($arrSeleccionados)
+    {
+        $em = $this->getEntityManager();
+        if ($arrSeleccionados) {
+            foreach ($arrSeleccionados as $codigoRegistro) {
+                $arRegistro = $em->getRepository(TteProducto::class)->find($codigoRegistro);
+                if ($arRegistro) {
+                    $em->remove($arRegistro);
+                }
+            }
+            $em->flush();
+        }
     }
 }

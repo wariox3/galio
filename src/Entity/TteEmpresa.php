@@ -107,7 +107,7 @@ class TteEmpresa
     protected $despachosEmpresaRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="TteProductoEmpresa", mappedBy="empresaRel")
+     * @ORM\OneToMany(targetEntity="TteProducto", mappedBy="empresaRel")
      */
     protected $productosEmpresaRel;
 

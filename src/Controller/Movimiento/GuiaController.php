@@ -152,8 +152,7 @@ class GuiaController extends Controller
      * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/movimiento/guia/nuevo/{id}", name="movimiento_guia_nuevo")
      */
-    public
-    function nuevo(Request $request, $id)
+    public function nuevo(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $arEmpresa =  $em->getRepository(TteEmpresa::class)->find($this->getUser()->getCodigoEmpresaFk());
@@ -183,34 +182,39 @@ class GuiaController extends Controller
             return $this->redirect($this->generateUrl('movimiento_guia_lista'));
         }
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var  $arUsuario Usuario */
-            $arUsuario = $this->getUser();
-            $arCiudadOrigen = $em->getRepository(TteCiudad::class)->find($arUsuario->getCodigoCiudadFk());
-            $arGuia->setUsuario($arUsuario->getUsername());
-            $arGuia->setOperadorRel($this->getUser()->getOperadorRel());
-            $arGuia->setCiudadOrigenRel($arCiudadOrigen);
-            if ($arGuia->getCodigoDestinatarioFk()) {
-                $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
+            if($form->get('productoRel')->getData()) {
+                /** @var  $arUsuario Usuario */
+                $arUsuario = $this->getUser();
+                $arCiudadOrigen = $em->getRepository(TteCiudad::class)->find($arUsuario->getCodigoCiudadFk());
+                $arGuia->setUsuario($arUsuario->getUsername());
+                $arGuia->setOperadorRel($this->getUser()->getOperadorRel());
+                $arGuia->setCiudadOrigenRel($arCiudadOrigen);
+                if ($arGuia->getCodigoDestinatarioFk()) {
+                    $arGuia->setDestinatarioRel($em->find(TteDestinatario::class, $arGuia->getCodigoDestinatarioFk()));
+                }
+
+                if ($arGuia->getPesoReal() >= $arGuia->getPesoVolumen()) {
+                    $pesoFacturar = $arGuia->getPesoReal();
+                } else {
+                    $pesoFacturar = $arGuia->getPesoVolumen();
+                }
+                $arGuia->setPesoFacturado($pesoFacturar);
+                $arGuia->setOperacion($arUsuario->getOperacion());
+                if ($id == 0) {
+                    $arEmpresa = $em->getRepository(TteEmpresa::class)->find($arUsuario->getCodigoEmpresaFk());
+                    $consecutivo = $arEmpresa->getConsecutivoGuia();
+                    $arEmpresa->setConsecutivoGuia($consecutivo + 1);
+                    $em->persist($arEmpresa);
+                    $arGuia->setNumero($consecutivo);
+                }
+                $em->getRepository(TteGuia::class)->liquidar($arGuia, $this->getUser()->getCodigoOperadorFk(), $arEmpresa);
+                $em->persist($arGuia);
+                $em->flush();
+                return $this->redirect($this->generateUrl('movimiento_guia_lista'));
+            } else {
+                Mensajes::error("Debe seleccionar un producto");
             }
 
-            if ($arGuia->getPesoReal() >= $arGuia->getPesoVolumen()) {
-                $pesoFacturar = $arGuia->getPesoReal();
-            } else {
-                $pesoFacturar = $arGuia->getPesoVolumen();
-            }
-            $arGuia->setPesoFacturado($pesoFacturar);
-            $arGuia->setOperacion($arUsuario->getOperacion());
-            if ($id == 0) {
-                $arEmpresa = $em->getRepository(TteEmpresa::class)->find($arUsuario->getCodigoEmpresaFk());
-                $consecutivo = $arEmpresa->getConsecutivoGuia();
-                $arEmpresa->setConsecutivoGuia($consecutivo + 1);
-                $em->persist($arEmpresa);
-                $arGuia->setNumero($consecutivo);
-            }
-            $em->getRepository(TteGuia::class)->liquidar($arGuia, $this->getUser()->getCodigoOperadorFk(), $arEmpresa);
-            $em->persist($arGuia);
-            $em->flush();
-            return $this->redirect($this->generateUrl('movimiento_guia_lista'));
         }
         return $this->render('movimiento/guia/nuevo.html.twig', [
             'form' => $form->createView()

@@ -26,7 +26,8 @@ class TteEmpresaRepository extends ServiceEntityRepository
             ->addSelect('e.consecutivoGuia as consecutivo')
             ->addSelect('e.consecutivoGuiaHasta as hasta')
             ->where('e.codigoEmpresaPk <> 0')
-        ->andWhere("e.codigoOperadorFk = '$operador'");
+        ->andWhere("e.codigoOperadorFk = '$operador'")
+        ->orderBy('e.nombre', 'ASC');
         return $qb;
     }
 }

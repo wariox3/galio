@@ -23,44 +23,69 @@
                         </table>
                     </div>
                 </div>
-                <div class="content-panel">
-                    <section id="unseen">
-                        <table class="table table-bordered table-striped table-condensed">
-                            <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Producto</th>
-                                <th>Orden</th>
-                                <th><input type="checkbox" name="ChkSeleccionarTodos"
-                                           OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for arProductoEmpresa in arProductosEmpresa %}
-                                <tr>
-                                    <td>{{ arProductoEmpresa.codigoProductoEmpresaPk }}</td>
-                                    <td>{{ arProductoEmpresa.producto }}</td>
-                                    <td>{{ arProductoEmpresa.orden }}</td>
-                                    <td><input type="checkbox" name="ChkSeleccionar[]"
-                                               value="{{ arProductoEmpresa.codigoProductoEmpresaPk }}"/></td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </section>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#producto" data-toggle="tab">Producto</a></li>
+                    <li><a href="#detalle" data-toggle="tab">Otros</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="producto">
+                        <div id="contrato" style="width: 100%"><br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Producto</th>
+                                        <th>Codigo</th>
+                                        <th>Orden</th>
+                                        <th></th>
+                                        <th><input type="checkbox" name="ChkSeleccionarTodos"
+                                                   OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for arProducto in arProductos %}
+                                        <tr>
+                                            <td>{{ arProducto.codigoProductoPk }}</td>
+                                            <td>{{ arProducto.nombre }}</td>
+                                            <td>{{ arProducto.codigoProductoOperadorFk }}</td>
+                                            <td>{{ arProducto.orden }}</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary btn-sm"
+                                                                               href="Javascript:abrirVentana3('{{ path('administracion_empresa_detalle_nuevo', {'codigoEmpresa': arEmpresa.codigoEmpresaPk, 'id': arProducto.codigoProductoPk}) }}', 'BuscarProducto', 600, 1200)"><i class="fa fa-edit" style="font-size: large"></i></a></td>
+                                            </td>
+                                            <td><input type="checkbox" name="ChkSeleccionar[]"
+                                                       value="{{ arProducto.codigoProductoPk }}"/></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="separador-1"></div>
+
+                            <div class="btn-toolbar" style="float: left">
+                                <div class="btn-group">
+                                    <a class="btn btn-secondary btn-sm" href="{{ path('administracion_empresa_lista') }}">Volver</a>
+                                </div>
+                            </div>
+                            <div class="row float-right" style="padding-right: 15px;">
+                                <a class="btn btn-secondary btn-sm"
+                                   href="Javascript:abrirVentana3('{{ path('administracion_empresa_detalle_nuevo', {'codigoEmpresa': arEmpresa.codigoEmpresaPk, 'id': 0}) }}', 'BuscarProducto', 600, 1200)">Agregar</a>&nbsp;
+                                {{ form_widget(form.btnEliminarDetalle) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="detalle">
+                        <div id="detalle" style="width: 100%"><br>
+                            <div class="table-responsive">
+{#                                Aqui va la tabla#}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <br/>
-            <div class="btn-toolbar" style="float: left">
-                <div class="btn-group">
-                    <a class="btn btn-secondary btn-sm" href="{{ path('administracion_empresa_lista') }}">Volver</a>
-                </div>
-            </div>
-            <div class="row float-right" style="padding-right: 15px;">
-                <a class="btn btn-secondary btn-sm"
-                   href="Javascript:abrirVentana3('{{ path('administracion_empresa_detalle_nuevo', {'codigoEmpresa': arEmpresa.codigoEmpresaPk, 'id': 0}) }}', 'BuscarProducto', 600, 1200)">Agregar</a>&nbsp;
-                {{ form_widget(form.btnEliminarDetalle) }}
-            </div>
+
             {{ form_rest(form) }}
             {{ form_end(form) }}
         </section>

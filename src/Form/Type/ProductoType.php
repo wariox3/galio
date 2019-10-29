@@ -15,10 +15,8 @@ class ProductoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('codigoProductoPk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
-            ->add('orden', IntegerType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('nombre', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
-            ->add('codigoOperadorFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
+            ->add('orden', IntegerType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('codigoProductoOperadorFk', TextType::class, ['required' => true, 'attr' => ['class' => 'form-control']])
             ->add('guardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-primary float-right']]);
     }

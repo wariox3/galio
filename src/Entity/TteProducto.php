@@ -11,7 +11,8 @@ class TteProducto
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_producto_pk", type="string", length=20)
+     * @ORM\GeneratedValue
+     * @ORM\Column(name="codigo_producto_pk", type="integer")
      */        
     private $codigoProductoPk;
     
@@ -23,7 +24,7 @@ class TteProducto
     /**
      * @ORM\Column(type="integer", name="orden", nullable=true)
      */
-    private $orden;
+    private $orden = 0;
 
     /**
      * @ORM\Column(name="codigo_operador_fk", type="string", length=20, nullable=true)
@@ -31,20 +32,25 @@ class TteProducto
     private $codigoOperadorFk;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="integer", nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\Column(name="codigo_producto_operador_fk", type="string", length=20, nullable=true)
      */
     private $codigoProductoOperadorFk;
 
     /**
+     * @ORM\ManyToOne(targetEntity="TteEmpresa", inversedBy="productosEmpresaRel")
+     * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
+     */
+    protected $empresaRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="TteGuia", mappedBy="productoRel")
      */
     protected $guiasProductoRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="TteProductoEmpresa", mappedBy="productoRel")
-     */
-    protected $productosEmpresaProductoRel;
-
 
     /**
      * @return mixed
@@ -81,6 +87,22 @@ class TteProducto
     /**
      * @return mixed
      */
+    public function getOrden()
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param mixed $orden
+     */
+    public function setOrden($orden): void
+    {
+        $this->orden = $orden;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCodigoOperadorFk()
     {
         return $this->codigoOperadorFk;
@@ -92,6 +114,54 @@ class TteProducto
     public function setCodigoOperadorFk($codigoOperadorFk): void
     {
         $this->codigoOperadorFk = $codigoOperadorFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoProductoOperadorFk()
+    {
+        return $this->codigoProductoOperadorFk;
+    }
+
+    /**
+     * @param mixed $codigoProductoOperadorFk
+     */
+    public function setCodigoProductoOperadorFk($codigoProductoOperadorFk): void
+    {
+        $this->codigoProductoOperadorFk = $codigoProductoOperadorFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpresaRel()
+    {
+        return $this->empresaRel;
+    }
+
+    /**
+     * @param mixed $empresaRel
+     */
+    public function setEmpresaRel($empresaRel): void
+    {
+        $this->empresaRel = $empresaRel;
     }
 
     /**
@@ -110,37 +180,6 @@ class TteProducto
         $this->guiasProductoRel = $guiasProductoRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOrden()
-    {
-        return $this->orden;
-    }
-
-    /**
-     * @param mixed $orden
-     */
-    public function setOrden($orden): void
-    {
-        $this->orden = $orden;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoProductoOperadorFk()
-    {
-        return $this->codigoProductoOperadorFk;
-    }
-
-    /**
-     * @param mixed $codigoProductoOperadorFk
-     */
-    public function setCodigoProductoOperadorFk($codigoProductoOperadorFk): void
-    {
-        $this->codigoProductoOperadorFk = $codigoProductoOperadorFk;
-    }
 
 
 }

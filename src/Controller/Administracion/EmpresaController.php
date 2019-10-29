@@ -5,9 +5,10 @@ namespace App\Controller\Administracion;
 use App\Controller\Mensajes;
 use App\Entity\TteDestinatario;
 use App\Entity\TteEmpresa;
-use App\Entity\TteProductoEmpresa;
+use App\Entity\TteProducto;
 use App\Form\Type\EmpresaType;
 use App\Form\Type\ProductoEmpresaType;
+use App\Form\Type\ProductoType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -80,13 +81,18 @@ class EmpresaController extends Controller
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnEliminarDetalle')->isClicked()) {
+                $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                $em->getRepository(TteProducto::class)->eliminar($arrSeleccionados);
 
+                return $this->redirect($this->generateUrl('administracion_empresa_detalle', array('id' => $id)));
+            }
         }
-        $arProductosEmpresa = $paginador->paginate($em->getRepository(TteProductoEmpresa::class)->lista($usuario, $id), $request->query->getInt('page', 1), 30);
+        $arProductos = $paginador->paginate($em->getRepository(TteProducto::class)->lista($id), $request->query->getInt('page', 1), 30);
         return $this->render('administracion/empresa/detalle.html.twig', [
             'form' => $form->createView(),
             'arEmpresa' => $arEmpresa,
-            'arProductosEmpresa' => $arProductosEmpresa
+            'arProductos' => $arProductos
         ]);
     }
 
@@ -99,17 +105,19 @@ class EmpresaController extends Controller
     public function detalleNuevo(Request $request, $codigoEmpresa, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arEmpresaProducto = New TteProductoEmpresa();
+        $arProducto = New TteProducto();
         $arEmpresa = $em->getRepository(TteEmpresa::class)->find($codigoEmpresa);
         if ($id != '0') {
-            $arEmpresaProducto = $em->getRepository(TteProductoEmpresa::class)->find($id);
+            $arProducto = $em->getRepository(TteProducto::class)->find($id);
+        } else {
+
         }
-        $form = $this->createForm(ProductoEmpresaType::class, $arEmpresaProducto);
+        $form = $this->createForm(ProductoType::class, $arProducto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
-                $arEmpresaProducto->setEmpresaRel($arEmpresa);
-                $em->persist($arEmpresaProducto);
+                $arProducto->setEmpresaRel($arEmpresa);
+                $em->persist($arProducto);
                 $em->flush();
                 echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
 

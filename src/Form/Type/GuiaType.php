@@ -26,14 +26,16 @@ class GuiaType extends AbstractType {
         $user = $kernel->getContainer()->get('security.token_storage')->getToken()->getUser();
         $builder
             ->add('productoRel', EntityType::class, array(
+                'required' => true,
                 'class' => TteProducto::class,
-                'query_builder' => function (EntityRepository $er) use ($user) {
+                'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('e')
-                        ->where("e.codigoOperadorFk = '{$user->getCodigoOperadorFk()}'")
+                        ->where("e.codigoEmpresaFk = '{$options['data']->getEmpresaRel()->getCodigoEmpresaPk()}'")
                         ->orderBy('e.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
                 'attr' => ['class' => 'form-control']
+
             ))
             ->add('ciudadDestinoRel',EntityType::class,[
                 'required' => true,

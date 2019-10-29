@@ -10,8 +10,29 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <label for="" class="col-sm-2 badge">Producto:</label>
-                            {{ form_widget(form.productoRel) }}
+                            <label for="" class="col-sm-2 badge">Nombre:</label>
+                            {{ form_widget(form.nombre) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge"></label>
+
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Codigo Cromo:</label>
+                            {{ form_widget(form.codigoProductoOperadorFk) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label for="" class="col-sm-2 badge">Orden:</label>
+                            {{ form_widget(form.orden) }}
                         </div>
                     </div>
                 </div>
