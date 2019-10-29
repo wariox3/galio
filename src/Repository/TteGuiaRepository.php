@@ -59,6 +59,7 @@ class TteGuiaRepository extends ServiceEntityRepository
             ->addSelect('g.vrManejo')
             ->addSelect('g.estadoImportado')
             ->addSelect('g.estadoAnulado')
+            ->addSelect('g.codigoDespachoFk')
             ->from(TteGuia::class, 'g')
             ->leftJoin('g.ciudadDestinoRel', 'cd')
             ->leftJoin('g.ciudadOrigenRel', 'co')
