@@ -5,11 +5,12 @@ namespace App\Repository;
 
 use App\Entity\TteEmpresa;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class TteEmpresaRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, TteEmpresa::class);
     }

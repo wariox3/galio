@@ -28,7 +28,7 @@ class ConsultaGuiaController extends Controller
                 $documento = $form->get('txtDocumento')->getData();
                 if($guia || $documento) {
                     $url = '';
-                    //$direccion = "http://159.65.52.53/cesio/public/index.php";
+                    //$direccion = "http://165.22.222.162/cesio/public/index.php";
                     $direccion = "http://localhost/cesio/public/index.php";
                     if($guia){
                         $url = $direccion . "/api/localizador/guia/estado/{$operador}/{$guia}/0";
@@ -42,7 +42,6 @@ class ConsultaGuiaController extends Controller
                     $response = curl_exec($ch);
                     $arrEstados = json_decode($response, true);
                     $arrEstados = $arrEstados['guias'][0];
-                    $arrEstados['url'] = "http://190.85.62.78:8026/dts/descargarguia.php?guia=" . $guia;
                 }
             }
         }
@@ -58,7 +57,7 @@ class ConsultaGuiaController extends Controller
      */
     public function cumplido($operador="1", $guia = 0)
     {
-        //$direccion = "http://159.65.52.53/cesio/public/index.php";
+        //$direccion = "http://165.22.222.162/cesio/public/index.php";
         $direccion = "http://localhost/cesio/public/index.php";
         $curl = curl_init();
         curl_setopt_array($curl, array(
