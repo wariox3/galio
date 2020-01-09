@@ -28,8 +28,8 @@ class ConsultaGuiaController extends Controller
                 $documento = $form->get('txtDocumento')->getData();
                 if($guia || $documento) {
                     $url = '';
-                    //$direccion = "http://165.22.222.162/cesio/public/index.php";
-                    $direccion = "http://localhost/cesio/public/index.php";
+                    $direccion = "http://165.22.222.162/cesio/public/index.php";
+                    //$direccion = "http://localhost/cesio/public/index.php";
                     if($guia){
                         $url = $direccion . "/api/localizador/guia/estado/{$operador}/{$guia}/0";
                     } elseif($documento){
@@ -57,8 +57,8 @@ class ConsultaGuiaController extends Controller
      */
     public function cumplido($operador="1", $guia = 0)
     {
-        //$direccion = "http://165.22.222.162/cesio/public/index.php";
-        $direccion = "http://localhost/cesio/public/index.php";
+        $direccion = "http://165.22.222.162/cesio/public/index.php";
+        //$direccion = "http://localhost/cesio/public/index.php";
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
@@ -80,7 +80,6 @@ class ConsultaGuiaController extends Controller
             header('Pragma: public');
             header('Content-Length: ' . strlen($file));
             readfile($file);
-            exit;
             return false;
         } else {
             echo '<script type="text/javascript">alert("Data has been submitted to");</script>';
