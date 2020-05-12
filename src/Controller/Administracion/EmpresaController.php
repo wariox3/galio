@@ -54,10 +54,21 @@ class EmpresaController extends Controller
         $form = $this->createForm(EmpresaType::class, $arEmpresa);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $arEmpresa->setCodigoOperadorFk($this->getUser()->getCodigoOperadorFk());
-            $em->persist($arEmpresa);
-            $em->flush();
-            return $this->redirect($this->generateUrl('administracion_empresa_lista'));
+            if ($id == 0) {
+                $booIdentificacion = $em->getRepository(TteEmpresa::class)->ValidarNumeroIdentificacionEmpresa($arEmpresa);
+                if ($booIdentificacion) {
+                    $arEmpresa->setCodigoOperadorFk($this->getUser()->getCodigoOperadorFk());
+                    $em->persist($arEmpresa);
+                    $em->flush();
+                    return $this->redirect($this->generateUrl('administracion_empresa_lista'));
+                }
+            } else {
+                $arEmpresa->setCodigoOperadorFk($this->getUser()->getCodigoOperadorFk());
+                $em->persist($arEmpresa);
+                $em->flush();
+                return $this->redirect($this->generateUrl('administracion_empresa_lista'));
+            }
+
         }
         return $this->render('administracion/empresa/nuevo.html.twig', [
             'form' => $form->createView()
