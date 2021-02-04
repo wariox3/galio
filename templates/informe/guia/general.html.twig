@@ -57,6 +57,8 @@
                 <th scope="col" title="DESPACHADO">DESPACHADO</th>
                 <th scope="col">DESTINATARIO</th>
                 <th scope="col">DESTINO</th>
+                <th scope="col">PRODUCTO</th>
+                <th scope="col">F_DES</th>
                 <th scope="col" title="ENTREGADO">ENTREGADO</th>
                 <th scope="col">FECHA</th>
                 <th scope="col" title="CUMPLIDO">CUMPLIDO</th>
@@ -80,6 +82,8 @@
                     <td class="estado">{{ arGuia.estadoDespachado ?'SI':'NO'}}</td>
                     <td>{{ arGuia.nombreDestinatario }}</td>
                     <td>{{ arGuia.ciudadDestino }}</td>
+                    <td>{{ arGuia.productoNombre }}</td>
+                    <td>{{ arGuia.fechaDespacho ? arGuia.fechaDespacho | date('Y-m-d') : '--.--' }}</td>
                     <td class="estado">{{ arGuia.estadoEntregado ?'SI':'NO'}}</td>
                     <td>{% if arGuia.estadoEntregado == true %}{{ arGuia.fechaEntrega | date('Y-m-d') }} {% else %} --.-- {% endif %}</td>
                     <td class="estado">{{ arGuia.estadoCumplido ?'SI':'NO'}}</td>
