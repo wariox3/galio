@@ -6,8 +6,7 @@ namespace App\Repository;
 use App\Controller\Mensajes;
 use App\Entity\TteEmpresa;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 class TteEmpresaRepository extends ServiceEntityRepository
 {

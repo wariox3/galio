@@ -4,8 +4,7 @@ namespace App\Repository;
 
 use App\Entity\TteCiudad;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 class TteCiudadRepository extends ServiceEntityRepository
 {

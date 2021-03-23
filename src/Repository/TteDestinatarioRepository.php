@@ -6,8 +6,7 @@ use App\Controller\Mensajes;
 use App\Entity\TteDestinatario;
 use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 class TteDestinatarioRepository extends ServiceEntityRepository
