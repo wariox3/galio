@@ -12,7 +12,10 @@ use App\Entity\Usuario;
 use App\Form\Type\GuiaType;
 use App\Formato\Etiqueta;
 use App\Formato\Guia;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -68,44 +71,7 @@ class GuiaController extends Controller
             }
             if ($form->get('btnExcel')->isClicked()) {
                 if($arGuias){
-                    set_time_limit(0);
-                    ini_set("memory_limit", -1);
-                    if (count($arGuias) > 0) {
-                        $spreadsheet = new Spreadsheet();
-                        $sheet = $spreadsheet->getActiveSheet();
-                        $j = 0;
-                        //Se obtienen las columnas del archivo
-                        $arrColumnas = array_keys($arGuias[0]);
-                        for ($i = 'A'; $j <= sizeof($arrColumnas) - 1; $i++) {
-                            $sheet->getColumnDimension($i)->setAutoSize(true);
-                            $sheet->getStyle(1)->getFont()->setBold(true);
-                            $campo = strpos($arrColumnas[$j], 'Pk') !== false ? 'ID' : $arrColumnas[$j];
-                            $sheet->setCellValue($i . '1', strtoupper($campo));
-                            $j++;
-                        }
-                        $j = 1;
-                        foreach ($arGuias as $datos) {
-                            $i = 'A';
-                            $j++;
-                            for ($col = 0; $col <= sizeof($arrColumnas) - 1; $col++) {
-                                $dato = $datos[$arrColumnas[$col]];
-                                if ($dato instanceof \DateTime) {
-                                    $dato = $dato->format('Y-m-d');
-                                }
-                                $spreadsheet->getActiveSheet()->getStyle($i)->getFont()->setBold(false);
-                                $sheet->setCellValue($i . $j, $dato);
-                                $i++;
-                            }
-                        }
-                        header('Content-Type: application/vnd.ms-excel');
-                        header("Content-Disposition: attachment;filename=Guias.xls");
-                        header('Cache-Control: max-age=0');
-
-                        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-                        $writer->save('php://output');
-                    } else {
-                        Mensajes::error('El listado esta vacío, no hay nada que exportar');
-                    }
+                    $this->exportarExcel($arGuias);
                 }
             }
 
@@ -116,6 +82,72 @@ class GuiaController extends Controller
             'form' => $form->createView()
 
         ]);
+    }
+
+    public function exportarExcel($arGuias)
+    {
+        ob_clean();
+        set_time_limit(0);
+        ini_set("memory_limit", -1);
+        if ($arGuias) {
+            $libro = new Spreadsheet();
+            $hoja = $libro->getActiveSheet();
+            $hoja->setTitle('PagoDetalle');
+            $j = 0;
+            $arrColumnas = ['ID', 'NUMERO', 'DOCUMENTO', 'OI', 'OC', 'DES', 'ENT', 'CUM', 'NOV', 'FECHA', 'F_DES', 'F_ENT', 'F_CUM', 'DESTINATARIO', 'DESTINO',
+                'PRODUCTO', 'FLETE', 'MANEJO', 'DECLARADO', 'UNIDADES'];
+            for ($i = 'A'; $j <= sizeof($arrColumnas) - 1; $i++) {
+                $hoja->getColumnDimension($i)->setAutoSize(true);
+                $hoja->getStyle(1)->getFont()->setName('Arial')->setSize(8);
+                $hoja->getStyle(1)->getFont()->setBold(true);
+                $hoja->setCellValue($i . '1', strtoupper($arrColumnas[$j]));
+                $j++;
+            }
+            $j = 2;
+            foreach ($arGuias as $arGuia) {
+                $fechaIngreso = date_create($arGuia['fechaIngreso']);
+                $fechaDespacho = date_create($arGuia['fechaDespacho']);
+                $fechaEntrega = date_create($arGuia['fechaEntrega']);
+                $fechaCumplido = date_create($arGuia['fechaCumplido']);
+                $hoja->getStyle($j)->getFont()->setName('Arial')->setSize(8);
+                $hoja->getStyle("Q{$j}:T{$j}")->getNumberFormat()->setFormatCode('#,##0');
+                $hoja->getStyle("J{$j}:M{$j}")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
+                $hoja->setCellValue('A' . $j, $arGuia['codigoGuiaPk']);
+                $hoja->setCellValue('B' . $j, $arGuia['numero']);
+                $hoja->setCellValue('C' . $j, $arGuia['documentoCliente']);
+                $hoja->setCellValue('D' . $j, $arGuia['codigoOperacionIngresoFk']);
+                $hoja->setCellValue('E' . $j, $arGuia['codigoOperacionCargoFk']);
+                $hoja->setCellValue('F' . $j, $arGuia['estadoDespachado']?'SI':'NO');
+                $hoja->setCellValue('G' . $j, $arGuia['estadoEntregado']?'SI':'NO');
+                $hoja->setCellValue('H' . $j, $arGuia['estadoCumplido']?'SI':'NO');
+                $hoja->setCellValue('I' . $j, $arGuia['estadoNovedad']?'SI':'NO');
+                $hoja->setCellValue('J' . $j, Date::PHPToExcel($fechaIngreso->format("Y-m-d")));
+                $hoja->setCellValue('K' . $j, Date::PHPToExcel($fechaDespacho->format("Y-m-d")));
+                $hoja->setCellValue('L' . $j, Date::PHPToExcel($fechaEntrega->format("Y-m-d")));
+                $hoja->setCellValue('M' . $j, Date::PHPToExcel($fechaCumplido->format("Y-m-d")));
+                $hoja->setCellValue('N' . $j, $arGuia['nombreDestinatario']);
+                $hoja->setCellValue('O' . $j, $arGuia['ciudadDestino']);
+                $hoja->setCellValue('P' . $j, $arGuia['productoNombre']);
+                $hoja->setCellValue('Q' . $j, $arGuia['vrFlete']);
+                $hoja->setCellValue('R' . $j, $arGuia['vrManejo']);
+                $hoja->setCellValue('S' . $j, $arGuia['vrDeclara']);
+                $hoja->setCellValue('T' . $j, $arGuia['unidades']);
+                $j++;
+            }
+
+            $libro->setActiveSheetIndex(0);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="guias.xlsx"');
+            header('Cache-Control: max-age=0');
+            header('Cache-Control: max-age=1');
+            header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+            header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header('Pragma: public'); // HTTP/1.0
+            $writer = new Xlsx($libro);
+            $writer->save('php://output');
+            exit;
+        }
     }
 
 }
