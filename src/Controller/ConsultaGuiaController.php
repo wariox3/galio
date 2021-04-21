@@ -18,23 +18,17 @@ class ConsultaGuiaController extends Controller
         $arrEstados = array();
         $form = $this->createFormBuilder()
             ->add('txtGuia', TextType::class,['required'=> false])
-            ->add('txtDocumento', TextType::class,['required'=> false])
             ->add('BtnBuscar', SubmitType::class, array('label' => 'Buscar'))
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('BtnBuscar')->isClicked()) {
                 $guia = $form->get('txtGuia')->getData();
-                $documento = $form->get('txtDocumento')->getData();
-                if($guia || $documento) {
+                if($guia) {
                     $url = '';
-                    //$direccion = "http://165.22.222.162/cesio/public/index.php";
+                    //$direccion = "http://142.93.149.5/cesio/public/index.php";
                     $direccion = "http://localhost/cesio/public/index.php";
-                    if($guia){
-                        $url = $direccion . "/api/localizador/guia/estado/{$operador}/{$guia}/0";
-                    } elseif($documento){
-                        $url = $direccion . "/api/localizador/guia/estado/{$operador}/0/{$documento}";
-                    }
+                    $url = $direccion . "/api/localizador/guia/estado/{$operador}/{$guia}/0";
                     $ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL, $url);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json')); // Assuming you're requesting JSON
