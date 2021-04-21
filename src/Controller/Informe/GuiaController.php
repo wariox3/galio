@@ -122,9 +122,9 @@ class GuiaController extends Controller
                 $hoja->setCellValue('H' . $j, $arGuia['estadoCumplido']?'SI':'NO');
                 $hoja->setCellValue('I' . $j, $arGuia['estadoNovedad']?'SI':'NO');
                 $hoja->setCellValue('J' . $j, Date::PHPToExcel($fechaIngreso->format("Y-m-d")));
-                $hoja->setCellValue('K' . $j, Date::PHPToExcel($fechaDespacho->format("Y-m-d")));
-                $hoja->setCellValue('L' . $j, Date::PHPToExcel($fechaEntrega->format("Y-m-d")));
-                $hoja->setCellValue('M' . $j, Date::PHPToExcel($fechaCumplido->format("Y-m-d")));
+                $hoja->setCellValue('K' . $j, $arGuia['estadoDespachado']?Date::PHPToExcel($fechaDespacho->format("Y-m-d")):'');
+                $hoja->setCellValue('L' . $j, $arGuia['estadoEntregado']?Date::PHPToExcel($fechaEntrega->format("Y-m-d")):'');
+                $hoja->setCellValue('M' . $j, $arGuia['estadoCumplido']?Date::PHPToExcel($fechaCumplido->format("Y-m-d")):'');
                 $hoja->setCellValue('N' . $j, $arGuia['nombreDestinatario']);
                 $hoja->setCellValue('O' . $j, $arGuia['ciudadDestino']);
                 $hoja->setCellValue('P' . $j, $arGuia['productoNombre']);
