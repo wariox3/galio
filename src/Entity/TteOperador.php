@@ -57,6 +57,11 @@ class TteOperador
     protected $guiasOperadorRel;
 
     /**
+     * @ORM\Column(name="url_servicio", type="string", length=500, nullable=true)
+     */
+    private $urlServicio;
+
+    /**
      * @return mixed
      */
     public function getCodigoOperadorPk()
@@ -198,6 +203,22 @@ class TteOperador
     public function setNumeroIdentificacion($numeroIdentificacion): void
     {
         $this->numeroIdentificacion = $numeroIdentificacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrlServicio()
+    {
+        return $this->urlServicio;
+    }
+
+    /**
+     * @param mixed $urlServicio
+     */
+    public function setUrlServicio($urlServicio): void
+    {
+        $this->urlServicio = $urlServicio;
     }
 
 

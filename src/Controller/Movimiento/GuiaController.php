@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -101,7 +102,6 @@ class GuiaController extends Controller
             ->add('btnReliquidar', SubmitType::class, $arrBotonReliquidar)
             ->add('btnImprimir', SubmitType::class, $arrBotonImprimir)
             ->add('btnAnular', SubmitType::class, $arrBotonAnular)
-            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar'])
             ->add('btnImprimirEtiquetas', SubmitType::class, $arrBotonImprimirEtiquetas)
             ->getForm();
         $form->handleRequest($request);
@@ -140,6 +140,7 @@ class GuiaController extends Controller
         return $this->render('movimiento/guia/detalle.html.twig', [
             'form' => $form->createView(),
             'arGuia' => $arGuia,
+            'guia' => $id,
             'arGuiasEstado' => $arGuiaEstado,
         ]);
     }
@@ -217,6 +218,66 @@ class GuiaController extends Controller
 
         }
         return $this->render('movimiento/guia/nuevo.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     * @Route("/movimiento/guia/descargar/{id}", name="movimiento_guia_descargar")
+     */
+    public function descargar(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $arOperador =  $this->getUser()->getOperadorRel();
+        $form = $this->createFormBuilder()
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+        }
+        $guiaEncontrada = false;
+        $url = $arOperador->getUrlServicio() . '/transporte/api/externo/guia/archivo';
+        $arrDatos = [
+            "codigoGuia" => $id
+        ];
+        $json = json_encode($arrDatos);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_ENCODING, "");
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'accept: application/json',
+                'content-type: application/json',
+            )
+        );
+        $resultado = json_decode(curl_exec($ch), true);
+        if($resultado) {
+            if($resultado['error'] == false) {
+                if($resultado['archivos'] == true) {
+                    $guiaEncontrada = true;
+                    $ruta = '/var/www/html/temporal/' . $resultado['archivo'];
+                    $file = fopen($ruta, "wb");
+                    fwrite($file, base64_decode($resultado['b64']));
+                    fclose($file);
+                    $response = new Response();
+                    $response->headers->set('Cache-Control', 'private');
+                    $response->headers->set('Content-Disposition', 'attachment; filename="' . $resultado['archivo'] . '";');
+                    $response->sendHeaders();
+                    $response->setContent(readfile($ruta));
+                    return $response;
+                }
+            }
+        }
+        return $this->render('movimiento/guia/descargar.html.twig', [
+            'guiaEncontrada' => $guiaEncontrada,
             'form' => $form->createView()
         ]);
     }

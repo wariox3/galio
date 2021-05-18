@@ -68,6 +68,7 @@
                 <th>FLETE</th>
                 <th>MANEJO</th>
                 <th>DECLARADO</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -93,6 +94,9 @@
                     <td align="right">{{ arGuia.vrFlete | number_format(0, '.', ',') }}</td>
                     <td align="right">{{ arGuia.vrManejo | number_format(0, '.', ',') }}</td>
                     <td align="right">{{ arGuia.vrDeclara | number_format(0, '.', ',') }}</td>
+                    <td>
+                        <a class="btn btn-secondary btn-sm" href="Javascript:abrirVentana3('{{ path('movimiento_guia_descargar', {'id' : arGuia.numero }) }}', 'Descargar', 200, 400)"><i class="fa fa-download"></i></a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

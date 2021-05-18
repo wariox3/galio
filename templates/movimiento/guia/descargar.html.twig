@@ -1,0 +1,14 @@
+{% extends 'base_sin_menu.html.twig' %}
+{% block content %}
+    <div class="content mt-3">
+        <section class="wrapper">
+            {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+            {{ form_errors(form) }}
+                {% if guiaEncontrada == false %}
+                    No se encontro archivo de esta guia
+                {% endif %}
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </section>
+    </div>
+{% endblock %}

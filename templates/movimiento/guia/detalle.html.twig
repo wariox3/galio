@@ -111,6 +111,13 @@
                                 <td>{% if arGuiaEstado.cumplido == true %} SI {% else %} NO {% endif %}</td>
                                 <td>{% if arGuiaEstado.cumplido == true %}{{ arGuiaEstado.fechaCumplido | date('Y-m-d') }} {% else %} --.-- {% endif %}</td>
                             </tr>
+                            <tr>
+                                <th></th>
+                                <td></td>
+                                <td>
+                                    <a class="btn btn-secondary btn-sm" href="Javascript:abrirVentana3('{{ path('movimiento_guia_descargar', {'id' : arGuia.numero }) }}', 'Descargar', 200, 400)">DESCARGAR</a>
+                                </td>
+                            </tr>
                             </thead>
                             {% endfor %}
                         </table>
